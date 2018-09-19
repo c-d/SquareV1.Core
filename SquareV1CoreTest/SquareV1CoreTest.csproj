@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SquareV1.Core\SquareV1Core\SquareV1Core.csproj" />
+    <ProjectReference Include="..\SquareV1Core\SquareV1Core.csproj" />
   </ItemGroup>
 
 </Project>
