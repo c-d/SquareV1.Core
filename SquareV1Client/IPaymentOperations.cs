@@ -1,11 +1,11 @@
-﻿using Meyer.Square.V1.Models;
+﻿using MeyerCorp.Square.V1.Models;
 using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Meyer.Square.V1
+namespace MeyerCorp.Square.V1
 {
     public interface IPaymentOperations : IOperations<Payment>
     {

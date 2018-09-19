@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Meyer.Square.V1.Models
+namespace MeyerCorp.Square.V1.Models
 {
     public class ItemDetail
     {

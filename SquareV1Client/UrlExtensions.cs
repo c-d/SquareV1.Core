@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Meyer.Square.V1
+namespace MeyerCorp.Square.V1
 {
     /// <summary>
     /// Extension methods which help format URLs when using an HTTP Client object.

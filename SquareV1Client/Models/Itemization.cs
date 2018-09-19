@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Meyer.Square.V1.Models
+namespace MeyerCorp.Square.V1.Models
 {
     public class Itemization
     {

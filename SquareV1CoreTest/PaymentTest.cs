@@ -1,3 +1,4 @@
+using MeyerCorp.Square.V1;
 using Microsoft.Rest;
 using System;
 using System.Threading.Tasks;

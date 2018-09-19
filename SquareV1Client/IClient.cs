@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace Meyer.Square.V1
+namespace MeyerCorp.Square.V1
 {
     public partial interface IClient : IDisposable
     {

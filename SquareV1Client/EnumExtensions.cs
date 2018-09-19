@@ -1,7 +1,7 @@
-﻿using Meyer.Square.V1.Models;
+﻿using MeyerCorp.Square.V1.Models;
 using System;
 
-namespace Meyer.Square.V1
+namespace MeyerCorp.Square.V1
 {
     /// <summary>
     /// Helper methods which make conversion of enum to and from string values required for HTTP/JSON more convenient.

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Meyer.Square.V1.Models
+namespace MeyerCorp.Square.V1.Models
 {
     public class Refund
     {

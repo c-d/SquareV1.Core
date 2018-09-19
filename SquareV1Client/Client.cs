@@ -1,4 +1,4 @@
-﻿using Meyer.Square.V1.Models;
+﻿using MeyerCorp.Square.V1.Models;
 using Microsoft.Rest;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 
-namespace Meyer.Square.V1
+namespace MeyerCorp.Square.V1
 {
     public partial class Client : ServiceClient<Client>, IClient, IDisposable
     {

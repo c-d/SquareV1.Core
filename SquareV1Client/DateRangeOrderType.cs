@@ -1,4 +1,4 @@
-﻿namespace Meyer.Square.V1
+﻿namespace MeyerCorp.Square.V1
 {
     /// <summary>
     /// Indicates whether date range results are returned in chronological or reverse-chronological order.

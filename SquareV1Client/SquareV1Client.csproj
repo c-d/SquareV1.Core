@@ -1,26 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>Meyer.Square.V1</AssemblyName>
-    <RootNamespace>Meyer.Square.V1</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>MeyerCorp.Square.V1</AssemblyName>
+    <RootNamespace>MeyerCorp.Square.V1</RootNamespace>
     <PackageId>MeyerCorp.Square.V1</PackageId>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Authors>Daniel Przybylski</Authors>
     <Company>Meyer Corporation</Company>
-    <Product>MeyerCorp.Square.V1</Product>
     <Description>A .NET Core based SDK for the Square V1 API</Description>
     <Copyright>2018 Meyer Corporation</Copyright>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/MeyerCorporation/SquareV1.Core</PackageProjectUrl>
-    <PackageIconUrl>https://meyerinfrastructureclientmvcdev.azurewebsites.net/favicon.ico</PackageIconUrl>
     <RepositoryUrl>git@github.com:MeyerCorporation/SquareV1.Core.git</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
+    <PackageIconUrl>https://meyerinfrastructureclientmvcdev.azurewebsites.net/favicon.ico</PackageIconUrl>
     <PackageTags>Square API Rest .NETCore SDK</PackageTags>
-    <PackageReleaseNotes>Initial pre-release.
-Only supporting reading of payments</PackageReleaseNotes>
+    <RepositoryType>Git</RepositoryType>
+    <PackageReleaseNotes>In development: Now supporting .NET Standard.</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
