@@ -7,7 +7,9 @@ namespace Meyer.Square.V1
     {
         public static Uri AppendDateRange(this Uri baseUri, DateTime beginTime, DateTime endTime, DateRangeOrderType dateRangeOrder = DateRangeOrderType.Descending)
         {
-            return baseUri.Append("begin_time", beginTime.ToString(), "end_time", endTime.ToString(), "order", dateRangeOrder.EnumToString());
+            const string format = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
+
+            return baseUri.Append("begin_time", beginTime.ToUniversalTime().ToString(format), "end_time", endTime.ToUniversalTime().ToString(format), "order", dateRangeOrder.EnumToString());
         }
 
         public static Uri Append(this Uri baseUri, params string[] nameValuePairs)
@@ -26,7 +28,7 @@ namespace Meyer.Square.V1
                 {
                     if (!String.IsNullOrWhiteSpace(nameValuePairs[i]))
                     {
-                        if (!String.IsNullOrWhiteSpace(nameValuePairs[i + 1]))
+                        if (String.IsNullOrWhiteSpace(nameValuePairs[i + 1]))
                             output.Append($"{nameValuePairs[i]}&");
                         else
                             output.Append($"{nameValuePairs[i]}={nameValuePairs[i + 1]}&");
