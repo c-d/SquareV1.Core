@@ -21,7 +21,7 @@ namespace Meyer.Square.V1.Test
 
                 using (var client = new Client(new Uri(baseurl), credentials)
                 {
-                    LocationId = "9A2EW9NG89Q9J",
+                    LocationId = location,
                 })
                 {
                     var payments = await client.PaymentOperations.GetAsync();
