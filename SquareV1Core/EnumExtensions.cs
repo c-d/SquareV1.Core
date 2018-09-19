@@ -3,6 +3,9 @@ using System;
 
 namespace Meyer.Square.V1
 {
+    /// <summary>
+    /// Helper methods which make conversion of enum to and from string values required for HTTP/JSON more convenient.
+    /// </summary>
     public static class EnumExtensions
     {
         public static string EnumToString(this DateRangeOrderType type)
@@ -31,6 +34,7 @@ namespace Meyer.Square.V1
             }
         }
 
+
         public static string EnumToString(this TenderType type)
         {
             switch (type)
@@ -53,6 +57,7 @@ namespace Meyer.Square.V1
             }
         }
 
+
         public static string EnumToString(this EntryMethodType type)
         {
             switch (type)
@@ -74,7 +79,8 @@ namespace Meyer.Square.V1
                     throw new ArgumentOutOfRangeException();
             }
         }
- 
+
+
         public static string EnumToString(this CardBrandType type)
         {
             switch (type)
