@@ -102,5 +102,28 @@ namespace MeyerCorp.Square.V1
                     throw new ArgumentOutOfRangeException();
             }
         }
-   }
+ 
+
+        public static string EnumToString(this RefundType type)
+        {
+            switch (type)
+            {
+                case RefundType.Full:
+                    return "FULL";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static RefundType ToRefundType(this string value)
+        {
+            switch (value)
+            {
+                case "FULL":
+                    return RefundType.Full;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+  }
 }

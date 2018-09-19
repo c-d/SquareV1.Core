@@ -5,8 +5,14 @@ namespace MeyerCorp.Square.V1.Models
 {
     public class Refund
     {
+        public RefundType Type
+        {
+            get { return TypeString.ToRefundType(); }
+            set { TypeString = value.EnumToString(); }
+        }
+
         [JsonProperty(PropertyName = "type")]
-        public RefundType Type { get; set; }
+        public string TypeString { get; set; }
 
         [JsonProperty(PropertyName = "created_at")]
         public DateTime Created { get; set; }

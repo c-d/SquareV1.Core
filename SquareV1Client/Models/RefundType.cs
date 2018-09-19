@@ -3,5 +3,6 @@
     public enum RefundType
     {
         Partial = 0,
+        Full,
     }
 }
