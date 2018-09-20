@@ -5,7 +5,7 @@
     <AssemblyName>MeyerCorp.Square.V1</AssemblyName>
     <RootNamespace>MeyerCorp.Square.V1</RootNamespace>
     <PackageId>MeyerCorp.Square.V1</PackageId>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
     <Authors>Daniel Przybylski</Authors>
     <Company>Meyer Corporation</Company>
     <Description>A .NET Core based SDK for the Square V1 API</Description>
@@ -16,7 +16,7 @@
     <PackageIconUrl>https://meyerinfrastructureclientmvcdev.azurewebsites.net/favicon.ico</PackageIconUrl>
     <PackageTags>Square API Rest .NETCore SDK</PackageTags>
     <RepositoryType>Git</RepositoryType>
-    <PackageReleaseNotes>In development: Bug fix, enum.</PackageReleaseNotes>
+    <PackageReleaseNotes>In development: More functionality for Payments.</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
