@@ -8,12 +8,12 @@
         /// <summary>
         /// Any card brand not covered by the other enum values.
         /// </summary>
-        OtherBrand,
+        OtherBrand = 0,
 
         /// <summary>
         /// A Visa credit card.
         /// </summary>
-        Visa = 0,
+        Visa,
 
         /// <summary>
         /// A MasterCard credit card.

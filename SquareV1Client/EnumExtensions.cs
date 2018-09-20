@@ -39,10 +39,15 @@ namespace MeyerCorp.Square.V1
         {
             switch (type)
             {
-                case TenderType.CreditCard:
-                    return "CREDIT_CARD";
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case TenderType.CreditCard: return "CREDIT_CARD";
+                case TenderType.Cash: return "CASH";
+                case TenderType.ThirdPartyCard: return "THIRD_PARTY_CARD";
+                case TenderType.NoSale: return "NO_SALE";
+                case TenderType.SquareWallet: return "SQUARE_WALLET";
+                case TenderType.SquareGiftCard: return "SQUARE_GIFT_CARD";
+                case TenderType.Unknown: return "UNKNOWN";
+                case TenderType.Other: return "OTHER";
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -50,10 +55,15 @@ namespace MeyerCorp.Square.V1
         {
             switch (value)
             {
-                case "CREDIT_CARD":
-                    return TenderType.CreditCard;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case "CREDIT_CARD": return TenderType.CreditCard;
+                case "CASH": return TenderType.Cash;
+                case "THIRD_PARTY_CARD": return TenderType.ThirdPartyCard;
+                case "NO_SALE": return TenderType.NoSale;
+                case "SQUARE_WALLET": return TenderType.SquareWallet;
+                case "SQUARE_GIFT_CARD": return TenderType.SquareGiftCard;
+                case "UNKNOWN": return TenderType.Unknown;
+                case "OTHER": return TenderType.Other;
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -62,10 +72,14 @@ namespace MeyerCorp.Square.V1
         {
             switch (type)
             {
-                case EntryMethodType.Manual:
-                    return "MANUAL";
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case EntryMethodType.Manual: return "MANUAL";
+                case EntryMethodType.Other: return "OTHER";
+                case EntryMethodType.Scanned: return "SCANNED";
+                case EntryMethodType.SquareCash: return "SQUARE_CASH";
+                case EntryMethodType.SquareWallet: return "SQUARE_WALLET";
+                case EntryMethodType.Swiped: return "SWIPED";
+                case EntryMethodType.WebForm: return "WEB_FORM";
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -73,10 +87,14 @@ namespace MeyerCorp.Square.V1
         {
             switch (value)
             {
-                case "MANUAL":
-                    return EntryMethodType.Manual;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case "MANUAL": return EntryMethodType.Manual;
+                case "OTHER": return EntryMethodType.Other;
+                case "SCANNED": return EntryMethodType.Scanned;
+                case "SQUARE_CASH": return EntryMethodType.SquareCash;
+                case "SQUARE_WALLET": return EntryMethodType.SquareWallet;
+                case "SWIPED": return EntryMethodType.Swiped;
+                case "WEB_FORM": return EntryMethodType.WebForm;
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -85,10 +103,16 @@ namespace MeyerCorp.Square.V1
         {
             switch (type)
             {
-                case CardBrandType.Visa:
-                    return "VISA";
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case CardBrandType.OtherBrand: return "OTHER_BRAND";
+                case CardBrandType.Visa: return "VISA";
+                case CardBrandType.MasterCard: return "MASTER_CARD";
+                case CardBrandType.AmericanExpress: return "AMERICAN_EXPRESS";
+                case CardBrandType.Discover: return "DISCOVER";
+                case CardBrandType.DiscoverDiners: return "DISCOVER_DINERS";
+                case CardBrandType.Jcb: return "JCB";
+                case CardBrandType.ChinaUnionPay: return "CHINA_UNIONPAY";
+                case CardBrandType.SquareGiftCard: return "SQUARE_GIFT_CARD";
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -96,10 +120,16 @@ namespace MeyerCorp.Square.V1
         {
             switch (value)
             {
-                case "VISA":
-                    return CardBrandType.Visa;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case "OTHER_BRAND": return CardBrandType.OtherBrand;
+                case "VISA": return CardBrandType.Visa;
+                case "MASTER_CARD": return CardBrandType.MasterCard;
+                case "AMERICAN_EXPRESS": return CardBrandType.AmericanExpress;
+                case "DISCOVER": return CardBrandType.Discover;
+                case "DISCOVER_DINERS": return CardBrandType.DiscoverDiners;
+                case "JCB": return CardBrandType.Jcb;
+                case "CHINA_UNIONPAY": return CardBrandType.ChinaUnionPay;
+                case "SQUARE_GIFT_CARD": return CardBrandType.SquareGiftCard;
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -108,10 +138,9 @@ namespace MeyerCorp.Square.V1
         {
             switch (type)
             {
-                case RefundType.Full:
-                    return "FULL";
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case RefundType.Full: return "FULL";
+                case RefundType.Partial: return "PARTIAL";
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -119,10 +148,9 @@ namespace MeyerCorp.Square.V1
         {
             switch (value)
             {
-                case "FULL":
-                    return RefundType.Full;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case "FULL": return RefundType.Full;
+                case "PARTIAL": return RefundType.Partial;
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 

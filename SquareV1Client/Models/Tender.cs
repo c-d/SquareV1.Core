@@ -16,6 +16,7 @@ namespace MeyerCorp.Square.V1.Models
             set { TypeString = value.EnumToString(); }
         }
 
+        [JsonProperty(PropertyName = "type")]
         protected string TypeString { get; set; }
 
         /// <summary>
