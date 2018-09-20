@@ -7,7 +7,13 @@ namespace MeyerCorp.Square.V1.Models
         [JsonProperty(PropertyName = "amount")]
         public long Amount { get; set; }
 
+        public CurrencyCodeType Type
+        {
+            get { return CurrencyCodeString.ToCurrencyCodeType(); }
+            set { CurrencyCodeString = value.EnumToString(); }
+        }
+
         [JsonProperty(PropertyName = "currency_code")]
-        public string CurrencyCode { get; set; }
+        protected string CurrencyCodeString { get; set; }
     }
 }

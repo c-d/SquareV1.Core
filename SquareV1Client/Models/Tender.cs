@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace MeyerCorp.Square.V1.Models
 {

@@ -27,7 +27,7 @@ namespace Meyer.Square.V1.Test
                 {
                     var payments = await client.PaymentOperations.GetAsync();
 
-                    System.Diagnostics.Debug.WriteLine(payments.Count);
+                    System.Diagnostics.Debug.WriteLine(payments);
                 }
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace Meyer.Square.V1.Test
                     var payments = await client.PaymentOperations.GetAsync(beginTime: DateTime.Now - TimeSpan.FromDays(1),
                         endTime: DateTime.Now);
 
-                    System.Diagnostics.Debug.WriteLine(payments.Count);
+                    System.Diagnostics.Debug.WriteLine(payments);
                 }
             }
             catch (Exception ex)

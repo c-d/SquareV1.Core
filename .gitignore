@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 /SquareV1CoreTest/PaymentTestPrivate.cs
 /TestConsole/ProgramPrivate.cs
+/NuGet.ps1
