@@ -8,8 +8,8 @@ namespace TestConsole
     partial class Program
     {
         const string baseurl = "https://connect.squareup.com/v1/";
-        const string location = "";
-        const string token = "";
+        //const string location = "";
+        //const string token = "";
 
         static void Main(string[] args)
         {
