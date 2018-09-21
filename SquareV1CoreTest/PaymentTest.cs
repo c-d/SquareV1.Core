@@ -10,8 +10,8 @@ namespace Meyer.Square.V1.Test
     {
         const string baseurl = "https://connect.squareup.com/v1/";
         // Uncomment following two lines and populate your information from Square.
-        //const string location = "";
-        //const string token = "";
+        const string location = "";
+        const string token = "";
 
         [Fact(DisplayName = "Payments: Get All")]
         public async Task GetTestAsync()
