@@ -1,4 +1,5 @@
-﻿using Microsoft.Rest;
+﻿using MeyerCorp.Square.V1.Models;
+using Microsoft.Rest;
 using Newtonsoft.Json;
 using System;
 
@@ -32,6 +33,11 @@ namespace MeyerCorp.Square.V1
         /// Gets the IPaymentOperations.
         /// </summary>
         IPaymentOperations PaymentOperations { get; }
+
+        /// <summary>
+        /// Gets the ILocationOperations.
+        /// </summary>
+        IOperations<Merchant> LocationOperations { get; }
 
     }
 }

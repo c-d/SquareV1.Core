@@ -295,7 +295,7 @@ namespace MeyerCorp.Square.V1
             }
         }
 
-        public static MerchantAccountType ToCurrencyCodeType(this string value)
+        public static CurrencyCodeType ToCurrencyCodeType(this string value)
         {
             switch (value)
             {

@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MeyerCorp.Square.V1.Models
 {
@@ -44,14 +46,14 @@ namespace MeyerCorp.Square.V1.Models
         /// Single-location accounts can have: CREDIT_CARD_PROCESSING.
         /// Multi-location accounts can have: CREDIT_CARD_PROCESSING, EMPLOYEE_MANAGEMENT, TIMECARD_MANAGEMENT.
         /// </remarks>
-        public MerchantAccountCapabilityType MerchantAccountCapabilityType
+        public IEnumerable<MerchantAccountCapabilityType> MerchantAccountCapabilityType
         {
-            get { return MerchantAccountCapabilityTypeString.ToMerchantAccountCapabilityType(); }
-            set { MerchantAccountCapabilityTypeString = value.EnumToString(); }
+            get { return MerchantAccountCapabilityTypeStrings.Select(t => t.ToMerchantAccountCapabilityType()); }
+            set { MerchantAccountCapabilityTypeStrings = value.Select(v => v.EnumToString()); }
         }
 
         [JsonProperty(PropertyName = "account_capabilities")]
-        protected string MerchantAccountCapabilityTypeString { get; set; }
+        protected IEnumerable<string> MerchantAccountCapabilityTypeStrings { get; set; }
 
         /// <summary>
         /// The country associated with the merchant account, in ISO 3166-1-alpha-2 format.

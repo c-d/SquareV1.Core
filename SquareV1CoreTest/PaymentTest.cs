@@ -6,9 +6,8 @@ using Xunit;
 
 namespace Meyer.Square.V1.Test
 {
-    public partial class PaymentTest
+    public partial class PaymentTest:Test
     {
-        const string baseurl = "https://connect.squareup.com/v1/";
         // Uncomment following two lines and populate your information from Square.
         //const string location = "";
         //const string token = "";

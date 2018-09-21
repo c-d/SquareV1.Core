@@ -195,6 +195,7 @@ namespace MeyerCorp.Square.V1
         private void Initialize()
         {
             PaymentOperations = new PaymentOperations(this);
+            LocationOperations = new LocationOperations(this);
 
             SerializationSettings = new JsonSerializerSettings
             {
@@ -247,5 +248,7 @@ namespace MeyerCorp.Square.V1
         public JsonSerializerSettings DeserializationSettings { get; private set; }
 
         public IPaymentOperations PaymentOperations { get; private set; }
+
+        public IOperations<Merchant> LocationOperations { get; private set; }
     }
 }

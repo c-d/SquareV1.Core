@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public class LocationOperations : ILocationOperations
+    public class LocationOperations : IOperations<Merchant>
     {
-        Uri BaseUri { get { return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}{Client.LocationId}/payments"); } }
+        Uri BaseUri { get { return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}me/locations"); } }
 
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
@@ -40,7 +40,7 @@ namespace MeyerCorp.Square.V1
             throw new NotImplementedException();
         }
 
-        public async Task<HttpOperationResponse<IList<Location>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
+        public async Task<HttpOperationResponse<IList<Merchant>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
         {
             // Create HTTP transport objects
             var httpRequest = new HttpRequestMessage
@@ -86,7 +86,7 @@ namespace MeyerCorp.Square.V1
                 throw ex;
             }
             // Create Result
-            var result = new HttpOperationResponse<IList<Location>>
+            var result = new HttpOperationResponse<IList<Merchant>>
             {
                 Request = httpRequest,
                 Response = httpResponse
@@ -98,7 +98,7 @@ namespace MeyerCorp.Square.V1
                 _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    result.Body = SafeJsonConvert.DeserializeObject<IList<Location>>(_responseContent, Client.DeserializationSettings);
+                    result.Body = SafeJsonConvert.DeserializeObject<IList<Merchant>>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {
@@ -128,21 +128,12 @@ namespace MeyerCorp.Square.V1
             }
         }
 
-        public Task<HttpOperationResponse<IList<Location>>> GetWithHttpMessagesAsync(DateTime beginTime,
-            DateTime endTime,
-            DateRangeOrderType dateRangeOrder = DateRangeOrderType.Descending,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return GetWithHttpMessagesAsync(customHeaders, cancellationToken, BaseUri.AppendDateRange(beginTime, endTime, dateRangeOrder));
-        }
-
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(Location value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(Merchant value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(int id, Location value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(int id, Merchant value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }
