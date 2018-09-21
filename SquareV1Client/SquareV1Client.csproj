@@ -5,8 +5,8 @@
     <AssemblyName>MeyerCorp.Square.V1</AssemblyName>
     <RootNamespace>MeyerCorp.Square.V1</RootNamespace>
     <PackageId>MeyerCorp.Square.V1</PackageId>
-    <Version>0.0.4</Version>
-    <Authors>Daniel Przybylski</Authors>
+    <Version>0.0.5</Version>
+    <Authors>MeyerCorporation</Authors>
     <Company>Meyer Corporation</Company>
     <Description>A .NET Core based SDK for the Square V1 API</Description>
     <Copyright>2018 Meyer Corporation</Copyright>
