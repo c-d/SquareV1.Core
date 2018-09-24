@@ -12,7 +12,19 @@ namespace MeyerCorp.Square.V1
 {
     public class BusinessOperations : IBusinessOperations
     {
-        Uri BaseUri { get { return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}me"); } }
+        public string LocationId { get; set; }
+
+
+        Uri BaseUri
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(LocationId))
+                    return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}me");
+                else
+                    return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}{LocationId}/business");
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
@@ -136,6 +148,13 @@ namespace MeyerCorp.Square.V1
         public Task<HttpOperationResponse> PutWithHttpMessagesAsync(int id, Merchant value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
+        }
+
+        public Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(string locationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
+        {
+            LocationId = locationId;
+
+            return GetWithHttpMessagesAsync(customHeaders, cancellationToken, uri);
         }
     }
 }
