@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public class BusinessOperations : IBusinessOperations
+    public class EmployeeOperations : IEmployeeOperations
     {
         public string LocationId { get; set; }
 
@@ -32,7 +32,7 @@ namespace MeyerCorp.Square.V1
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public BusinessOperations(Client client)
+        public EmployeeOperations(Client client)
         {
             Client = client ?? throw new ArgumentNullException("client");
         }
@@ -42,7 +42,7 @@ namespace MeyerCorp.Square.V1
         /// </summary>
         public Client Client { get; private set; }
 
-        internal BusinessOperations(Client client, Uri baseUri, string BusinessId)
+        internal EmployeeOperations(Client client, Uri baseUri, string BusinessId)
         {
             Client = client;
         }

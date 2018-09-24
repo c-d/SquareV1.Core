@@ -55,7 +55,7 @@ namespace MeyerCorp.Square.V1.Models
         /// <remarks>
         /// Only present if the tender's type is  CREDIT_CARD.
         /// </remarks>
-        public CardBrandType CardBrand
+        public TenderCardBrandType CardBrand
         {
             get { return CardBrandTypeString.ToCardBrandType(); }
             set { CardBrandTypeString = value.EnumToString(); }

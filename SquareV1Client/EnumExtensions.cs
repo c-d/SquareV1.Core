@@ -99,36 +99,36 @@ namespace MeyerCorp.Square.V1
         }
 
 
-        public static string EnumToString(this CardBrandType type)
+        public static string EnumToString(this TenderCardBrandType type)
         {
             switch (type)
             {
-                case CardBrandType.OtherBrand: return "OTHER_BRAND";
-                case CardBrandType.Visa: return "VISA";
-                case CardBrandType.MasterCard: return "MASTER_CARD";
-                case CardBrandType.AmericanExpress: return "AMERICAN_EXPRESS";
-                case CardBrandType.Discover: return "DISCOVER";
-                case CardBrandType.DiscoverDiners: return "DISCOVER_DINERS";
-                case CardBrandType.Jcb: return "JCB";
-                case CardBrandType.ChinaUnionPay: return "CHINA_UNIONPAY";
-                case CardBrandType.SquareGiftCard: return "SQUARE_GIFT_CARD";
+                case TenderCardBrandType.OtherBrand: return "OTHER_BRAND";
+                case TenderCardBrandType.Visa: return "VISA";
+                case TenderCardBrandType.MasterCard: return "MASTER_CARD";
+                case TenderCardBrandType.AmericanExpress: return "AMERICAN_EXPRESS";
+                case TenderCardBrandType.Discover: return "DISCOVER";
+                case TenderCardBrandType.DiscoverDiners: return "DISCOVER_DINERS";
+                case TenderCardBrandType.Jcb: return "JCB";
+                case TenderCardBrandType.ChinaUnionPay: return "CHINA_UNIONPAY";
+                case TenderCardBrandType.SquareGiftCard: return "SQUARE_GIFT_CARD";
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        public static CardBrandType ToCardBrandType(this string value)
+        public static TenderCardBrandType ToCardBrandType(this string value)
         {
             switch (value)
             {
-                case "OTHER_BRAND": return CardBrandType.OtherBrand;
-                case "VISA": return CardBrandType.Visa;
-                case "MASTER_CARD": return CardBrandType.MasterCard;
-                case "AMERICAN_EXPRESS": return CardBrandType.AmericanExpress;
-                case "DISCOVER": return CardBrandType.Discover;
-                case "DISCOVER_DINERS": return CardBrandType.DiscoverDiners;
-                case "JCB": return CardBrandType.Jcb;
-                case "CHINA_UNIONPAY": return CardBrandType.ChinaUnionPay;
-                case "SQUARE_GIFT_CARD": return CardBrandType.SquareGiftCard;
+                case "OTHER_BRAND": return TenderCardBrandType.OtherBrand;
+                case "VISA": return TenderCardBrandType.Visa;
+                case "MASTER_CARD": return TenderCardBrandType.MasterCard;
+                case "AMERICAN_EXPRESS": return TenderCardBrandType.AmericanExpress;
+                case "DISCOVER": return TenderCardBrandType.Discover;
+                case "DISCOVER_DINERS": return TenderCardBrandType.DiscoverDiners;
+                case "JCB": return TenderCardBrandType.Jcb;
+                case "CHINA_UNIONPAY": return TenderCardBrandType.ChinaUnionPay;
+                case "SQUARE_GIFT_CARD": return TenderCardBrandType.SquareGiftCard;
                 default: throw new ArgumentOutOfRangeException();
             }
         }

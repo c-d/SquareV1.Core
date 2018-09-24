@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1
     /// <summary>
     /// OrdersOperations operations.
     /// </summary>
-    public partial interface IBusinessOperations : IOperations<Merchant>
+    public partial interface IEmployeeOperations : IOperations<Employee>
     {
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -18,7 +18,7 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null);
+        Task<HttpOperationResponse<IList<Employee>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null);
 
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -26,6 +26,6 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(string locationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null);
+        Task<HttpOperationResponse<Employee>> GetWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null);
     }
 }
