@@ -11,13 +11,13 @@ namespace MeyerCorp.Square.V1
     /// </summary>
     public partial interface IOperations<T>
     {
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<IList<T>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null);
+        ///// <param name='customHeaders'>
+        ///// The headers that will be added to request.
+        ///// </param>
+        ///// <param name='cancellationToken'>
+        ///// The cancellation token.
+        ///// </param>
+        //Task<HttpOperationResponse<IList<T>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null);
 
         /// <param name='id'>
         /// </param>

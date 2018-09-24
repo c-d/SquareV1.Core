@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public class LocationOperations : ILocationOperations
+    public class BusinessOperations : IBusinessOperations
     {
-        Uri BaseUri { get { return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}me/locations"); } }
+        Uri BaseUri { get { return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}me"); } }
 
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
@@ -20,7 +20,7 @@ namespace MeyerCorp.Square.V1
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public LocationOperations(Client client)
+        public BusinessOperations(Client client)
         {
             Client = client ?? throw new ArgumentNullException("client");
         }
@@ -30,7 +30,7 @@ namespace MeyerCorp.Square.V1
         /// </summary>
         public Client Client { get; private set; }
 
-        internal LocationOperations(Client client, Uri baseUri, string locationId)
+        internal BusinessOperations(Client client, Uri baseUri, string BusinessId)
         {
             Client = client;
         }
@@ -40,7 +40,7 @@ namespace MeyerCorp.Square.V1
             throw new NotImplementedException();
         }
 
-        public async Task<HttpOperationResponse<IList<Merchant>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
+        public async Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
         {
             // Create HTTP transport objects
             var httpRequest = new HttpRequestMessage
@@ -86,7 +86,7 @@ namespace MeyerCorp.Square.V1
                 throw ex;
             }
             // Create Result
-            var result = new HttpOperationResponse<IList<Merchant>>
+            var result = new HttpOperationResponse<Merchant>
             {
                 Request = httpRequest,
                 Response = httpResponse
@@ -98,7 +98,7 @@ namespace MeyerCorp.Square.V1
                 _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    result.Body = SafeJsonConvert.DeserializeObject<IList<Merchant>>(_responseContent, Client.DeserializationSettings);
+                    result.Body = SafeJsonConvert.DeserializeObject<Merchant>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {

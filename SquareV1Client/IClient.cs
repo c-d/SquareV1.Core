@@ -37,7 +37,9 @@ namespace MeyerCorp.Square.V1
         /// <summary>
         /// Gets the ILocationOperations.
         /// </summary>
-        IOperations<Merchant> LocationOperations { get; }
+        ILocationOperations LocationOperations { get; }
+
+        IBusinessOperations BusinessOperations { get; }
 
     }
 }
