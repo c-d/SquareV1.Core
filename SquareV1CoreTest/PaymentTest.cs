@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Meyer.Square.V1.Test
 {
-    public partial class PaymentTest:Test
+    public partial class PaymentTest : Test
     {
         // Uncomment following two lines and populate your information from Square.
         //const string location = "";
@@ -35,7 +35,7 @@ namespace Meyer.Square.V1.Test
                 throw;
             }
         }
- 
+
         [Fact(DisplayName = "Payments: Get All, Date Limited")]
         public async Task GetTestAsyncDateLimited()
         {
@@ -60,5 +60,5 @@ namespace Meyer.Square.V1.Test
                 throw;
             }
         }
-   }
+    }
 }

@@ -457,6 +457,35 @@ namespace MeyerCorp.Square.V1
         }
 
 
+        public static string EnumToString(this PaymentItemizationType type)
+        {
+            switch (type)
+            {
+                case PaymentItemizationType.CustomAmount: return "CUSTOM_AMOUNT";
+                case PaymentItemizationType.GiftCardActivation: return "GIFT_CARD_ACTIVATION";
+                case PaymentItemizationType.GiftCardReload: return "GIFT_CARD_RELOAD";
+                case PaymentItemizationType.GiftCardUnkown: return "GIFT_CARD_UNKNOWN";
+                case PaymentItemizationType.Item: return "ITEM";
+                case PaymentItemizationType.Other: return "OTHER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static PaymentItemizationType ToPaymentItemizationType(this string value)
+        {
+            switch (value)
+            {
+                case "CUSTOM_AMOUNT": return PaymentItemizationType.CustomAmount;
+                case "GIFT_CARD_ACTIVATION": return PaymentItemizationType.GiftCardActivation;
+                case "GIFT_CARD_RELOAD": return PaymentItemizationType.GiftCardReload;
+                case "GIFT_CARD_UNKNOWN": return PaymentItemizationType.GiftCardUnkown;
+                case "ITEM": return PaymentItemizationType.Item;
+                case "OTHER": return PaymentItemizationType.Other;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
         public static string EnumToString(this MerchantAccountCapabilityType type)
         {
             switch (type)

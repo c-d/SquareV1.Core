@@ -41,8 +41,14 @@ namespace MeyerCorp.Square.V1.Models
         /// <summary>
         /// The type of purchase that the itemization represents, such as an ITEM or  CUSTOM_AMOUNT.
         /// </summary>
+        public PaymentItemizationType Type
+        {
+            get { return TypeString.ToPaymentItemizationType(); }
+            set { TypeString = value.EnumToString(); }
+        }
+
         [JsonProperty(PropertyName = "itemization_type")]
-        public PaymentItemizationType Type { get; set; }
+        protected string TypeString { get; set; }
 
         /// <summary>
         /// The total cost of the item, including all taxes and discounts.
