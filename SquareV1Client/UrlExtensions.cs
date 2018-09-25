@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -17,11 +18,25 @@ namespace MeyerCorp.Square.V1
         /// <param name="endTime">End time.</param>
         /// <param name="dateRangeOrder">Ascending or descending. Descending is default.</param>
         /// <returns>New uri with date-range parameters included with values.</returns>
-        public static Uri AppendDateRange(this Uri baseUri, DateTime beginTime, DateTime endTime, DateRangeOrderType dateRangeOrder = DateRangeOrderType.Descending)
+        public static Uri AppendDateRange(this Uri baseUri, DateTime? beginTime, DateTime? endTime, DateRangeOrderType dateRangeOrder = DateRangeOrderType.Descending)
         {
             const string format = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
 
-            return baseUri.AppendParameters("begin_time", beginTime.ToUniversalTime().ToString(format), "end_time", endTime.ToUniversalTime().ToString(format), "order", dateRangeOrder.EnumToString());
+            var parameters = new List<string>();
+
+            if (beginTime.HasValue)
+            {
+                parameters.Add("begin_time");
+                parameters.Add(beginTime.Value.ToUniversalTime().ToString(format));
+            }
+
+            if (endTime.HasValue)
+            {
+                parameters.Add("end_time");
+                parameters.Add(endTime.Value.ToUniversalTime().ToString(format));
+            }
+
+            return baseUri.AppendParameters(parameters.ToArray());
         }
 
         /// <summary>
@@ -34,10 +49,21 @@ namespace MeyerCorp.Square.V1
         /// <returns>New uri with date-range parameters included with values.</returns>
         public static Uri AppendOrderOrLimit(this Uri baseUri, short? limit, DateRangeOrderType? dateRangeOrder)
         {
-            var daterangeordervalue = dateRangeOrder.HasValue ? dateRangeOrder.Value.EnumToString() : null;
-            var limitvalue = limit.HasValue ? limit.ToString() : null;
+            var parameters = new List<string>();
 
-            return baseUri.AppendParameters("limit", limitvalue, "order", daterangeordervalue);
+            if (dateRangeOrder.HasValue)
+            {
+                parameters.Add("order");
+                parameters.Add(dateRangeOrder.Value.EnumToString());
+            }
+
+            if (limit.HasValue)
+            {
+                parameters.Add("limit");
+                parameters.Add(limit.Value.ToString());
+            }
+
+            return baseUri.AppendParameters(parameters.ToArray());
         }
 
         /// <summary>

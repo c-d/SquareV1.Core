@@ -16,7 +16,7 @@ namespace MeyerCorp.Square.V1.Models
         /// <summary>
         /// The discount's name.
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [JsonProperty(PropertyName = "name")]
         string Name { get; set; }
 
         /// <summary>

@@ -21,13 +21,18 @@ namespace MeyerCorp.Square.V1
         /// </param>
         public PaymentOperations(Client client) : base(client) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="values"></param>
+        /// <returns>https://connect.squareup.com/v1/{{location_id}}/business</returns>
         protected override Uri GetUri(params string[] values)
         {
-            if (values.Length != 1) throw new ArgumentException();
-
-            var output = new StringBuilder(BaseUri.AbsoluteUri);
-
-            return new Uri(output.AppendFormat(_UriFormat, values[0]).ToString());
+            switch (values.Length)
+            {
+                case 1: return BaseUri.Append(values[0], "payments");
+                default: throw new ArgumentException();
+            }
         }
 
         public async Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(string locationId,
@@ -39,7 +44,7 @@ namespace MeyerCorp.Square.V1
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId)
-                .AppendDateRange(beginTime.Value, endTime.Value)
+                .AppendDateRange(beginTime, endTime)
                 .AppendOrderOrLimit(take, dateRangeOrder);
 
             return await GetWithHttpMessagesAsync(uri, customHeaders, cancellationToken);
