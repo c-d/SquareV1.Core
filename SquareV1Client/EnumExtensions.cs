@@ -895,5 +895,112 @@ namespace MeyerCorp.Square.V1
                 default: throw new ArgumentOutOfRangeException();
             }
         }
+
+
+        public static string EnumToString(this ItemType type)
+        {
+            switch (type)
+            {
+                case ItemType.Normal: return "NORMAL";
+                case ItemType.GiftCard: return "GIFT_CARD";
+                case ItemType.Other: return "OTHER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ItemType ToItemType(this string value)
+        {
+            switch (value)
+            {
+                case "NORMAL": return ItemType.Normal;
+                case "GIFT_CARD": return ItemType.GiftCard;
+                case "OTHER": return ItemType.Other;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this ItemVariationPricingType type)
+        {
+            switch (type)
+            {
+                case ItemVariationPricingType.FixedPricing: return "FIXED_PRICING";
+                case ItemVariationPricingType.VariablePricing: return "VARIABLE_PRICING";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ItemVariationPricingType ToItemVariationPricingType(this string value)
+        {
+            switch (value)
+            {
+                case "FIXED_PRICING": return ItemVariationPricingType.FixedPricing;
+                case "VARIABLE_PRICING": return ItemVariationPricingType.VariablePricing;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this InventoryAlertType type)
+        {
+            switch (type)
+            {
+                case InventoryAlertType.LowQuantity: return "LOW_QUANTITY";
+                case InventoryAlertType.None: return "NONE";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static InventoryAlertType ToInventoryAlertType(this string value)
+        {
+            switch (value)
+            {
+                case "LOW_QUANTITY": return InventoryAlertType.LowQuantity;
+                case "NONE": return InventoryAlertType.None;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this ItemVisibilityType type)
+        {
+            switch (type)
+            {
+                case ItemVisibilityType.Public: return "PUBLIC";
+                case ItemVisibilityType.Private: return "PRIVATE";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ItemVisibilityType ToItemVisibilityType(this string value)
+        {
+            switch (value)
+            {
+                case "PUBLIC": return ItemVisibilityType.Public;
+                case "PRIVATE": return ItemVisibilityType.Private;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this ModifierListSelectionType type)
+        {
+            switch (type)
+            {
+                case ModifierListSelectionType.Single: return "SINGLE";
+                case ModifierListSelectionType.Multiple: return "MULTIPLE";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ModifierListSelectionType ToModifierListSelectionType(this string value)
+        {
+            switch (value)
+            {
+                case "SINGLE": return ModifierListSelectionType.Single;
+                case "MULTIPLE": return ModifierListSelectionType.Multiple;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }
