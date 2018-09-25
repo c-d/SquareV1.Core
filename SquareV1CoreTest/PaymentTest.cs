@@ -19,12 +19,9 @@ namespace Meyer.Square.V1.Test
             {
                 var credentials = new TokenCredentials(token) as ServiceClientCredentials;
 
-                using (var client = new Client(new Uri(baseurl), credentials)
+                using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    LocationId = location,
-                })
-                {
-                    var payments = await client.PaymentOperations.GetAsync();
+                    var payments = await client.PaymentOperations.GetAsync(locationId: location);
 
                     System.Diagnostics.Debug.WriteLine(payments);
                 }
@@ -43,13 +40,13 @@ namespace Meyer.Square.V1.Test
             {
                 var credentials = new TokenCredentials(token) as ServiceClientCredentials;
 
-                using (var client = new Client(new Uri(baseurl), credentials)
+                using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    LocationId = location,
-                })
-                {
-                    var payments = await client.PaymentOperations.GetAsync(beginTime: DateTime.Now - TimeSpan.FromDays(1),
-                        endTime: DateTime.Now);
+                    var payments = await client.PaymentOperations.GetAsync(locationId: location,
+                        beginTime: DateTime.Now - TimeSpan.FromDays(1),
+                        endTime: DateTime.Now,
+                        take: null,
+                        dateRangeOrder: null);
 
                     System.Diagnostics.Debug.WriteLine(payments);
                 }

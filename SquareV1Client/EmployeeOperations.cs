@@ -1,7 +1,5 @@
 ﻿using MeyerCorp.Square.V1.Models;
 using Microsoft.Rest;
-using Microsoft.Rest.Serialization;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,151 +8,188 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public class EmployeeOperations : IEmployeeOperations
+    public class EmployeeOperations : Operations, IEmployeeOperations
     {
-        public string LocationId { get; set; }
-
-
-        Uri BaseUri
-        {
-            get
-            {
-                if (String.IsNullOrWhiteSpace(LocationId))
-                    return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}me");
-                else
-                    return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}{LocationId}/business");
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public EmployeeOperations(Client client)
-        {
-            Client = client ?? throw new ArgumentNullException("client");
-        }
+        public EmployeeOperations(Client client) : base(client) { }
 
-        /// <summary>
-        /// Gets a reference to the SquareAppriseTransferWebJobClient
-        /// </summary>
-        public Client Client { get; private set; }
-
-        internal EmployeeOperations(Client client, Uri baseUri, string BusinessId)
+        public async Task<HttpOperationResponse<IList<Employee>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
         {
-            Client = client;
-        }
-
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
-        {
-            // Create HTTP transport objects
             var httpRequest = new HttpRequestMessage
             {
                 Method = new HttpMethod("GET"),
-                RequestUri = uri ?? BaseUri,
+                RequestUri = GetUri(),
             };
 
             SetHeaders(httpRequest, customHeaders);
-
-            // Serialize Request
-            string requestContent = null;
-
-            // Set Credentials
-            if (Client.Credentials != null)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                await Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            }
+            await SetCredentialsAsync(httpRequest, cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 
             var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var statusCode = httpResponse.StatusCode;
 
+            cancellationToken.ThrowIfCancellationRequested();
+
+            string responseContent = null;
+            string requestContent = null;
+
+            if ((int)statusCode != 200)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
+
+                responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
+                httpRequest.Dispose();
+
+                if (httpResponse != null) httpResponse.Dispose();
+
+                throw ex;
+            }
+
+            return await DeserializeResponseAsync<IList<Employee>>(statusCode, httpRequest, httpResponse);
+        }
+
+        public async Task<HttpOperationResponse<Employee>> GetWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken, Uri uri)
+        {
+            var httpRequest = new HttpRequestMessage
+            {
+                Method = new HttpMethod("GET"),
+                RequestUri = GetUri().Append(employeeId),
+            };
+
+            SetHeaders(httpRequest, customHeaders);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var statusCode = httpResponse.StatusCode;
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            string responseContent = null;
+            string requestContent = null;
+
+            if ((int)statusCode != 200)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
+
+                responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
+                httpRequest.Dispose();
+
+                if (httpResponse != null) httpResponse.Dispose();
+
+                throw ex;
+            }
+
+            return await DeserializeResponseAsync<Employee>(statusCode, httpRequest, httpResponse);
+        }
+
+        public async Task<HttpOperationResponse> PostWithHttpMessagesAsync(Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
+
+            // Create HTTP transport objects
+            var httpRequest = new HttpRequestMessage
+            {
+                Method = new HttpMethod("POST"),
+                RequestUri = GetUri(),
+            };
+
+            SetHeaders(httpRequest, customHeaders);
+            var requestcontent = SerializeRequest<Employee>(value, httpRequest);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            // Send Request
+            HttpResponseMessage httpResponse = null;
+            cancellationToken.ThrowIfCancellationRequested();
+            httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var _statusCode = httpResponse.StatusCode;
+            cancellationToken.ThrowIfCancellationRequested();
+            string _responseContent = null;
+
+            if ((int)_statusCode != 204)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
+                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestcontent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, _responseContent);
+                httpRequest.Dispose();
+                if (httpResponse != null)
+                {
+                    httpResponse.Dispose();
+                }
+                throw ex;
+            }
+
+            return new HttpOperationResponse
+            {
+                Request = httpRequest,
+                Response = httpResponse,
+            };
+        }
+
+        public async Task<HttpOperationResponse> PutWithHttpMessagesAsync(string employeeId, Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
+
+            var httpRequest = new HttpRequestMessage
+            {
+                Method = new HttpMethod("PUT"),
+                RequestUri = GetUri().Append(employeeId),
+            };
+
+            SetHeaders(httpRequest, customHeaders);
+            var requestcontent = SerializeRequest(value, httpRequest);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
             var statusCode = httpResponse.StatusCode;
 
             cancellationToken.ThrowIfCancellationRequested();
 
             string _responseContent = null;
 
-            if ((int)statusCode != 200)
+            if ((int)statusCode != 204)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-
                 _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestcontent);
                 ex.Response = new HttpResponseMessageWrapper(httpResponse, _responseContent);
+
                 httpRequest.Dispose();
 
-                if (httpResponse != null)
-                    httpResponse.Dispose();
+                if (httpResponse != null) httpResponse.Dispose();
 
                 throw ex;
             }
-            // Create Result
-            var result = new HttpOperationResponse<Merchant>
+
+            return new HttpOperationResponse
             {
                 Request = httpRequest,
-                Response = httpResponse
+                Response = httpResponse,
             };
-
-            // Deserialize Response
-            if ((int)statusCode == 200)
-            {
-                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    result.Body = SafeJsonConvert.DeserializeObject<Merchant>(_responseContent, Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    httpRequest.Dispose();
-
-                    if (httpResponse != null)
-                        httpResponse.Dispose();
-
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
-            }
-
-            return result;
         }
 
-        void SetHeaders(HttpRequestMessage httpRequest, Dictionary<string, List<string>> customHeaders)
+        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (customHeaders != null)
-            {
-                foreach (var _header in customHeaders)
-                {
-                    if (httpRequest.Headers.Contains(_header.Key))
-                        httpRequest.Headers.Remove(_header.Key);
-
-                    httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
-                }
-            }
+            throw new NotSupportedException();
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(Merchant value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override Uri GetUri(params string[] values)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(int id, Merchant value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(string locationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
-        {
-            LocationId = locationId;
-
-            return GetWithHttpMessagesAsync(customHeaders, cancellationToken, uri);
+            return BaseUri.Append("me", "employees");
         }
     }
 }

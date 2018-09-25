@@ -1,18 +1,17 @@
 ﻿using MeyerCorp.Square.V1.Models;
 using Microsoft.Rest;
-using Microsoft.Rest.Serialization;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public class PaymentOperations : IPaymentOperations
+    public class PaymentOperations : Operations, IPaymentOperations
     {
-        Uri BaseUri { get { return new Uri($"{Client.BaseUri.AbsoluteUri.ToString()}{Client.LocationId}/payments"); } }
+        const string _UriFormat = "{0}/payments";
 
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
@@ -20,27 +19,35 @@ namespace MeyerCorp.Square.V1
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public PaymentOperations(Client client)
+        public PaymentOperations(Client client) : base(client) { }
+
+        protected override Uri GetUri(params string[] values)
         {
-            Client = client ?? throw new ArgumentNullException("client");
+            if (values.Length != 1) throw new ArgumentException();
+
+            var output = new StringBuilder(BaseUri.AbsoluteUri);
+
+            return new Uri(output.AppendFormat(_UriFormat, values[0]).ToString());
         }
 
-        /// <summary>
-        /// Gets a reference to the SquareAppriseTransferWebJobClient
-        /// </summary>
-        public Client Client { get; private set; }
-
-        internal PaymentOperations(Client client, Uri baseUri, string locationId)
+        public async Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(string locationId,
+            DateTime? beginTime,
+            DateTime? endTime,
+            DateRangeOrderType? dateRangeOrder,
+            short? take,
+            Dictionary<string, List<string>> customHeaders = null,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            Client = client;
+            var uri = GetUri(locationId)
+                .AppendDateRange(beginTime.Value, endTime.Value)
+                .AppendOrderOrLimit(take, dateRangeOrder);
+
+            return await GetWithHttpMessagesAsync(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
+        async Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(Uri uri = null,
+            Dictionary<string, List<string>> customHeaders = null,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             // Create HTTP transport objects
             var httpRequest = new HttpRequestMessage
@@ -50,101 +57,56 @@ namespace MeyerCorp.Square.V1
             };
 
             SetHeaders(httpRequest, customHeaders);
-
-            // Serialize Request
-            string requestContent = null;
-
-            // Set Credentials
-            if (Client.Credentials != null)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                await Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            }
+            await SetCredentialsAsync(httpRequest, cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 
             var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-
             var statusCode = httpResponse.StatusCode;
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            string _responseContent = null;
+            string responseContent = null;
+            string requestContent = null;
 
             if ((int)statusCode != 200)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
 
-                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, _responseContent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
                 httpRequest.Dispose();
 
-                if (httpResponse != null)
-                    httpResponse.Dispose();
+                if (httpResponse != null) httpResponse.Dispose();
 
                 throw ex;
             }
-            // Create Result
-            var result = new HttpOperationResponse<IList<Payment>>
-            {
-                Request = httpRequest,
-                Response = httpResponse
-            };
 
-            // Deserialize Response
-            if ((int)statusCode == 200)
-            {
-                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                try
-                {
-                    result.Body = SafeJsonConvert.DeserializeObject<IList<Payment>>(_responseContent, Client.DeserializationSettings);
-                }
-                catch (JsonException ex)
-                {
-                    httpRequest.Dispose();
-
-                    if (httpResponse != null)
-                        httpResponse.Dispose();
-
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
-            }
-
-            return result;
+            return await DeserializeResponseAsync<IList<Payment>>(statusCode, httpRequest, httpResponse);
         }
 
-        void SetHeaders(HttpRequestMessage httpRequest, Dictionary<string, List<string>> customHeaders)
-        {
-            if (customHeaders != null)
-            {
-                foreach (var _header in customHeaders)
-                {
-                    if (httpRequest.Headers.Contains(_header.Key))
-                        httpRequest.Headers.Remove(_header.Key);
-
-                    httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
-                }
-            }
-        }
-
-        public Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(DateTime beginTime,
-            DateTime endTime,
-            DateRangeOrderType dateRangeOrder = DateRangeOrderType.Descending,
+        public Task<HttpOperationResponse<Payment>> GetWithHttpMessagesAsync(string locationId,
+            string paymentId,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetWithHttpMessagesAsync(customHeaders, cancellationToken, BaseUri.AppendDateRange(beginTime, endTime, dateRangeOrder));
+            return GetWithHttpMessagesAsync(locationId: locationId, paymentId: paymentId, customHeaders: customHeaders, cancellationToken: cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(Payment value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Payment value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(int id, Payment value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, Payment value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
+        }
+
+        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            throw new NotSupportedException();
         }
     }
 }

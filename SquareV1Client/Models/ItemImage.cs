@@ -1,4 +1,6 @@
-﻿namespace MeyerCorp.Square.V1.Models
+﻿using Newtonsoft.Json;
+
+namespace MeyerCorp.Square.V1.Models
 {
     /// <summary>
     /// Represents an image of an item.

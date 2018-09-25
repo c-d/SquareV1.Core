@@ -19,10 +19,7 @@ namespace Meyer.Square.V1.Test
             {
                 var credentials = new TokenCredentials(token) as ServiceClientCredentials;
 
-                using (var client = new Client(new Uri(baseurl), credentials)
-                {
-                    LocationId = location,
-                })
+                using (var client = new Client(new Uri(baseurl), credentials))
                 {
                     var payments = await client.LocationOperations.GetAsync();
 

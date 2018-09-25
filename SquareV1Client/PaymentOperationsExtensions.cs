@@ -11,9 +11,15 @@ namespace MeyerCorp.Square.V1
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Payment> Get(this IPaymentOperations operations)
+        public static IList<Payment> Get(this IPaymentOperations operations, string locationId, DateTime? beginTime, DateTime? endTime, DateRangeOrderType? dateRangeOrder, short? take)
         {
-            return Task.Factory.StartNew(s => ((IPaymentOperations)s).GetAsync(), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+
+            return Task
+                .Factory
+                .StartNew(s => ((IPaymentOperations)s).GetAsync(locationId, beginTime, endTime, dateRangeOrder, take), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                .Unwrap()
+                .GetAwaiter()
+                .GetResult();
         }
 
         /// <param name='operations'>
@@ -23,28 +29,16 @@ namespace MeyerCorp.Square.V1
         /// The cancellation token.
         /// </param>
         public static async Task<IList<Payment>> GetAsync(this IPaymentOperations operations,
-            DateTime beginTime,
-            DateTime endTime,
-            DateRangeOrderType dateRangeOrder = DateRangeOrderType.Descending,
+            string locationId,
+            DateTime? beginTime = null,
+            DateTime? endTime = null,
+            DateRangeOrderType? dateRangeOrder = null,
+            short? take = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var _result = await operations.GetWithHttpMessagesAsync(beginTime, endTime, dateRangeOrder, null, cancellationToken).ConfigureAwait(false))
+            using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, dateRangeOrder, take, null, cancellationToken).ConfigureAwait(false))
             {
-                return _result.Body;
-            }
-        }
-
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        public static async Task<IList<Payment>> GetAsync(this IPaymentOperations operations, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            using (var _result = await operations.GetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
-            {
-                return _result.Body;
+                return result.Body;
             }
         }
 
@@ -55,9 +49,9 @@ namespace MeyerCorp.Square.V1
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Put(this IPaymentOperations operations, int id, Payment value)
+        public static void Put(this IPaymentOperations operations, string locationId, string paymentId, Payment value)
         {
-            Task.Factory.StartNew(s => ((IPaymentOperations)s).PutAsync(id, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((IPaymentOperations)s).PutAsync(locationId, paymentId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -70,9 +64,9 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PutAsync(this IPaymentOperations operations, int id, Payment value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PutAsync(this IPaymentOperations operations, string locationId, string paymentId, Payment value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PutWithHttpMessagesAsync(id, value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <param name='operations'>
@@ -80,9 +74,9 @@ namespace MeyerCorp.Square.V1
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Post(this IPaymentOperations operations, Payment value)
+        public static void Post(this IPaymentOperations operations, string locationId, Payment value)
         {
-            Task.Factory.StartNew(s => ((IPaymentOperations)s).PostAsync(value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((IPaymentOperations)s).PostAsync(locationId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -93,9 +87,9 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PostAsync(this IPaymentOperations operations, Payment value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PostAsync(this IPaymentOperations operations, string locationId, Payment value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PostWithHttpMessagesAsync(value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PostWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <param name='operations'>
@@ -103,9 +97,9 @@ namespace MeyerCorp.Square.V1
         /// </param>
         /// <param name='id'>
         /// </param>
-        public static void Delete(this IPaymentOperations operations, int id)
+        public static void Delete(this IPaymentOperations operations, string locationId, string paymentId)
         {
-            Task.Factory.StartNew(s => ((IPaymentOperations)s).DeleteAsync(id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((IPaymentOperations)s).DeleteAsync(locationId, paymentId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -116,10 +110,9 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task DeleteAsync(this IPaymentOperations operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task DeleteAsync(this IPaymentOperations operations, string locationId, string paymentId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.DeleteWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false);
+            await operations.DeleteWithHttpMessagesAsync(locationId, paymentId, null, cancellationToken).ConfigureAwait(false);
         }
-
     }
 }

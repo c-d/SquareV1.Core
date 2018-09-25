@@ -13,8 +13,6 @@ namespace MeyerCorp.Square.V1
         /// <summary> The base URI of the service. </summary>
         public Uri BaseUri { get; set; } = new Uri("https://connect.squareup.com/v1/");
 
-        public string LocationId { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the Client public class.
         /// </summary>

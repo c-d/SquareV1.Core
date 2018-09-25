@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static Merchant Get(this IEmployeeOperations operations)
+        public static IList<Employee> Get(this IEmployeeOperations operations)
         {
             return Task.Factory.StartNew(s => ((IEmployeeOperations)s).GetAsync(), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -21,7 +21,7 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<Merchant> GetAsync(this IEmployeeOperations operations, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<IList<Employee>> GetAsync(this IEmployeeOperations operations, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var _result = await operations.GetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
             {
@@ -32,9 +32,9 @@ namespace MeyerCorp.Square.V1
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static Merchant Get(this IEmployeeOperations operations, string locationId)
+        public static Employee Get(this IEmployeeOperations operations, string employeeId)
         {
-            return Task.Factory.StartNew(s => ((IEmployeeOperations)s).GetAsync(locationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IEmployeeOperations)s).GetAsync(employeeId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -43,9 +43,9 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<Merchant> GetAsync(this IEmployeeOperations operations, string locationId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<Employee> GetAsync(this IEmployeeOperations operations, string employeeId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var _result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.GetWithHttpMessagesAsync(employeeId, null, cancellationToken).ConfigureAwait(false))
             {
                 return _result.Body;
             }
@@ -58,7 +58,7 @@ namespace MeyerCorp.Square.V1
         ///// </param>
         ///// <param name='value'>
         ///// </param>
-        //public static void Put(this IBusinessOperations operations, int id, Merchant value)
+        //public static void Put(this IBusinessOperations operations, int id, Employee value)
         //{
         //    Task.Factory.StartNew(s => ((IBusinessOperations)s).PutAsync(id, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         //}
@@ -73,7 +73,7 @@ namespace MeyerCorp.Square.V1
         ///// <param name='cancellationToken'>
         ///// The cancellation token.
         ///// </param>
-        //public static async Task PutAsync(this IBusinessOperations operations, int id, Merchant value, CancellationToken cancellationToken = default(CancellationToken))
+        //public static async Task PutAsync(this IBusinessOperations operations, int id, Employee value, CancellationToken cancellationToken = default(CancellationToken))
         //{
         //    await operations.PutWithHttpMessagesAsync(id, value, null, cancellationToken).ConfigureAwait(false);
         //}
@@ -83,7 +83,7 @@ namespace MeyerCorp.Square.V1
         ///// </param>
         ///// <param name='value'>
         ///// </param>
-        //public static void Post(this IBusinessOperations operations, Merchant value)
+        //public static void Post(this IBusinessOperations operations, Employee value)
         //{
         //    Task.Factory.StartNew(s => ((IBusinessOperations)s).PostAsync(value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         //}
@@ -96,7 +96,7 @@ namespace MeyerCorp.Square.V1
         ///// <param name='cancellationToken'>
         ///// The cancellation token.
         ///// </param>
-        //public static async Task PostAsync(this IBusinessOperations operations, Merchant value, CancellationToken cancellationToken = default(CancellationToken))
+        //public static async Task PostAsync(this IBusinessOperations operations, Employee value, CancellationToken cancellationToken = default(CancellationToken))
         //{
         //    await operations.PostWithHttpMessagesAsync(value, null, cancellationToken).ConfigureAwait(false);
         //}

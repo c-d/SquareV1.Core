@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace MeyerCorp.Square.V1
@@ -20,7 +21,23 @@ namespace MeyerCorp.Square.V1
         {
             const string format = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
 
-            return baseUri.Append("begin_time", beginTime.ToUniversalTime().ToString(format), "end_time", endTime.ToUniversalTime().ToString(format), "order", dateRangeOrder.EnumToString());
+            return baseUri.AppendParameters("begin_time", beginTime.ToUniversalTime().ToString(format), "end_time", endTime.ToUniversalTime().ToString(format), "order", dateRangeOrder.EnumToString());
+        }
+
+        /// <summary>
+        /// Append date range parameters to a URI following Square V1 specification.
+        /// </summary>
+        /// <param name="baseUri">Uri on which to append.</param>
+        /// <param name="beginTime">Begin time.</param>
+        /// <param name="endTime">End time.</param>
+        /// <param name="dateRangeOrder">Ascending or descending. Descending is default.</param>
+        /// <returns>New uri with date-range parameters included with values.</returns>
+        public static Uri AppendOrderOrLimit(this Uri baseUri, short? limit, DateRangeOrderType? dateRangeOrder)
+        {
+            var daterangeordervalue = dateRangeOrder.HasValue ? dateRangeOrder.Value.EnumToString() : null;
+            var limitvalue = limit.HasValue ? limit.ToString() : null;
+
+            return baseUri.AppendParameters("limit", limitvalue, "order", daterangeordervalue);
         }
 
         /// <summary>
@@ -32,7 +49,7 @@ namespace MeyerCorp.Square.V1
         /// A name parameter with a null value will cause the name value pair to be ignored even if there is a value.</remarks>
         /// <returns>New Uri with the name value pairs appended in parametric form: <code>http://mysite?name1=value1&name2=value2</code></returns>
         /// <exception cref="ArgumentException">Number of <paramref name="nameValuePairs"/> are not even.</exception>
-        public static Uri Append(this Uri baseUri, params string[] nameValuePairs)
+        public static Uri AppendParameters(this Uri baseUri, params string[] nameValuePairs)
         {
             if (nameValuePairs == null || nameValuePairs.Length == 0)
                 return baseUri;
@@ -42,7 +59,7 @@ namespace MeyerCorp.Square.V1
 
                 var output = new StringBuilder(baseUri.AbsoluteUri);
 
-                output.Append('?');
+                if (!output.ToString().Contains('?')) output.Append('?');
 
                 for (var i = 0; i < nameValuePairs.Length - 1; i += 2)
                 {
@@ -56,6 +73,30 @@ namespace MeyerCorp.Square.V1
                 }
 
                 return new Uri(output.ToString().TrimEnd('&'));
+            }
+        }
+
+        public static Uri Append(this Uri baseUri, params string[] routeValues)
+        {
+            var cleanedvalues = routeValues
+                .Where(nvp => !String.IsNullOrWhiteSpace(nvp))
+                .Select(nvp => nvp.Trim())
+                .ToArray();
+
+            if (cleanedvalues.Length < 1)
+                return baseUri;
+            else
+            {
+                var urisections = baseUri.AbsoluteUri.Split('?');
+
+                var output = new StringBuilder(urisections[0]);
+
+                for (var index = 0; index < cleanedvalues.Length; index++)
+                    output.AppendFormat("/{0}", cleanedvalues[index]);
+
+                if (urisections.Length < 1) output.AppendFormat("?{0}", urisections[1]);
+
+                return new Uri(output.ToString());
             }
         }
     }
