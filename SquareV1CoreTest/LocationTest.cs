@@ -8,10 +8,6 @@ namespace Meyer.Square.V1.Test
 {
     public class LocationTest : Test
     {
-        // Uncomment following two lines and populate your information from Square.
-        //const string location = "";
-        //const string token = "";
-
         [Fact(DisplayName = "Locations: Get All")]
         public async Task GetTestAsync()
         {
