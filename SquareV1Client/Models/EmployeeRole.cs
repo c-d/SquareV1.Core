@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeyerCorp.Square.V1.Models
 {
@@ -21,8 +22,15 @@ namespace MeyerCorp.Square.V1.Models
         /// <summary>
         /// The permissions that the role has been granted.
         /// </summary>
+        IEnumerable<EmployeeRolePermissionType> Permissions
+        {
+            get { return EmployeeRolePermissionTypeStrings.Select(e => e.ToEmployeeRolePermissionType()); }
+            set { EmployeeRolePermissionTypeStrings = value.Select(v => v.EnumToString()).ToArray(); }
+        }
+
         [JsonProperty(PropertyName = "permissions")]
-        IEnumerable<EmployeeRolePermission> Permissions { get; set; }
+        protected string[] EmployeeRolePermissionTypeStrings { get; set; }
+
 
         /// <summary>
         /// If true, employees with this role have all permissions, regardless of the values indicated in permissions.

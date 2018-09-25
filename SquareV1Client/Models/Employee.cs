@@ -54,8 +54,15 @@ namespace MeyerCorp.Square.V1.Models
         /// <remarks>
         /// Merchants update this field from the Square Dashboard.You cannot modify it with the Connect API.
         /// </remarks>
+        public EmployeeStatusType Status
+        {
+            get { return EmployeeStatusTypeString.ToEmployeeStatusType(); }
+            set { EmployeeStatusTypeString = value.EnumToString(); }
+        }
+
         [JsonProperty(PropertyName = "status")]
-        public EmployeeStatusType Status { get; set; }
+        protected string EmployeeStatusTypeString { get; set; }
+
 
         /// <summary>
         /// An ID the merchant can set to associate the employee with an entity in another system.

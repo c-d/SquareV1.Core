@@ -16,7 +16,7 @@ namespace MeyerCorp.Square.V1
         public string LocationId { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
@@ -27,7 +27,7 @@ namespace MeyerCorp.Square.V1
         }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='rootHandler'>
         /// Optional. The http client handler used to handle http transport.
@@ -41,7 +41,7 @@ namespace MeyerCorp.Square.V1
         }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.
@@ -59,7 +59,7 @@ namespace MeyerCorp.Square.V1
         }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.
@@ -80,7 +80,7 @@ namespace MeyerCorp.Square.V1
         }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='credentials'>
         /// Required. Subscription credentials which uniquely identify client subscription.
@@ -102,7 +102,7 @@ namespace MeyerCorp.Square.V1
         }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='credentials'>
         /// Required. Subscription credentials which uniquely identify client subscription.
@@ -127,7 +127,7 @@ namespace MeyerCorp.Square.V1
         }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.
@@ -157,7 +157,7 @@ namespace MeyerCorp.Square.V1
         }
 
         /// <summary>
-        /// Initializes a new instance of the Client class.
+        /// Initializes a new instance of the Client public class.
         /// </summary>
         /// <param name='baseUri'>
         /// Optional. The base URI of the service.

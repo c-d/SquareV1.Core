@@ -3,7 +3,7 @@
     /// <summary>
     /// The brand of a credit card.
     /// </summary>
-    public public enum TenderCardBrandType
+    public enum TenderCardBrandType
     {
         /// <summary>
         /// Any card brand not covered by the other public enum values.

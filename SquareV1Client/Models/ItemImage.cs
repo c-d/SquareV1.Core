@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MeyerCorp.Square.V1.Models
 {
-    class ItemImage
+    public class ItemImage
     {
     }
 }

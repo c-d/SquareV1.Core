@@ -623,5 +623,277 @@ namespace MeyerCorp.Square.V1
                 default: throw new ArgumentOutOfRangeException();
             }
         }
+
+
+        public static string EnumToString(this BankAccountType type)
+        {
+            switch (type)
+            {
+                case BankAccountType.BusinessChecking: return "BUSINESS_CHECKING";
+                case BankAccountType.Checking: return "CHECKING";
+                case BankAccountType.Investment: return "INVESTMENT";
+                case BankAccountType.Loan: return "LOAN";
+                case BankAccountType.Savings: return "SAVINGS";
+                case BankAccountType.Other: return "OTHER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static BankAccountType ToBankAccountType(this string value)
+        {
+            switch (value)
+            {
+                case "BUSINESS_CHECKING": return BankAccountType.BusinessChecking;
+                case "CHECKING": return BankAccountType.Checking;
+                case "INVESTMENT": return BankAccountType.Investment;
+                case "LOAN": return BankAccountType.Loan;
+                case "SAVINGS": return BankAccountType.Savings;
+                case "OTHER": return BankAccountType.Other;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this CashDrawerEventType type)
+        {
+            switch (type)
+            {
+                case CashDrawerEventType.NoSale: return "NO_SALE";
+                case CashDrawerEventType.CashTenderPayment: return "CASH_TENDER_PAYMENT";
+                case CashDrawerEventType.OtherTenderPayment: return "OTHER_TENDER_PAYMENT";
+                case CashDrawerEventType.CashTenderCanceledPayment: return "CASH_TENDER_CANCELED_PAYMENT";
+                case CashDrawerEventType.OtherTenderCanceledPayment: return "OTHER_TENDER_CANCELED_PAYMENT";
+                case CashDrawerEventType.CashTenderRefund: return "CASH_TENDER_REFUND";
+                case CashDrawerEventType.OtherTenderRefund: return "OTHER_TENDER_REFUND";
+                case CashDrawerEventType.PaidIn: return "PAID_IN";
+                case CashDrawerEventType.PaidOut: return "PAID_OUT";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static CashDrawerEventType ToCashDrawerEventType(this string value)
+        {
+            switch (value)
+            {
+                case "NO_SALE": return CashDrawerEventType.NoSale;
+                case "CASH_TENDER_PAYMENT": return CashDrawerEventType.CashTenderPayment;
+                case "OTHER_TENDER_PAYMENT": return CashDrawerEventType.OtherTenderPayment;
+                case "CASH_TENDER_CANCELED_PAYMENT": return CashDrawerEventType.CashTenderCanceledPayment;
+                case "OTHER_TENDER_CANCELED_PAYMENT": return CashDrawerEventType.OtherTenderCanceledPayment;
+                case "CASH_TENDER_REFUND": return CashDrawerEventType.CashTenderRefund;
+                case "OTHER_TENDER_REFUND": return CashDrawerEventType.OtherTenderRefund;
+                case "PAID_IN": return CashDrawerEventType.PaidIn;
+                case "PAID_OUT": return CashDrawerEventType.PaidOut;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this ItemColorType type)
+        {
+            switch (type)
+            {
+                case ItemColorType.Gray: return "9da2a6";
+                case ItemColorType.LightGreen: return "4ab200";
+                case ItemColorType.DarkGreen: return "0b8000";
+                case ItemColorType.LightBlue: return "13b1bf";
+                case ItemColorType.DarkBlue: return "2952cc";
+                case ItemColorType.Purple: return "a82ee5";
+                case ItemColorType.LightRed: return "e5457a";
+                case ItemColorType.DarkRed: return "b21212";
+                case ItemColorType.Gold: return "e5BF00";
+                case ItemColorType.Brown: return "593c00";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ItemColorType ToItemColorType(this string value)
+        {
+            switch (value)
+            {
+                case "9da2a6": return ItemColorType.Gray;
+                case "4ab200": return ItemColorType.LightGreen;
+                case "0b8000": return ItemColorType.DarkGreen;
+                case "13b1bf": return ItemColorType.LightBlue;
+                case "2952cc": return ItemColorType.DarkBlue;
+                case "a82ee5": return ItemColorType.Purple;
+                case "e5457a": return ItemColorType.LightRed;
+                case "b21212": return ItemColorType.DarkRed;
+                case "e5BF00": return ItemColorType.Gold;
+                case "593c00": return ItemColorType.Brown;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this DiscountType type)
+        {
+            switch (type)
+            {
+                case DiscountType.Fixed: return "FIXED";
+                case DiscountType.VariablePercentage: return "VARIABLE_PERCENTAGE";
+                case DiscountType.VariableAmount: return "VARIABLE_AMOUNT";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static DiscountType ToDiscountType(this string value)
+        {
+            switch (value)
+            {
+                case "FIXED": return DiscountType.Fixed;
+                case "VARIABLE_PERCENTAGE": return DiscountType.VariablePercentage;
+                case "VARIABLE_AMOUNT": return DiscountType.VariableAmount;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this EmployeeStatusType type)
+        {
+            switch (type)
+            {
+                case EmployeeStatusType.Active: return "ACTIVE";
+                case EmployeeStatusType.Inactive: return "INACTIVE";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static EmployeeStatusType ToEmployeeStatusType(this string value)
+        {
+            switch (value)
+            {
+                case "ACTIVE": return EmployeeStatusType.Active;
+                case "INACTIVE": return EmployeeStatusType.Inactive;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this EmployeeRolePermissionType type)
+        {
+            switch (type)
+            {
+                case EmployeeRolePermissionType.RegisterAccessSalesHistory: return "REGISTER_ACCESS_SALES_HISTORY";
+                case EmployeeRolePermissionType.RegisterApplyRestrictedDiscounts: return "REGISTER_APPLY_RESTRICTED_DISCOUNTS";
+                case EmployeeRolePermissionType.RegisterChangeSettings: return "REGISTER_CHANGE_SETTINGS";
+                case EmployeeRolePermissionType.RegisterEditItem: return "REGISTER_EDIT_ITEM";
+                case EmployeeRolePermissionType.RegisterIssueRefunds: return "REGISTER_ISSUE_REFUNDS";
+                case EmployeeRolePermissionType.RegisterOpenCashDrawerOutsideSale: return "REGISTER_OPEN_CASH_DRAWER_OUTSIDE_SALE";
+                case EmployeeRolePermissionType.RegisterViewSummaryReports: return "REGISTER_VIEW_SUMMARY_REPORTS";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static EmployeeRolePermissionType ToEmployeeRolePermissionType(this string value)
+        {
+            switch (value)
+            {
+                case "REGISTER_ACCESS_SALES_HISTORY": return EmployeeRolePermissionType.RegisterAccessSalesHistory;
+                case "REGISTER_APPLY_RESTRICTED_DISCOUNTS": return EmployeeRolePermissionType.RegisterApplyRestrictedDiscounts;
+                case "REGISTER_CHANGE_SETTINGS": return EmployeeRolePermissionType.RegisterChangeSettings;
+                case "REGISTER_EDIT_ITEM": return EmployeeRolePermissionType.RegisterEditItem;
+                case "REGISTER_ISSUE_REFUNDS": return EmployeeRolePermissionType.RegisterIssueRefunds;
+                case "REGISTER_OPEN_CASH_DRAWER_OUTSIDE_SALE": return EmployeeRolePermissionType.RegisterOpenCashDrawerOutsideSale;
+                case "REGISTER_VIEW_SUMMARY_REPORTS": return EmployeeRolePermissionType.RegisterViewSummaryReports;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this FeeType type)
+        {
+            switch (type)
+            {
+                case FeeType.CanadianGoodsAndServicesTax: return "CA_GST";
+                case FeeType.CaliforniaHarmonizedSalesTax: return "CA_HST";
+                case FeeType.PrinceEdwardIslandProvincialSalesTax: return "CA_PEI_PST";
+                case FeeType.ProvincialSaleTax: return "CA_PST";
+                case FeeType.QuebecSalesTax: return "CA_QST";
+                case FeeType.JapaneseConsumptionTax: return "JP_CONSUMPTION_TAX";
+                case FeeType.UsSalesTax: return "US_SALES_TAX";
+                case FeeType.Other: return "OTHER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static FeeType ToFeeType(this string value)
+        {
+            switch (value)
+            {
+                case "CA_GST": return FeeType.CanadianGoodsAndServicesTax;
+                case "CA_HST": return FeeType.CaliforniaHarmonizedSalesTax;
+                case "CA_PEI_PST": return FeeType.PrinceEdwardIslandProvincialSalesTax;
+                case "CA_PST": return FeeType.ProvincialSaleTax;
+                case "CA_QST": return FeeType.QuebecSalesTax;
+                case "JP_CONSUMPTION_TAX": return FeeType.JapaneseConsumptionTax;
+                case "US_SALES_TAX": return FeeType.UsSalesTax;
+                case "OTHER": return FeeType.Other;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this FeeInclusionType type)
+        {
+            switch (type)
+            {
+                case FeeInclusionType.Additive: return "ADDITIVE";
+                case FeeInclusionType.Inclusive: return "INCLUSIVE";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static FeeInclusionType ToFeeInclusionType(this string value)
+        {
+            switch (value)
+            {
+                case "ADDITIVE": return FeeInclusionType.Additive;
+                case "INCLUSIVE": return FeeInclusionType.Inclusive;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this FeeAdjustmentType type)
+        {
+            switch (type)
+            {
+                case FeeAdjustmentType.Tax: return "TAX";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static FeeAdjustmentType ToFeeAdjustmentType(this string value)
+        {
+            switch (value)
+            {
+                case "TAX": return FeeAdjustmentType.Tax;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this FeeCalculationPhaseType type)
+        {
+            switch (type)
+            {
+                case FeeCalculationPhaseType.FeeSubTotalPhase: return "FEE_SUBTOTAL_PHASE";
+                case FeeCalculationPhaseType.FeeTotalPhase: return "FEE_TOTAL_PHASE";
+                case FeeCalculationPhaseType.Other: return "OTHER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static FeeCalculationPhaseType ToFeeCalculationPhaseType(this string value)
+        {
+            switch (value)
+            {
+                case "FEE_SUBTOTAL_PHASE": return FeeCalculationPhaseType.FeeSubTotalPhase;
+                case "FEE_TOTAL_PHASE": return FeeCalculationPhaseType.FeeTotalPhase;
+                case "OTHER": return FeeCalculationPhaseType.Other;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

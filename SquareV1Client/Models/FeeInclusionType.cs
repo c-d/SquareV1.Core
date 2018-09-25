@@ -25,6 +25,6 @@
         /// <summary>
         /// The fee is an inclusive fee.
         /// </summary>
-        Inclusive = 0,
+        Inclusive ,
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Permissions that can be granted to an employee role. If a role has been granted a particular permission, all employees with that role have that permission.
     /// </summary>
-    public public enum EmployeeRolePermission
+    public  enum EmployeeRolePermissionType
     {
         /// <summary>
         /// Allows employees to access the merchant's sales history in Square Point of Sale.
@@ -39,5 +39,6 @@
         /// Allows employees to view sales summary reports in Square Point of Sale.
         /// </summary>
         registerViewSummaryreports,
+        RegisterViewSummaryReports,
     }
 }
