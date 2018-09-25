@@ -1,4 +1,5 @@
 ﻿using MeyerCorp.Square.V1.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +11,18 @@ namespace MeyerCorp.Square.V1
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Employee> Get(this IEmployeeOperations operations)
+        public static IList<Employee> Get(this IEmployeeOperations operations,
+            DateTime? created,
+            DateTime? updated,
+            EmployeeStatusType? status,
+            string externalId)
         {
-            return Task.Factory.StartNew(s => ((IEmployeeOperations)s).GetAsync(), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task
+                .Factory
+                .StartNew(s => ((IEmployeeOperations)s).GetAsync(created, updated, status, externalId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                .Unwrap()
+                .GetAwaiter()
+                .GetResult();
         }
 
         /// <param name='operations'>
@@ -21,9 +31,14 @@ namespace MeyerCorp.Square.V1
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Employee>> GetAsync(this IEmployeeOperations operations, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<IList<Employee>> GetAsync(this IEmployeeOperations operations,
+            DateTime? created,
+            DateTime? updated,
+            EmployeeStatusType? status,
+            string externalId,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var _result = await operations.GetWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.GetWithHttpMessagesAsync(created, updated, status, externalId, null, cancellationToken).ConfigureAwait(false))
             {
                 return _result.Body;
             }

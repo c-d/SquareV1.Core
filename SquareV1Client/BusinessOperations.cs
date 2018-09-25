@@ -18,7 +18,7 @@ namespace MeyerCorp.Square.V1
         /// </param>
         public BusinessOperations(Client client) : base(client) { }
 
-        public async Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
+        public async Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Create HTTP transport objects
             var httpRequest = new HttpRequestMessage
@@ -57,7 +57,7 @@ namespace MeyerCorp.Square.V1
             return await DeserializeResponseAsync<Merchant>(statusCode, httpRequest, httpResponse);
         }
 
-        public async Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(string locationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null)
+        public async Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(string locationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Create HTTP transport objects
             var httpRequest = new HttpRequestMessage

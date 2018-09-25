@@ -8,29 +8,25 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public class EmployeeOperations : Operations, IEmployeeOperations
+    public class RoleOperations : Operations, IRoleOperations
     {
         /// <summary>
-        /// Initializes a new instance of the OrdersOperations class.
+        /// Initializes a new instance of the RolesOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public EmployeeOperations(Client client) : base(client) { }
+        public RoleOperations(Client client) : base(client) { }
 
-        public async Task<HttpOperationResponse<IList<Employee>>> GetWithHttpMessagesAsync(DateTime? created = null,
-            DateTime? updated = null,
-            EmployeeStatusType? status = null,
-            string externalId = null,
+        public async Task<HttpOperationResponse<IList<Role>>> GetWithHttpMessagesAsync(DateRangeOrderType? dateRangeOrder = null,
+            short? take = null,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var httpRequest = new HttpRequestMessage
             {
                 Method = new HttpMethod("GET"),
-                RequestUri = GetUri()
-                    .AppendParameters("external_id", externalId, "status", status.HasValue ? status.Value.EnumToString() : null)
-                    .AppendUpdatedCreatedDateFilter(created, updated),
+                RequestUri = GetUri().AppendOrderOrLimit(take, dateRangeOrder),
             };
 
             SetHeaders(httpRequest, customHeaders);
@@ -60,15 +56,15 @@ namespace MeyerCorp.Square.V1
                 throw ex;
             }
 
-            return await DeserializeResponseAsync<IList<Employee>>(statusCode, httpRequest, httpResponse);
+            return await DeserializeResponseAsync<IList<Role>>(statusCode, httpRequest, httpResponse);
         }
 
-        public async Task<HttpOperationResponse<Employee>> GetWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)
+        public async Task<HttpOperationResponse<Role>> GetWithHttpMessagesAsync(string roleId, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)
         {
             var httpRequest = new HttpRequestMessage
             {
                 Method = new HttpMethod("GET"),
-                RequestUri = GetUri().Append(employeeId),
+                RequestUri = GetUri().Append(roleId),
             };
 
             SetHeaders(httpRequest, customHeaders);
@@ -98,10 +94,10 @@ namespace MeyerCorp.Square.V1
                 throw ex;
             }
 
-            return await DeserializeResponseAsync<Employee>(statusCode, httpRequest, httpResponse);
+            return await DeserializeResponseAsync<Role>(statusCode, httpRequest, httpResponse);
         }
 
-        public async Task<HttpOperationResponse> PostWithHttpMessagesAsync(Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> PostWithHttpMessagesAsync(Role value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
 
@@ -113,7 +109,7 @@ namespace MeyerCorp.Square.V1
             };
 
             SetHeaders(httpRequest, customHeaders);
-            var requestcontent = SerializeRequest<Employee>(value, httpRequest);
+            var requestcontent = SerializeRequest<Role>(value, httpRequest);
             await SetCredentialsAsync(httpRequest, cancellationToken);
 
             // Send Request
@@ -145,14 +141,14 @@ namespace MeyerCorp.Square.V1
             };
         }
 
-        public async Task<HttpOperationResponse> PutWithHttpMessagesAsync(string employeeId, Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> PutWithHttpMessagesAsync(string roleId, Role value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
 
             var httpRequest = new HttpRequestMessage
             {
                 Method = new HttpMethod("PUT"),
-                RequestUri = GetUri().Append(employeeId),
+                RequestUri = GetUri().Append(roleId),
             };
 
             SetHeaders(httpRequest, customHeaders);
@@ -189,14 +185,14 @@ namespace MeyerCorp.Square.V1
             };
         }
 
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string roleId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotSupportedException();
         }
 
         protected override Uri GetUri(params string[] values)
         {
-            return BaseUri.Append("me", "employees");
+            return BaseUri.Append("me", "roles");
         }
     }
 }

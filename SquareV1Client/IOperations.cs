@@ -16,7 +16,7 @@
 //        ///// <param name='cancellationToken'>
 //        ///// The cancellation token.
 //        ///// </param>
-//        //Task<HttpOperationResponse<IList<T>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken), Uri uri = null);
+//        //Task<HttpOperationResponse<IList<T>>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
 //        /// <param name='id'>
 //        /// </param>
