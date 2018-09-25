@@ -194,7 +194,7 @@ namespace MeyerCorp.Square.V1
         {
             PaymentOperations = new PaymentOperations(this);
             LocationOperations = new LocationOperations(this);
-            BusinessOperations = new EmployeeOperations(this);
+            BusinessOperations = new BusinessOperations(this);
 
             SerializationSettings = new JsonSerializerSettings
             {
@@ -250,6 +250,6 @@ namespace MeyerCorp.Square.V1
 
         public ILocationOperations LocationOperations { get; private set; }
 
-        public IEmployeeOperations BusinessOperations { get; private set; }
+        public IBusinessOperations BusinessOperations { get; private set; }
     }
 }

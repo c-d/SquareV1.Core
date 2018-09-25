@@ -39,7 +39,7 @@ namespace MeyerCorp.Square.V1
         /// </summary>
         ILocationOperations LocationOperations { get; }
 
-        IEmployeeOperations BusinessOperations { get; }
+        IBusinessOperations BusinessOperations { get; }
 
     }
 }

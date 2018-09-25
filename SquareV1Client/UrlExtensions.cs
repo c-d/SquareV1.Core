@@ -80,19 +80,17 @@ namespace MeyerCorp.Square.V1
         {
             var cleanedvalues = routeValues
                 .Where(nvp => !String.IsNullOrWhiteSpace(nvp))
-                .Select(nvp => nvp.Trim())
-                .ToArray();
+                .Select(nvp => nvp.Trim());
 
-            if (cleanedvalues.Length < 1)
+            if (cleanedvalues.Count() < 1)
                 return baseUri;
             else
             {
+                var joinedvalues = String.Join("/", cleanedvalues);
                 var urisections = baseUri.AbsoluteUri.Split('?');
+                var output = new StringBuilder(urisections[0].TrimEnd('/'));
 
-                var output = new StringBuilder(urisections[0]);
-
-                for (var index = 0; index < cleanedvalues.Length; index++)
-                    output.AppendFormat("/{0}", cleanedvalues[index]);
+                output.AppendFormat("/{0}", joinedvalues);
 
                 if (urisections.Length < 1) output.AppendFormat("?{0}", urisections[1]);
 
