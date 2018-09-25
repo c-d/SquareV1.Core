@@ -51,75 +51,75 @@ namespace MeyerCorp.Square.V1
             }
         }
 
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='id'>
-        ///// </param>
-        ///// <param name='value'>
-        ///// </param>
-        //public static void Put(this IBusinessOperations operations, int id, Employee value)
-        //{
-        //    Task.Factory.StartNew(s => ((IBusinessOperations)s).PutAsync(id, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        //}
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='value'>
+        /// </param>
+        public static void Post(this IEmployeeOperations operations, Employee value)
+        {
+            Task.Factory.StartNew(s => ((IEmployeeOperations)s).PostAsync(value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='value'>
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task PostAsync(this IEmployeeOperations operations, Employee value, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await operations.PostWithHttpMessagesAsync(value, null, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='id'>
+        /// </param>
+        /// <param name='value'>
+        /// </param>
+        public static void Put(this IEmployeeOperations operations, string employeeId, Employee value)
+        {
+            Task.Factory.StartNew(s => ((IEmployeeOperations)s).PutAsync(employeeId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='id'>
+        /// </param>
+        /// <param name='value'>
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task PutAsync(this IEmployeeOperations operations, string employeeId, Employee value, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await operations.PutWithHttpMessagesAsync(employeeId, value, null, cancellationToken).ConfigureAwait(false);
+        }
 
         ///// <param name='operations'>
         ///// The operations group for this extension method.
         ///// </param>
         ///// <param name='id'>
         ///// </param>
-        ///// <param name='value'>
+        //public static void Delete(this IEmployeeOperations operations, string employeeId)
+        //{
+        //    Task.Factory.StartNew(s => ((IEmployeeOperations)s).DeleteAsync(id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        //}
+
+        ///// <param name='operations'>
+        ///// The operations group for this extension method.
+        ///// </param>
+        ///// <param name='id'>
         ///// </param>
         ///// <param name='cancellationToken'>
         ///// The cancellation token.
         ///// </param>
-        //public static async Task PutAsync(this IBusinessOperations operations, int id, Employee value, CancellationToken cancellationToken = default(CancellationToken))
-        //{
-        //    await operations.PutWithHttpMessagesAsync(id, value, null, cancellationToken).ConfigureAwait(false);
-        //}
-
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='value'>
-        ///// </param>
-        //public static void Post(this IBusinessOperations operations, Employee value)
-        //{
-        //    Task.Factory.StartNew(s => ((IBusinessOperations)s).PostAsync(value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        //}
-
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='value'>
-        ///// </param>
-        ///// <param name='cancellationToken'>
-        ///// The cancellation token.
-        ///// </param>
-        //public static async Task PostAsync(this IBusinessOperations operations, Employee value, CancellationToken cancellationToken = default(CancellationToken))
-        //{
-        //    await operations.PostWithHttpMessagesAsync(value, null, cancellationToken).ConfigureAwait(false);
-        //}
-
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='id'>
-        ///// </param>
-        //public static void Delete(this IBusinessOperations operations, int id)
-        //{
-        //    Task.Factory.StartNew(s => ((IBusinessOperations)s).DeleteAsync(id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        //}
-
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='id'>
-        ///// </param>
-        ///// <param name='cancellationToken'>
-        ///// The cancellation token.
-        ///// </param>
-        //public static async Task DeleteAsync(this IBusinessOperations operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+        //public static async Task DeleteAsync(this IEmployeeOperations operations, string employeeId, CancellationToken cancellationToken = default(CancellationToken))
         //{
         //    await operations.DeleteWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false);
         //}
