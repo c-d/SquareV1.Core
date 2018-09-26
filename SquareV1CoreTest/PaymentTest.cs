@@ -70,7 +70,8 @@ namespace Meyer.Square.V1.Test
                         beginTime: DateTime.Now - TimeSpan.FromDays(1),
                         endTime: DateTime.Now);
 
-                    System.Diagnostics.Debug.WriteLine(payments);
+                    foreach (var payment in payments)
+                        System.Diagnostics.Debug.WriteLine(payment.Id);
                 }
             }
             catch (Exception ex)

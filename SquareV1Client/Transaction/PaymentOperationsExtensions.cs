@@ -41,7 +41,7 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Payment>> GetAsync(this IPaymentOperations operations,
+        public static async Task<PaymentList> GetAsync(this IPaymentOperations operations,
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,
@@ -51,13 +51,12 @@ namespace MeyerCorp.Square.V1.Transaction
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, dateRangeOrder, take, null, cancellationToken).ConfigureAwait(false))
             {
-                return result.Body;
-
-                //return new PagedList<Payment>
-                //{
-                //    List = result.Body,
-                //    Next = result.ToNextUri(),
-                //};
+                return new PaymentList
+                {
+                    _Payments = result.Body,
+                    _NextUri = result.ToNextUri(),
+                    _Operations = operations,
+                };
             }
         }
 

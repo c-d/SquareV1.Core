@@ -12,7 +12,7 @@ namespace MeyerCorp.Square.V1
     public partial interface IOperations
     {
         Task<HttpOperationResponse<T>> GetWithHttpMessagesAsync<T>(Uri uri,
-                    Dictionary<string, List<string>> customHeaders = null,
-                    CancellationToken cancellationToken = default(CancellationToken));
+            Dictionary<string, List<string>> customHeaders = null,
+            CancellationToken cancellationToken = default(CancellationToken));
     }
 }

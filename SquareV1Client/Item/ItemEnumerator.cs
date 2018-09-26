@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace MeyerCorp.Square.V1.Transaction
+namespace MeyerCorp.Square.V1.Item
 {
-    public class PaymentEnumerator : ActiveEnumerator<Payment>
+    public class ItemEnumerator : ActiveEnumerator<Item>
     {
-        public PaymentEnumerator(IList<Payment> payments,
-            IPaymentOperations operations,
+        public ItemEnumerator(IList<Item> payments,
+            IItemOperations operations,
             Uri nextUri,
             CancellationToken cancellationToken = default(CancellationToken))
             : base(payments, operations, nextUri, cancellationToken)
-        {}
+        { }
     }
 }
