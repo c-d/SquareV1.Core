@@ -107,7 +107,10 @@ namespace MeyerCorp.Square.V1
 
                 var output = new StringBuilder(baseUri.AbsoluteUri);
 
-                if (!output.ToString().Contains('?')) output.Append('?');
+                if (!output.ToString().Contains('?'))
+                    output.Append('?');
+                else
+                    output.Append('&');
 
                 for (var i = 0; i < nameValuePairs.Length - 1; i += 2)
                 {

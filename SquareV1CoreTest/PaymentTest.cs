@@ -68,9 +68,10 @@ namespace Meyer.Square.V1.Test
                 {
                     var payments = await client.PaymentOperations.GetAsync(locationId: location,
                         beginTime: DateTime.Now - TimeSpan.FromDays(1),
-                        endTime: DateTime.Now);
+                        endTime: DateTime.Now,
+                        take: 1);
 
-                    foreach (var payment in payments)
+                   foreach (var payment in payments)
                         System.Diagnostics.Debug.WriteLine(payment.Id);
                 }
             }
