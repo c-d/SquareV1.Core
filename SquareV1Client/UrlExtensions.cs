@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Rest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -142,6 +143,24 @@ namespace MeyerCorp.Square.V1
                 if (urisections.Length < 1) output.AppendFormat("?{0}", urisections[1]);
 
                 return new Uri(output.ToString());
+            }
+        }
+
+        public static Uri ToNextUri(this HttpOperationResponse response)
+        {
+            var linkheaders = response.Response.Headers.Where(h => h.Key == "Link");
+            var nextlink = linkheaders.Count() < 1
+                ? null
+                : linkheaders.First().Value.FirstOrDefault();
+
+            if (String.IsNullOrWhiteSpace(nextlink))
+                return null;
+            else
+            {
+                var parts = nextlink.Split(';');
+                var next = parts[0].TrimStart('<').TrimEnd('>');
+
+                return new Uri(next);
             }
         }
     }

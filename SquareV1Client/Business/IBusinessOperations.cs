@@ -8,7 +8,7 @@ namespace MeyerCorp.Square.V1.Business
     /// <summary>
     /// OrdersOperations operations.
     /// </summary>
-    public partial interface IBusinessOperations
+    public partial interface IBusinessOperations : IOperations
     {
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -18,7 +18,7 @@ namespace MeyerCorp.Square.V1.Business
         /// </param>
         Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(string locationId = null, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
-         /// <param name='customHeaders'>
+        /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
@@ -26,7 +26,7 @@ namespace MeyerCorp.Square.V1.Business
         /// </param>
         Task<HttpOperationResponse<Merchant>> GetWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
-       /// <param name='id'>
+        /// <param name='id'>
         /// </param>
         /// <param name='value'>
         /// </param>

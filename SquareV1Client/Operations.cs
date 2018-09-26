@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public abstract class Operations
+    public abstract class Operations : IOperations
     {
         /// <summary>
         /// Gets a reference to the SquareAppriseTransferWebJobClient
@@ -95,7 +95,7 @@ namespace MeyerCorp.Square.V1
             return requestContent;
         }
 
-        protected async Task<HttpOperationResponse<T>> GetWithHttpMessagesAsync<T>(Uri uri, 
+        public async Task<HttpOperationResponse<T>> GetWithHttpMessagesAsync<T>(Uri uri, 
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {

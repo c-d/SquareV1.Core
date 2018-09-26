@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1.Transaction
 {
-    public interface IPaymentOperations
+    public interface IPaymentOperations : IOperations
     {
         /// <param name='customHeaders'>
         /// The headers that will be added to request.

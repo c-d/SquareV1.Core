@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,15 +11,28 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Payment> Get(this IPaymentOperations operations, string locationId, DateTime? beginTime, DateTime? endTime, RangeOrderType? dateRangeOrder, short? take)
+        public static PaymentList Get(this IPaymentOperations operations, string locationId, DateTime? beginTime=null, DateTime? endTime = null, RangeOrderType? dateRangeOrder = null, short? take = null)
         {
+            //return new PaymentList
+            //{
+            //    _Payments = Task
+            //    .Factory
+            //    .StartNew(s => ((IPaymentOperations)s).GetAsync(locationId, beginTime, endTime, dateRangeOrder, take), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+            //    .Unwrap()
+            //    .GetAwaiter()
+            //    .GetResult(),
+            //};
 
-            return Task
-                .Factory
-                .StartNew(s => ((IPaymentOperations)s).GetAsync(locationId, beginTime, endTime, dateRangeOrder, take), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
-                .Unwrap()
-                .GetAwaiter()
-                .GetResult();
+            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, dateRangeOrder, take, null));
+
+            task.Wait();
+
+            return new PaymentList
+            {
+                _Payments = task.Result.Body,
+                _NextUri = task.Result.ToNextUri(),
+                _Operations = operations,
+            };
         }
 
         /// <param name='operations'>
@@ -38,6 +52,12 @@ namespace MeyerCorp.Square.V1.Transaction
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, dateRangeOrder, take, null, cancellationToken).ConfigureAwait(false))
             {
                 return result.Body;
+
+                //return new PagedList<Payment>
+                //{
+                //    List = result.Body,
+                //    Next = result.ToNextUri(),
+                //};
             }
         }
 

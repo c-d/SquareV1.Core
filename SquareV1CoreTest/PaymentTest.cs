@@ -13,7 +13,7 @@ namespace Meyer.Square.V1.Test
         //const string location = "";
         //const string token = "";
 
-        [Fact(DisplayName = "Payments: Get All")]
+        [Fact(DisplayName = "Payments: Get All (async)")]
         public async Task GetTestAsync()
         {
             try
@@ -24,7 +24,30 @@ namespace Meyer.Square.V1.Test
                 {
                     var payments = await client.PaymentOperations.GetAsync(locationId: location);
 
-                    System.Diagnostics.Debug.WriteLine(payments);
+                    foreach(var payment in payments)
+                        System.Diagnostics.Debug.WriteLine(payment.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+        [Fact(DisplayName = "Payments: Get All")]
+        public  void GetTest()
+        {
+            try
+            {
+                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
+
+                using (var client = new Client(new Uri(baseurl), credentials))
+                {
+                    var payments = client.PaymentOperations.Get(locationId: location/*, take: 2*/);
+
+                    foreach(var payment in payments)
+                        System.Diagnostics.Debug.WriteLine(payment.Id);
                 }
             }
             catch (Exception ex)

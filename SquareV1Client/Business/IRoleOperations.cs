@@ -9,7 +9,7 @@ namespace MeyerCorp.Square.V1.Business
     /// <summary>
     /// Role Operations operations.
     /// </summary>
-    public partial interface IRoleOperations
+    public partial interface IRoleOperations : IOperations
     {
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
