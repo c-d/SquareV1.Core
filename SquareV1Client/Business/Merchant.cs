@@ -30,7 +30,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <summary>
         /// Indicates whether the merchant account corresponds to a single-location account(LOCATION) or a business account(BUSINESS). This value is almost always  LOCATION.See Structure of a Square business for more information.
         /// </summary>
-        public MerchantAccountType EntryMethod
+        public MerchantAccountType AccountType
         {
             get { return MerchantAccountTypeString.ToMerchantAccountType(); }
             set { MerchantAccountTypeString = value.EnumToString(); }

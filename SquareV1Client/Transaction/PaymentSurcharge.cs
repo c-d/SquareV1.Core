@@ -1,4 +1,4 @@
-﻿using MeyerCorp.Square.V1.Models;
+﻿using MeyerCorp.Square.V1.Subscription;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 

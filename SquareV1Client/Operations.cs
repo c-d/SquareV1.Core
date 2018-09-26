@@ -94,5 +94,44 @@ namespace MeyerCorp.Square.V1
 
             return requestContent;
         }
+
+        protected async Task<HttpOperationResponse<T>> GetWithHttpMessagesAsync<T>(Uri uri, 
+            Dictionary<string, List<string>> customHeaders = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var httpRequest = new HttpRequestMessage
+            {
+                Method = new HttpMethod("GET"),
+                RequestUri = uri,
+            };
+
+            SetHeaders(httpRequest, customHeaders);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var statusCode = httpResponse.StatusCode;
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ((int)statusCode != 200)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
+
+                string requestContent = null;
+
+                var responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
+                httpRequest.Dispose();
+
+                if (httpResponse != null) httpResponse.Dispose();
+
+                throw ex;
+            }
+
+            return await DeserializeResponseAsync<T>(statusCode, httpRequest, httpResponse);
+        }
     }
 }

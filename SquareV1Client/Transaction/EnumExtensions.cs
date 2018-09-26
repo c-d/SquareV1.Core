@@ -1,4 +1,4 @@
-﻿using MeyerCorp.Square.V1.Models;
+﻿using MeyerCorp.Square.V1.Item;
 using System;
 
 namespace MeyerCorp.Square.V1.Transaction

@@ -1,5 +1,4 @@
-﻿using MeyerCorp.Square.V1.Models;
-using Microsoft.Rest;
+﻿using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
 using System.Threading;

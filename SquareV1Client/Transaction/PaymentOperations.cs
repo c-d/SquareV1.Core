@@ -23,7 +23,7 @@ namespace MeyerCorp.Square.V1.Transaction
         /// 
         /// </summary>
         /// <param name="values"></param>
-        /// <returns>https://connect.squareup.com/v1/{{location_id}}/business</returns>
+        /// <returns>https://connect.squareup.com/v1/{{location_id}}/payments</returns>
         protected override Uri GetUri(params string[] values)
         {
             switch (values.Length)
@@ -33,7 +33,7 @@ namespace MeyerCorp.Square.V1.Transaction
             }
         }
 
-        public async Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(string locationId,
+        public Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(string locationId,
             DateTime? beginTime,
             DateTime? endTime,
             DateRangeOrderType? dateRangeOrder,
@@ -45,10 +45,10 @@ namespace MeyerCorp.Square.V1.Transaction
                 .AppendDateRange(beginTime, endTime)
                 .AppendOrderOrLimit(take, dateRangeOrder);
 
-            return await GetWithHttpMessagesAsync(uri, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync(uri, customHeaders, cancellationToken);
         }
 
-        async Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(Uri uri = null,
+        Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(Uri uri = null,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -59,34 +59,7 @@ namespace MeyerCorp.Square.V1.Transaction
                 RequestUri = uri ?? BaseUri,
             };
 
-            SetHeaders(httpRequest, customHeaders);
-            await SetCredentialsAsync(httpRequest, cancellationToken);
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var statusCode = httpResponse.StatusCode;
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            string responseContent = null;
-            string requestContent = null;
-
-            if ((int)statusCode != 200)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-
-                responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
-                httpRequest.Dispose();
-
-                if (httpResponse != null) httpResponse.Dispose();
-
-                throw ex;
-            }
-
-            return await DeserializeResponseAsync<IList<Payment>>(statusCode, httpRequest, httpResponse);
+            return GetWithHttpMessagesAsync<IList<Payment>>(uri ?? BaseUri, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse<Payment>> GetWithHttpMessagesAsync(string locationId,
