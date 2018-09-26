@@ -68,7 +68,7 @@ namespace Meyer.Square.V1.Test
                 {
                     var payments = await client.PaymentOperations.GetAsync(locationId: location,
                          take: 50,
-                         dateRangeOrder: DateRangeOrderType.Descending);
+                         dateRangeOrder: RangeOrderType.Descending);
 
                     Assert.Equal(50, payments.Count);
                 }

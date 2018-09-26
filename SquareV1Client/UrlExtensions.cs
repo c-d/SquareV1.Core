@@ -68,7 +68,7 @@ namespace MeyerCorp.Square.V1
         /// <param name="endTime">End time.</param>
         /// <param name="dateRangeOrder">Ascending or descending. Descending is default.</param>
         /// <returns>New uri with date-range parameters included with values.</returns>
-        public static Uri AppendOrderOrLimit(this Uri baseUri, short? limit, DateRangeOrderType? dateRangeOrder)
+        public static Uri AppendOrderOrLimit(this Uri baseUri, short? limit, RangeOrderType? dateRangeOrder)
         {
             var parameters = new List<string>();
 

@@ -21,7 +21,7 @@ namespace MeyerCorp.Square.V1.Business
         /// The cancellation token.
         /// </param>
         public static async Task<IList<Role>> GetAsync(this IRoleOperations operations,
-            DateRangeOrderType? dateRangeOrder = null,
+            RangeOrderType? dateRangeOrder = null,
             short? take = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {

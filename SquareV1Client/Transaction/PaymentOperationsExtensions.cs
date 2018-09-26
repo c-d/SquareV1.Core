@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Payment> Get(this IPaymentOperations operations, string locationId, DateTime? beginTime, DateTime? endTime, DateRangeOrderType? dateRangeOrder, short? take)
+        public static IList<Payment> Get(this IPaymentOperations operations, string locationId, DateTime? beginTime, DateTime? endTime, RangeOrderType? dateRangeOrder, short? take)
         {
 
             return Task
@@ -31,7 +31,7 @@ namespace MeyerCorp.Square.V1.Transaction
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,
-            DateRangeOrderType? dateRangeOrder = null,
+            RangeOrderType? dateRangeOrder = null,
             short? take = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {

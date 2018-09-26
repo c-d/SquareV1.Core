@@ -17,7 +17,7 @@ namespace MeyerCorp.Square.V1.Business
         /// </param>
         public RoleOperations(Client client) : base(client) { }
 
-        public async Task<HttpOperationResponse<IList<Role>>> GetWithHttpMessagesAsync(DateRangeOrderType? dateRangeOrder = null,
+        public async Task<HttpOperationResponse<IList<Role>>> GetWithHttpMessagesAsync(RangeOrderType? dateRangeOrder = null,
             short? take = null,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))

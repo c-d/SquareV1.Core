@@ -17,7 +17,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Role>>> GetWithHttpMessagesAsync(DateRangeOrderType? dateRangeOrder = null,
+        Task<HttpOperationResponse<IList<Role>>> GetWithHttpMessagesAsync(RangeOrderType? dateRangeOrder = null,
             short? take = null, 
             Dictionary<string, List<string>> customHeaders = null, 
             CancellationToken cancellationToken = default(CancellationToken));

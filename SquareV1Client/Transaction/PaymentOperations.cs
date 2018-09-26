@@ -36,7 +36,7 @@ namespace MeyerCorp.Square.V1.Transaction
         public Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(string locationId,
             DateTime? beginTime,
             DateTime? endTime,
-            DateRangeOrderType? dateRangeOrder,
+            RangeOrderType? dateRangeOrder,
             short? take,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
