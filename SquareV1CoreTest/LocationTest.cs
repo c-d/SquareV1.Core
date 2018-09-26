@@ -1,4 +1,5 @@
 using MeyerCorp.Square.V1;
+using MeyerCorp.Square.V1.Business;
 using Microsoft.Rest;
 using System;
 using System.Threading.Tasks;

@@ -1,4 +1,5 @@
-﻿using MeyerCorp.Square.V1.Models;
+﻿using MeyerCorp.Square.V1.Business;
+using MeyerCorp.Square.V1.Transaction;
 using Microsoft.Rest;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace MeyerCorp.Square.V1
         /// </param>
         protected Client(params DelegatingHandler[] handlers) : base(handlers)
         {
-            this.Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace MeyerCorp.Square.V1
         /// </param>
         protected Client(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
         {
-            this.Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -49,11 +50,7 @@ namespace MeyerCorp.Square.V1
         /// </param>
         protected Client(Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
         {
-            if (baseUri == null)
-            {
-                throw new ArgumentNullException("baseUri");
-            }
-            this.BaseUri = baseUri;
+            BaseUri = baseUri ?? throw new ArgumentNullException("baseUri");
         }
 
         /// <summary>
@@ -70,11 +67,7 @@ namespace MeyerCorp.Square.V1
         /// </param>
         protected Client(Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
-            if (baseUri == null)
-            {
-                throw new ArgumentNullException("baseUri");
-            }
-            this.BaseUri = baseUri;
+            BaseUri = baseUri ?? throw new ArgumentNullException("baseUri");
         }
 
         /// <summary>
@@ -88,14 +81,10 @@ namespace MeyerCorp.Square.V1
         /// </param>
         public Client(ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
         {
-            if (credentials == null)
+            Credentials = credentials ?? throw new ArgumentNullException("credentials");
+            if (Credentials != null)
             {
-                throw new ArgumentNullException("credentials");
-            }
-            this.Credentials = credentials;
-            if (this.Credentials != null)
-            {
-                this.Credentials.InitializeServiceClient(this);
+                Credentials.InitializeServiceClient(this);
             }
         }
 
@@ -113,14 +102,10 @@ namespace MeyerCorp.Square.V1
         /// </param>
         public Client(ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
-            if (credentials == null)
+            Credentials = credentials ?? throw new ArgumentNullException("credentials");
+            if (Credentials != null)
             {
-                throw new ArgumentNullException("credentials");
-            }
-            this.Credentials = credentials;
-            if (this.Credentials != null)
-            {
-                this.Credentials.InitializeServiceClient(this);
+                Credentials.InitializeServiceClient(this);
             }
         }
 
@@ -138,19 +123,11 @@ namespace MeyerCorp.Square.V1
         /// </param>
         public Client(Uri baseUri, ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
         {
-            if (baseUri == null)
+            BaseUri = baseUri ?? throw new ArgumentNullException("baseUri");
+            Credentials = credentials ?? throw new ArgumentNullException("credentials");
+            if (Credentials != null)
             {
-                throw new ArgumentNullException("baseUri");
-            }
-            if (credentials == null)
-            {
-                throw new ArgumentNullException("credentials");
-            }
-            this.BaseUri = baseUri;
-            this.Credentials = credentials;
-            if (this.Credentials != null)
-            {
-                this.Credentials.InitializeServiceClient(this);
+                Credentials.InitializeServiceClient(this);
             }
         }
 
@@ -171,19 +148,11 @@ namespace MeyerCorp.Square.V1
         /// </param>
         public Client(Uri baseUri, ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
-            if (baseUri == null)
+            BaseUri = baseUri ?? throw new ArgumentNullException("baseUri");
+            Credentials = credentials ?? throw new ArgumentNullException("credentials");
+            if (Credentials != null)
             {
-                throw new ArgumentNullException("baseUri");
-            }
-            if (credentials == null)
-            {
-                throw new ArgumentNullException("credentials");
-            }
-            this.BaseUri = baseUri;
-            this.Credentials = credentials;
-            if (this.Credentials != null)
-            {
-                this.Credentials.InitializeServiceClient(this);
+                Credentials.InitializeServiceClient(this);
             }
         }
 
@@ -195,6 +164,7 @@ namespace MeyerCorp.Square.V1
             PaymentOperations = new PaymentOperations(this);
             LocationOperations = new LocationOperations(this);
             BusinessOperations = new BusinessOperations(this);
+            RoleOperations = new RoleOperations(this);
 
             SerializationSettings = new JsonSerializerSettings
             {
@@ -251,5 +221,7 @@ namespace MeyerCorp.Square.V1
         public ILocationOperations LocationOperations { get; private set; }
 
         public IBusinessOperations BusinessOperations { get; private set; }
+
+        public IRoleOperations RoleOperations { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MeyerCorp.Square.V1.Models;
+﻿using MeyerCorp.Square.V1.Business;
+using MeyerCorp.Square.V1.Transaction;
 using Microsoft.Rest;
 using Newtonsoft.Json;
 using System;
@@ -41,5 +42,6 @@ namespace MeyerCorp.Square.V1
 
         IBusinessOperations BusinessOperations { get; }
 
+        IRoleOperations RoleOperations { get; }
     }
 }

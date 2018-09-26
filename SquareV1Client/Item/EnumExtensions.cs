@@ -1,7 +1,7 @@
 ﻿using MeyerCorp.Square.V1.Models;
 using System;
 
-namespace MeyerCorp.Square.V1
+namespace MeyerCorp.Square.V1.Item
 {
     /// <summary>
     /// Helper methods which make conversion of enum to and from string values required for HTTP/JSON more convenient.
@@ -465,6 +465,43 @@ namespace MeyerCorp.Square.V1
         }
 
 
+        public static string EnumToString(this ItemColorType type)
+        {
+            switch (type)
+            {
+                case ItemColorType.Gray: return "9da2a6";
+                case ItemColorType.LightGreen: return "4ab200";
+                case ItemColorType.DarkGreen: return "0b8000";
+                case ItemColorType.LightBlue: return "13b1bf";
+                case ItemColorType.DarkBlue: return "2952cc";
+                case ItemColorType.Purple: return "a82ee5";
+                case ItemColorType.LightRed: return "e5457a";
+                case ItemColorType.DarkRed: return "b21212";
+                case ItemColorType.Gold: return "e5BF00";
+                case ItemColorType.Brown: return "593c00";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ItemColorType ToItemColorType(this string value)
+        {
+            switch (value)
+            {
+                case "9da2a6": return ItemColorType.Gray;
+                case "4ab200": return ItemColorType.LightGreen;
+                case "0b8000": return ItemColorType.DarkGreen;
+                case "13b1bf": return ItemColorType.LightBlue;
+                case "2952cc": return ItemColorType.DarkBlue;
+                case "a82ee5": return ItemColorType.Purple;
+                case "e5457a": return ItemColorType.LightRed;
+                case "b21212": return ItemColorType.DarkRed;
+                case "e5BF00": return ItemColorType.Gold;
+                case "593c00": return ItemColorType.Brown;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
         public static string EnumToString(this DiscountType type)
         {
             switch (type)
@@ -483,6 +520,50 @@ namespace MeyerCorp.Square.V1
                 case "FIXED": return DiscountType.Fixed;
                 case "VARIABLE_PERCENTAGE": return DiscountType.VariablePercentage;
                 case "VARIABLE_AMOUNT": return DiscountType.VariableAmount;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this ItemType type)
+        {
+            switch (type)
+            {
+                case ItemType.Normal: return "NORMAL";
+                case ItemType.GiftCard: return "GIFT_CARD";
+                case ItemType.Other: return "OTHER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ItemType ToItemType(this string value)
+        {
+            switch (value)
+            {
+                case "NORMAL": return ItemType.Normal;
+                case "GIFT_CARD": return ItemType.GiftCard;
+                case "OTHER": return ItemType.Other;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this ItemVariationPricingType type)
+        {
+            switch (type)
+            {
+                case ItemVariationPricingType.FixedPricing: return "FIXED_PRICING";
+                case ItemVariationPricingType.VariablePricing: return "VARIABLE_PRICING";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static ItemVariationPricingType ToItemVariationPricingType(this string value)
+        {
+            switch (value)
+            {
+                case "FIXED_PRICING": return ItemVariationPricingType.FixedPricing;
+                case "VARIABLE_PRICING": return ItemVariationPricingType.VariablePricing;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -509,97 +590,43 @@ namespace MeyerCorp.Square.V1
         }
 
 
-        public static string EnumToString(this FeeType type)
+        public static string EnumToString(this ItemVisibilityType type)
         {
             switch (type)
             {
-                case FeeType.CanadianGoodsAndServicesTax: return "CA_GST";
-                case FeeType.CaliforniaHarmonizedSalesTax: return "CA_HST";
-                case FeeType.PrinceEdwardIslandProvincialSalesTax: return "CA_PEI_PST";
-                case FeeType.ProvincialSaleTax: return "CA_PST";
-                case FeeType.QuebecSalesTax: return "CA_QST";
-                case FeeType.JapaneseConsumptionTax: return "JP_CONSUMPTION_TAX";
-                case FeeType.UsSalesTax: return "US_SALES_TAX";
-                case FeeType.Other: return "OTHER";
+                case ItemVisibilityType.Public: return "PUBLIC";
+                case ItemVisibilityType.Private: return "PRIVATE";
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        public static FeeType ToFeeType(this string value)
+        public static ItemVisibilityType ToItemVisibilityType(this string value)
         {
             switch (value)
             {
-                case "CA_GST": return FeeType.CanadianGoodsAndServicesTax;
-                case "CA_HST": return FeeType.CaliforniaHarmonizedSalesTax;
-                case "CA_PEI_PST": return FeeType.PrinceEdwardIslandProvincialSalesTax;
-                case "CA_PST": return FeeType.ProvincialSaleTax;
-                case "CA_QST": return FeeType.QuebecSalesTax;
-                case "JP_CONSUMPTION_TAX": return FeeType.JapaneseConsumptionTax;
-                case "US_SALES_TAX": return FeeType.UsSalesTax;
-                case "OTHER": return FeeType.Other;
+                case "PUBLIC": return ItemVisibilityType.Public;
+                case "PRIVATE": return ItemVisibilityType.Private;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
 
-        public static string EnumToString(this FeeInclusionType type)
+        public static string EnumToString(this ModifierListSelectionType type)
         {
             switch (type)
             {
-                case FeeInclusionType.Additive: return "ADDITIVE";
-                case FeeInclusionType.Inclusive: return "INCLUSIVE";
+                case ModifierListSelectionType.Single: return "SINGLE";
+                case ModifierListSelectionType.Multiple: return "MULTIPLE";
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        public static FeeInclusionType ToFeeInclusionType(this string value)
+        public static ModifierListSelectionType ToModifierListSelectionType(this string value)
         {
             switch (value)
             {
-                case "ADDITIVE": return FeeInclusionType.Additive;
-                case "INCLUSIVE": return FeeInclusionType.Inclusive;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-
-        public static string EnumToString(this FeeAdjustmentType type)
-        {
-            switch (type)
-            {
-                case FeeAdjustmentType.Tax: return "TAX";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public static FeeAdjustmentType ToFeeAdjustmentType(this string value)
-        {
-            switch (value)
-            {
-                case "TAX": return FeeAdjustmentType.Tax;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-
-        public static string EnumToString(this FeeCalculationPhaseType type)
-        {
-            switch (type)
-            {
-                case FeeCalculationPhaseType.FeeSubTotalPhase: return "FEE_SUBTOTAL_PHASE";
-                case FeeCalculationPhaseType.FeeTotalPhase: return "FEE_TOTAL_PHASE";
-                case FeeCalculationPhaseType.Other: return "OTHER";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public static FeeCalculationPhaseType ToFeeCalculationPhaseType(this string value)
-        {
-            switch (value)
-            {
-                case "FEE_SUBTOTAL_PHASE": return FeeCalculationPhaseType.FeeSubTotalPhase;
-                case "FEE_TOTAL_PHASE": return FeeCalculationPhaseType.FeeTotalPhase;
-                case "OTHER": return FeeCalculationPhaseType.Other;
+                case "SINGLE": return ModifierListSelectionType.Single;
+                case "MULTIPLE": return ModifierListSelectionType.Multiple;
                 default: throw new ArgumentOutOfRangeException();
             }
         }

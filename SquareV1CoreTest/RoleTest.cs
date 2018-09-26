@@ -1,19 +1,20 @@
 using MeyerCorp.Square.V1;
-using MeyerCorp.Square.V1.Transaction;
+using MeyerCorp.Square.V1.Business;
 using Microsoft.Rest;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Meyer.Square.V1.Test
 {
-    public partial class PaymentTest : Test
+    public class RoleTest : Test
     {
         // Uncomment following two lines and populate your information from Square.
         //const string location = "";
         //const string token = "";
 
-        [Fact(DisplayName = "Payments: Get All")]
+        [Fact(DisplayName = "Role: Get All")]
         public async Task GetTestAsync()
         {
             try
@@ -22,9 +23,9 @@ namespace Meyer.Square.V1.Test
 
                 using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    var payments = await client.PaymentOperations.GetAsync(locationId: location);
+                    var roles = await client.RoleOperations.GetAsync();
 
-                    System.Diagnostics.Debug.WriteLine(payments);
+                    foreach (var role in roles) System.Diagnostics.Debug.WriteLine(role.Id);
                 }
             }
             catch (Exception ex)
@@ -34,8 +35,8 @@ namespace Meyer.Square.V1.Test
             }
         }
 
-        [Fact(DisplayName = "Payments: Get All, Date Limited")]
-        public async Task GetTestAsyncDateLimited()
+        [Fact(DisplayName = "Role: Get Filtered")]
+        public async Task GetFilteredTestAsync()
         {
             try
             {
@@ -43,11 +44,11 @@ namespace Meyer.Square.V1.Test
 
                 using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    var payments = await client.PaymentOperations.GetAsync(locationId: location,
-                        beginTime: DateTime.Now - TimeSpan.FromDays(1),
-                        endTime: DateTime.Now);
+                    var roles = await client.RoleOperations.GetAsync(DateRangeOrderType.Ascending,2);
 
-                    System.Diagnostics.Debug.WriteLine(payments);
+                    Assert.Equal(2, roles.Count());
+
+                    foreach (var role in roles) System.Diagnostics.Debug.WriteLine(role.Id);
                 }
             }
             catch (Exception ex)
@@ -57,8 +58,8 @@ namespace Meyer.Square.V1.Test
             }
         }
 
-        [Fact(DisplayName = "Payments: Get All, Take Limited")]
-        public async Task GetTestAsyncTakeLimited()
+        [Fact(DisplayName = "Role: Get by Location ID")]
+        public async Task GetSpecificTestAsync()
         {
             try
             {
@@ -66,11 +67,11 @@ namespace Meyer.Square.V1.Test
 
                 using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    var payments = await client.PaymentOperations.GetAsync(locationId: location,
-                         take: 50,
-                         dateRangeOrder: DateRangeOrderType.Descending);
+                    var role = await client.RoleOperations.GetAsync("FCv2Flm5C78ax4R8KOMx");
 
-                    Assert.Equal(50, payments.Count);
+                    Assert.Equal("FCv2Flm5C78ax4R8KOMx", role.Id);
+
+                    System.Diagnostics.Debug.WriteLine(role.Id);
                 }
             }
             catch (Exception ex)
