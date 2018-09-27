@@ -165,6 +165,7 @@ namespace MeyerCorp.Square.V1
             LocationOperations = new LocationOperations(this);
             BusinessOperations = new BusinessOperations(this);
             RoleOperations = new RoleOperations(this);
+            EmployeeOperations = new EmployeeOperations(this);
 
             SerializationSettings = new JsonSerializerSettings
             {
@@ -192,14 +193,7 @@ namespace MeyerCorp.Square.V1
                     new Iso8601TimeSpanConverter()
                 }
             };
-
-            CustomInitialize();
         }
-
-        /// <summary>
-        /// An optional partial-method to perform custom initialization.
-        ///</summary> 
-        partial void CustomInitialize();
 
         /// <summary>
         /// Subscription credentials which uniquely identify client subscription.
@@ -223,5 +217,7 @@ namespace MeyerCorp.Square.V1
         public IBusinessOperations BusinessOperations { get; private set; }
 
         public IRoleOperations RoleOperations { get; private set; }
+
+        public IEmployeeOperations EmployeeOperations { get; private set; }
     }
 }

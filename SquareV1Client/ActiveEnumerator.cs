@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
+    /// <summary>
+    /// An enumerator that allow continous loading of the next data set from a GET request for the Square V1 API.
+    /// </summary>
+    /// <typeparam name="T">Item type of the collection returned by the GET request.</typeparam>
+    /// <remarks>
+    /// Of the Is Continous flag is set, this enumerator can no longer move next, it checks its next URI property and if available, it calls that in a GET request.
+    /// The resulting data is now used as the new internal collection, the next URI is replaced with the new next URI and the current is set to the first item in the new collection.
+    /// This repeats until there is no next URI returned. This allows the ActiveList object to seamlessly enumerate over all possible data regardless of how many GET requests are required.
+    /// </remarks>
     public class ActiveEnumerator<T> : IEnumerator<T>
     {
         IEnumerator<T> _Enumerator;
