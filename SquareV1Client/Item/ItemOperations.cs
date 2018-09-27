@@ -25,32 +25,26 @@ namespace MeyerCorp.Square.V1.Item
         {
             switch (values.Length)
             {
-                case 1: return BaseUri.Append(values[0], "payments");
+                case 1: return BaseUri.Append(values[0], "items");
                 default: throw new ArgumentException();
             }
         }
 
         public Task<HttpOperationResponse<IList<Item>>> GetWithHttpMessagesAsync(string locationId,
-            DateTime? beginTime,
-            DateTime? endTime,
-            ListOrderType? listOrder,
-            short? limit,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri(locationId)
-                .AppendDateRange("begin_time", beginTime, "end_time",endTime)
-                .AppendOrderOrLimit(limit, listOrder);
+            var uri = GetUri(locationId);
 
             return GetWithHttpMessagesAsync<IList<Item>>(uri, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse<Item>> GetWithHttpMessagesAsync(string locationId,
-            string paymentId,
+            string id,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetWithHttpMessagesAsync(locationId: locationId, paymentId: paymentId, customHeaders: customHeaders, cancellationToken: cancellationToken);
+            return GetWithHttpMessagesAsync(locationId: locationId, id: id, customHeaders: customHeaders, cancellationToken: cancellationToken);
         }
 
         public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Item value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -63,7 +57,7 @@ namespace MeyerCorp.Square.V1.Item
             throw new NotSupportedException();
         }
 
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotSupportedException();
         }
