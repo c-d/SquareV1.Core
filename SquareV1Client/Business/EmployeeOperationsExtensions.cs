@@ -51,10 +51,10 @@ namespace MeyerCorp.Square.V1.Business
             DateTime? updated,
             EmployeeStatusType? status,
             string externalId,
-              ListOrderType? listOrder = null,
+            ListOrderType? listOrder = null,
             short? limit = null,
-                 bool isContinous = false,
-          CancellationToken cancellationToken = default(CancellationToken))
+            bool isContinous = false,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var _result = await operations.GetWithHttpMessagesAsync(created, updated, status, externalId, listOrder, limit, isContinous, null, cancellationToken).ConfigureAwait(false))
             {

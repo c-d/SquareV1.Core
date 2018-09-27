@@ -95,7 +95,7 @@ namespace MeyerCorp.Square.V1
             return requestContent;
         }
 
-        public async Task<HttpOperationResponse<T>> GetWithHttpMessagesAsync<T>(Uri uri, 
+        public async Task<HttpOperationResponse<T>> GetWithHttpMessagesAsync<T>(Uri uri,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -132,6 +132,43 @@ namespace MeyerCorp.Square.V1
             }
 
             return await DeserializeResponseAsync<T>(statusCode, httpRequest, httpResponse);
+        }
+
+        protected async Task<HttpOperationResponse> DeleteWithHttpMessagesAsync<T>(Uri uri, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)
+        {
+            var httpRequest = new HttpRequestMessage
+            {
+                Method = new HttpMethod("DELETE"),
+                RequestUri = uri,
+            };
+
+            SetHeaders(httpRequest, customHeaders);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var _statusCode = httpResponse.StatusCode;
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ((int)_statusCode != 204)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
+                var responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, responseContent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
+                httpRequest.Dispose();
+                if (httpResponse != null) httpResponse.Dispose();
+
+                throw ex;
+            }
+
+            return new HttpOperationResponse
+            {
+                Request = httpRequest,
+                Response = httpResponse
+            };
         }
     }
 }

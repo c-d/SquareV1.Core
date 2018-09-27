@@ -17,9 +17,10 @@ namespace MeyerCorp.Square.V1
         /// <param name="baseUri">Uri on which to append.</param>
         /// <param name="beginTime">Begin time.</param>
         /// <param name="endTime">End time.</param>
-        /// <param name="listOrder">Ascending or descending. Descending is default.</param>
+        /// <param name="beginLabel">parameter name.</param>
+        /// <param name="endLabel">parameter name.</param>
         /// <returns>New uri with date-range parameters included with values.</returns>
-        public static Uri AppendDateRange(this Uri baseUri, DateTime? beginTime, DateTime? endTime)
+        public static Uri AppendDateRange(this Uri baseUri, string beginLabel, DateTime? beginTime, string endLabel, DateTime? endTime)
         {
             const string format = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
 
@@ -27,35 +28,14 @@ namespace MeyerCorp.Square.V1
 
             if (beginTime.HasValue)
             {
-                parameters.Add("begin_time");
+                parameters.Add(beginLabel);
                 parameters.Add(beginTime.Value.ToUniversalTime().ToString(format));
             }
 
             if (endTime.HasValue)
             {
-                parameters.Add("end_time");
+                parameters.Add(endLabel);
                 parameters.Add(endTime.Value.ToUniversalTime().ToString(format));
-            }
-
-            return baseUri.AppendParameters(parameters.ToArray());
-        }
-
-        public static Uri AppendUpdatedCreatedDateFilter(this Uri baseUri, DateTime? created, DateTime? updated)
-        {
-            const string format = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
-
-            var parameters = new List<string>();
-
-            if (created.HasValue)
-            {
-                parameters.Add("created_at");
-                parameters.Add(created.Value.ToUniversalTime().ToString(format));
-            }
-
-            if (updated.HasValue)
-            {
-                parameters.Add("updated_at");
-                parameters.Add(updated.Value.ToUniversalTime().ToString(format));
             }
 
             return baseUri.AppendParameters(parameters.ToArray());

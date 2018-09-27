@@ -7,42 +7,46 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1.Business
 {
-    public class EmployeeOperations : Operations, IEmployeeOperations
+    public class TimecardOperations : Operations, ITimecardOperations
     {
         /// <summary>
-        /// Initializes a new instance of the OrdersOperations class.
+        /// Initializes a new instance of the TimecardsOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public EmployeeOperations(Client client) : base(client) { }
+        public TimecardOperations(Client client) : base(client) { }
 
-        public Task<HttpOperationResponse<IList<Employee>>> GetWithHttpMessagesAsync(DateTime? created = null,
-            DateTime? updated = null,
-            EmployeeStatusType? status = null,
-            string externalId = null,
-            ListOrderType? listOrder = null,
+        public Task<HttpOperationResponse<IList<Timecard>>> GetWithHttpMessagesAsync(ListOrderType? order = null,
+            string employeeId = null,
+            DateTime? beginClockIn = null,
+            DateTime? endClockIn = null,
+            DateTime? beginClockOut = null,
+            DateTime? endClockOut = null,
+            DateTime? beginUpdated = null,
+            DateTime? endUpdated = null,
+            bool? isDeleted = null,
             short? limit = null,
             bool isContinous = false,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri()
-                    .AppendParameters("external_id", externalId, "status", status.HasValue ? status.Value.EnumToString() : null)
-                    .AppendDateRange("created_at", created, "updated_at", updated);
+                .AppendOrderOrLimit(limit, order)
+                .AppendParameters("deleted", isDeleted.HasValue ? isDeleted.Value.ToString().ToLowerInvariant() : null)
+                .AppendDateRange("begin_clockin_time", beginClockIn, "end_clockin_time", beginClockIn)
+                .AppendDateRange("begin_clockout_time", beginClockOut, "end_clockout_time", endClockOut)
+                .AppendDateRange("begin_updated_at", beginUpdated, "end_updated_at", endUpdated);
 
-            return GetWithHttpMessagesAsync<IList<Employee>>(uri, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<IList<Timecard>>(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse<Employee>> GetWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)
+        public Task<HttpOperationResponse<Timecard>> GetWithHttpMessagesAsync(string timecardId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri().Append(employeeId);
-
-            return GetWithHttpMessagesAsync<Employee>(uri, customHeaders, cancellationToken);
-
+            return GetWithHttpMessagesAsync<Timecard>(GetUri().Append(timecardId), customHeaders, cancellationToken);
         }
 
-        public async Task<HttpOperationResponse> PostWithHttpMessagesAsync(Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> PostWithHttpMessagesAsync(Timecard value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
 
@@ -54,7 +58,7 @@ namespace MeyerCorp.Square.V1.Business
             };
 
             SetHeaders(httpRequest, customHeaders);
-            var requestcontent = SerializeRequest<Employee>(value, httpRequest);
+            var requestcontent = SerializeRequest<Timecard>(value, httpRequest);
             await SetCredentialsAsync(httpRequest, cancellationToken);
 
             // Send Request
@@ -86,14 +90,14 @@ namespace MeyerCorp.Square.V1.Business
             };
         }
 
-        public async Task<HttpOperationResponse> PutWithHttpMessagesAsync(string employeeId, Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> PutWithHttpMessagesAsync(string roleId, Timecard value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
 
             var httpRequest = new HttpRequestMessage
             {
                 Method = new HttpMethod("PUT"),
-                RequestUri = GetUri().Append(employeeId),
+                RequestUri = GetUri().Append(roleId),
             };
 
             SetHeaders(httpRequest, customHeaders);
@@ -130,14 +134,16 @@ namespace MeyerCorp.Square.V1.Business
             };
         }
 
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string roleId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotSupportedException();
+            var uri = GetUri().Append(roleId);
+
+            return DeleteWithHttpMessagesAsync<IList<Timecard>>(uri, customHeaders, cancellationToken);
         }
 
         protected override Uri GetUri(params string[] values)
         {
-            return BaseUri.Append("me", "employees");
+            return BaseUri.Append("me", "timecards");
         }
     }
 }

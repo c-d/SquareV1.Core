@@ -41,7 +41,7 @@ namespace MeyerCorp.Square.V1.Transaction
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId)
-                .AppendDateRange(beginTime, endTime)
+                .AppendDateRange("begin_time", beginTime, "end_time",endTime)
                 .AppendOrderOrLimit(limit, listOrder);
 
             return GetWithHttpMessagesAsync<IList<Payment>>(uri, customHeaders, cancellationToken);
