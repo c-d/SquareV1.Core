@@ -44,7 +44,7 @@ namespace Meyer.Square.V1.Test
 
                 using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    var roles = await client.RoleOperations.GetAsync(RangeOrderType.Ascending,2);
+                    var roles = await client.RoleOperations.GetAsync(ListOrderType.Ascending,2);
 
                     Assert.Equal(2, roles.Count());
 

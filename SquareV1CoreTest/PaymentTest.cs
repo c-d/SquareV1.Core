@@ -13,7 +13,7 @@ namespace Meyer.Square.V1.Test
         //const string location = "";
         //const string token = "";
 
-        [Fact(DisplayName = "Payments: Get All, continously(async)")]
+        [Fact(DisplayName = "Payments: Get All, (async)")]
         public async Task GetTestAsync()
         {
             try
@@ -91,7 +91,7 @@ namespace Meyer.Square.V1.Test
                     var payments = await client.PaymentOperations.GetAsync(locationId: location,
                         beginTime: DateTime.Now - TimeSpan.FromDays(1),
                         endTime: DateTime.Now,
-                        take: 1);
+                        limit: 1);
 
                    foreach (var payment in payments)
                         System.Diagnostics.Debug.WriteLine(payment.Id);
@@ -114,8 +114,8 @@ namespace Meyer.Square.V1.Test
                 using (var client = new Client(new Uri(baseurl), credentials))
                 {
                     var payments = await client.PaymentOperations.GetAsync(locationId: location,
-                         take: 50,
-                         dateRangeOrder: RangeOrderType.Descending);
+                         limit: 50,
+                         listOrder: ListOrderType.Descending);
 
                     Assert.Equal(50, payments.Count);
                 }

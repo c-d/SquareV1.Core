@@ -1,7 +1,6 @@
 ﻿using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,30 +35,16 @@ namespace MeyerCorp.Square.V1.Transaction
         public Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(string locationId,
             DateTime? beginTime,
             DateTime? endTime,
-            RangeOrderType? dateRangeOrder,
-            short? take,
+            ListOrderType? listOrder,
+            short? limit,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId)
                 .AppendDateRange(beginTime, endTime)
-                .AppendOrderOrLimit(take, dateRangeOrder);
+                .AppendOrderOrLimit(limit, listOrder);
 
-            return GetWithHttpMessagesAsync(uri, customHeaders, cancellationToken);
-        }
-
-        Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(Uri uri = null,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // Create HTTP transport objects
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = new HttpMethod("GET"),
-                RequestUri = uri ?? BaseUri,
-            };
-
-            return GetWithHttpMessagesAsync<IList<Payment>>(uri ?? BaseUri, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<IList<Payment>>(uri, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse<Payment>> GetWithHttpMessagesAsync(string locationId,

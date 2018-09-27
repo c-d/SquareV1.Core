@@ -21,6 +21,9 @@ namespace MeyerCorp.Square.V1.Business
             DateTime? updated = null,
             EmployeeStatusType? status = null,
             string externalId = null,
+            ListOrderType? listOrder = null,
+            short? limit = null,
+            bool isContinous = false,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken));
 

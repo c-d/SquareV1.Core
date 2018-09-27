@@ -17,87 +17,29 @@ namespace MeyerCorp.Square.V1.Business
         /// </param>
         public EmployeeOperations(Client client) : base(client) { }
 
-        public async Task<HttpOperationResponse<IList<Employee>>> GetWithHttpMessagesAsync(DateTime? created = null,
+        public Task<HttpOperationResponse<IList<Employee>>> GetWithHttpMessagesAsync(DateTime? created = null,
             DateTime? updated = null,
             EmployeeStatusType? status = null,
             string externalId = null,
+            ListOrderType? listOrder = null,
+            short? limit = null,
+            bool isContinous = false,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = new HttpMethod("GET"),
-                RequestUri = GetUri()
+            var uri = GetUri()
                     .AppendParameters("external_id", externalId, "status", status.HasValue ? status.Value.EnumToString() : null)
-                    .AppendUpdatedCreatedDateFilter(created, updated),
-            };
+                    .AppendUpdatedCreatedDateFilter(created, updated);
 
-            SetHeaders(httpRequest, customHeaders);
-            await SetCredentialsAsync(httpRequest, cancellationToken);
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var statusCode = httpResponse.StatusCode;
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            string responseContent = null;
-            string requestContent = null;
-
-            if ((int)statusCode != 200)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-
-                responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
-                httpRequest.Dispose();
-
-                if (httpResponse != null) httpResponse.Dispose();
-
-                throw ex;
-            }
-
-            return await DeserializeResponseAsync<IList<Employee>>(statusCode, httpRequest, httpResponse);
+            return GetWithHttpMessagesAsync<IList<Employee>>(uri, customHeaders, cancellationToken);
         }
 
-        public async Task<HttpOperationResponse<Employee>> GetWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)
+        public Task<HttpOperationResponse<Employee>> GetWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)
         {
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = new HttpMethod("GET"),
-                RequestUri = GetUri().Append(employeeId),
-            };
+            var uri = GetUri().Append(employeeId);
 
-            SetHeaders(httpRequest, customHeaders);
-            await SetCredentialsAsync(httpRequest, cancellationToken);
+            return GetWithHttpMessagesAsync<Employee>(uri, customHeaders, cancellationToken);
 
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var statusCode = httpResponse.StatusCode;
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            string responseContent = null;
-            string requestContent = null;
-
-            if ((int)statusCode != 200)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-
-                responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
-                httpRequest.Dispose();
-
-                if (httpResponse != null) httpResponse.Dispose();
-
-                throw ex;
-            }
-
-            return await DeserializeResponseAsync<Employee>(statusCode, httpRequest, httpResponse);
         }
 
         public async Task<HttpOperationResponse> PostWithHttpMessagesAsync(Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))

@@ -21,11 +21,12 @@ namespace MeyerCorp.Square.V1.Business
         /// The cancellation token.
         /// </param>
         public static async Task<IList<Role>> GetAsync(this IRoleOperations operations,
-            RangeOrderType? dateRangeOrder = null,
-            short? take = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+            ListOrderType? listOrder = null,
+            short? limit = null,
+                 bool isContinous = false,
+       CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var _result = await operations.GetWithHttpMessagesAsync(dateRangeOrder,take, null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.GetWithHttpMessagesAsync(listOrder,limit, isContinous, null, cancellationToken).ConfigureAwait(false))
             {
                 return _result.Body;
             }

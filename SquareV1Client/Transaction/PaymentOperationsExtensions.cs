@@ -9,26 +9,32 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static PaymentList Get(this IPaymentOperations operations, string locationId, DateTime? beginTime=null, DateTime? endTime = null, RangeOrderType? dateRangeOrder = null, short? take = null, bool isContinous=false)
+        public static ActiveList<Payment> Get(this IPaymentOperations operations, 
+            string locationId, 
+            DateTime? beginTime=null, 
+            DateTime? endTime = null, 
+            ListOrderType? listOrder = null, 
+            short? limit = null, 
+            bool isContinous=false)
         {
-            //return new PaymentList
+            //return new ActiveList<Payment>
             //{
             //    _Payments = Task
             //    .Factory
-            //    .StartNew(s => ((IPaymentOperations)s).GetAsync(locationId, beginTime, endTime, dateRangeOrder, take), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+            //    .StartNew(s => ((IPaymentOperations)s).GetAsync(locationId, beginTime, endTime, listOrder, limit), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
             //    .Unwrap()
             //    .GetAwaiter()
             //    .GetResult(),
             //};
 
-            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, dateRangeOrder, take, null));
+            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null));
 
             task.Wait();
 
-            return new PaymentList
+            return new ActiveList<Payment>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
-                Payments = task.Result.Body,
+                Collection = task.Result.Body,
                 NextUri = task.Result.ToNextUri(),
                 Operations = operations,
                 IsContinous = isContinous,
@@ -41,21 +47,21 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<PaymentList> GetAsync(this IPaymentOperations operations,
+        public static async Task<ActiveList<Payment>> GetAsync(this IPaymentOperations operations,
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,
-            RangeOrderType? dateRangeOrder = null,
-            short? take = null,
+            ListOrderType? listOrder = null,
+            short? limit = null,
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, dateRangeOrder, take, null, cancellationToken).ConfigureAwait(false))
+            using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null, cancellationToken).ConfigureAwait(false))
             {
-                return new PaymentList
+                return new ActiveList<Payment>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
-                    Payments = result.Body,
+                    Collection = result.Body,
                     NextUri = result.ToNextUri(),
                     Operations = operations,
                     IsContinous = isContinous,

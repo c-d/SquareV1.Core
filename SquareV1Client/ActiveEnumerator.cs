@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
-    public abstract class ActiveEnumerator<T> : IEnumerator<T>
+    public class ActiveEnumerator<T> : IEnumerator<T>
     {
         IEnumerator<T> _Enumerator;
         Uri _InitialUri;

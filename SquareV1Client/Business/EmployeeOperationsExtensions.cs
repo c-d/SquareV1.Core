@@ -14,14 +14,30 @@ namespace MeyerCorp.Square.V1.Business
             DateTime? created,
             DateTime? updated,
             EmployeeStatusType? status,
-            string externalId)
+            string externalId,
+            ListOrderType? listOrder = null,
+            short? limit = null,
+            bool isContinous = false)
         {
-            return Task
-                .Factory
-                .StartNew(s => ((IEmployeeOperations)s).GetAsync(created, updated, status, externalId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
-                .Unwrap()
-                .GetAwaiter()
-                .GetResult();
+            //return Task
+            //    .Factory
+            //    .StartNew(s => ((IEmployeeOperations)s).GetAsync(created, updated, status, externalId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+            //    .Unwrap()
+            //    .GetAwaiter()
+            //    .GetResult();
+
+            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(created, updated, status, externalId, listOrder, limit, isContinous, null));
+
+            task.Wait();
+
+            return new ActiveList<Employee>
+            {
+                InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
+                Collection = task.Result.Body,
+                NextUri = task.Result.ToNextUri(),
+                Operations = operations,
+                IsContinous = isContinous,
+            };
         }
 
         /// <param name='operations'>
@@ -35,9 +51,12 @@ namespace MeyerCorp.Square.V1.Business
             DateTime? updated,
             EmployeeStatusType? status,
             string externalId,
-            CancellationToken cancellationToken = default(CancellationToken))
+              ListOrderType? listOrder = null,
+            short? limit = null,
+                 bool isContinous = false,
+          CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var _result = await operations.GetWithHttpMessagesAsync(created, updated, status, externalId, null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.GetWithHttpMessagesAsync(created, updated, status, externalId, listOrder, limit, isContinous, null, cancellationToken).ConfigureAwait(false))
             {
                 return _result.Body;
             }

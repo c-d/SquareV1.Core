@@ -17,7 +17,7 @@ namespace MeyerCorp.Square.V1
         /// <param name="baseUri">Uri on which to append.</param>
         /// <param name="beginTime">Begin time.</param>
         /// <param name="endTime">End time.</param>
-        /// <param name="dateRangeOrder">Ascending or descending. Descending is default.</param>
+        /// <param name="listOrder">Ascending or descending. Descending is default.</param>
         /// <returns>New uri with date-range parameters included with values.</returns>
         public static Uri AppendDateRange(this Uri baseUri, DateTime? beginTime, DateTime? endTime)
         {
@@ -67,16 +67,16 @@ namespace MeyerCorp.Square.V1
         /// <param name="baseUri">Uri on which to append.</param>
         /// <param name="beginTime">Begin time.</param>
         /// <param name="endTime">End time.</param>
-        /// <param name="dateRangeOrder">Ascending or descending. Descending is default.</param>
+        /// <param name="listOrder">Ascending or descending. Descending is default.</param>
         /// <returns>New uri with date-range parameters included with values.</returns>
-        public static Uri AppendOrderOrLimit(this Uri baseUri, short? limit, RangeOrderType? dateRangeOrder)
+        public static Uri AppendOrderOrLimit(this Uri baseUri, short? limit, ListOrderType? listOrder)
         {
             var parameters = new List<string>();
 
-            if (dateRangeOrder.HasValue)
+            if (listOrder.HasValue)
             {
                 parameters.Add("order");
-                parameters.Add(dateRangeOrder.Value.EnumToString());
+                parameters.Add(listOrder.Value.EnumToString());
             }
 
             if (limit.HasValue)

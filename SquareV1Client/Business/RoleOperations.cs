@@ -17,45 +17,15 @@ namespace MeyerCorp.Square.V1.Business
         /// </param>
         public RoleOperations(Client client) : base(client) { }
 
-        public async Task<HttpOperationResponse<IList<Role>>> GetWithHttpMessagesAsync(RangeOrderType? dateRangeOrder = null,
-            short? take = null,
+        public Task<HttpOperationResponse<IList<Role>>> GetWithHttpMessagesAsync(ListOrderType? listOrder = null,
+            short? limit = null,
+            bool isContinous = false,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = new HttpMethod("GET"),
-                RequestUri = GetUri().AppendOrderOrLimit(take, dateRangeOrder),
-            };
+            var uri = GetUri().AppendOrderOrLimit(limit, listOrder);
 
-            SetHeaders(httpRequest, customHeaders);
-            await SetCredentialsAsync(httpRequest, cancellationToken);
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var statusCode = httpResponse.StatusCode;
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            string responseContent = null;
-            string requestContent = null;
-
-            if ((int)statusCode != 200)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-
-                responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
-                httpRequest.Dispose();
-
-                if (httpResponse != null) httpResponse.Dispose();
-
-                throw ex;
-            }
-
-            return await DeserializeResponseAsync<IList<Role>>(statusCode, httpRequest, httpResponse);
+            return GetWithHttpMessagesAsync<IList<Role>>(uri, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse<Role>> GetWithHttpMessagesAsync(string roleId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))

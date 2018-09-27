@@ -7,27 +7,27 @@ namespace MeyerCorp.Square.V1
     /// </summary>
     public static class EnumExtensions
     {
-        public static string EnumToString(this RangeOrderType type)
+        public static string EnumToString(this ListOrderType type)
         {
             switch (type)
             {
-                case RangeOrderType.Ascending:
+                case ListOrderType.Ascending:
                     return "ASC";
-                case RangeOrderType.Descending:
+                case ListOrderType.Descending:
                     return "DESC";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        public static RangeOrderType ToDateRangeOrderType(this string value)
+        public static ListOrderType ToDateRangeOrderType(this string value)
         {
             switch (value)
             {
                 case "ASC":
-                    return RangeOrderType.Ascending;
+                    return ListOrderType.Ascending;
                 case "DESC":
-                    return RangeOrderType.Descending;
+                    return ListOrderType.Descending;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
