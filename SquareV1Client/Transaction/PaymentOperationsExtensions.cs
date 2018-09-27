@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +9,7 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static PaymentList Get(this IPaymentOperations operations, string locationId, DateTime? beginTime=null, DateTime? endTime = null, RangeOrderType? dateRangeOrder = null, short? take = null)
+        public static PaymentList Get(this IPaymentOperations operations, string locationId, DateTime? beginTime=null, DateTime? endTime = null, RangeOrderType? dateRangeOrder = null, short? take = null, bool isContinous=false)
         {
             //return new PaymentList
             //{
@@ -29,9 +27,11 @@ namespace MeyerCorp.Square.V1.Transaction
 
             return new PaymentList
             {
-                _Payments = task.Result.Body,
-                _NextUri = task.Result.ToNextUri(),
-                _Operations = operations,
+                InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
+                Payments = task.Result.Body,
+                NextUri = task.Result.ToNextUri(),
+                Operations = operations,
+                IsContinous = isContinous,
             };
         }
 
@@ -47,15 +47,19 @@ namespace MeyerCorp.Square.V1.Transaction
             DateTime? endTime = null,
             RangeOrderType? dateRangeOrder = null,
             short? take = null,
+            bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, dateRangeOrder, take, null, cancellationToken).ConfigureAwait(false))
             {
                 return new PaymentList
                 {
-                    _Payments = result.Body,
-                    _NextUri = result.ToNextUri(),
-                    _Operations = operations,
+                    InitialUri = result.Request.RequestUri.AbsoluteUri,
+                    Payments = result.Body,
+                    NextUri = result.ToNextUri(),
+                    Operations = operations,
+                    IsContinous = isContinous,
+                    CancellationToken = cancellationToken,
                 };
             }
         }

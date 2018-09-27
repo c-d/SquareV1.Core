@@ -149,7 +149,7 @@ namespace MeyerCorp.Square.V1
             }
         }
 
-        public static Uri ToNextUri(this HttpOperationResponse response)
+        public static string ToNextUri(this HttpOperationResponse response)
         {
             var linkheaders = response.Response.Headers.Where(h => h.Key == "Link");
             var nextlink = linkheaders.Count() < 1
@@ -163,7 +163,7 @@ namespace MeyerCorp.Square.V1
                 var parts = nextlink.Split(';');
                 var next = parts[0].TrimStart('<').TrimEnd('>');
 
-                return new Uri(next);
+                return next;
             }
         }
     }

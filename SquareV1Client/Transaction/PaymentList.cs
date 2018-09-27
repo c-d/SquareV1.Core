@@ -7,14 +7,16 @@ namespace MeyerCorp.Square.V1.Transaction
 {
     public class PaymentList : IList<Payment>
     {
-        internal IList<Payment> _Payments { get; set; }
-        internal Uri _NextUri { get; set; }
-        internal IPaymentOperations _Operations { get; set; }
-        internal CancellationToken _CancellationToken { get; set; } = default(CancellationToken);
+        internal IList<Payment> Payments { get; set; }
+        internal string InitialUri { get; set; }
+        internal string NextUri { get; set; }
+        internal IPaymentOperations Operations { get; set; }
+        internal CancellationToken CancellationToken { get; set; } = default(CancellationToken);
+        internal bool IsContinous { get; set; }
 
-        public Payment this[int index] { get => _Payments[index]; set => _Payments[index] = value; }
+        public Payment this[int index] { get => Payments[index]; set => Payments[index] = value; }
 
-        public int Count => _Payments.Count;
+        public int Count => Payments.Count;
 
         public bool IsReadOnly => true;
 
@@ -22,28 +24,26 @@ namespace MeyerCorp.Square.V1.Transaction
 
         public void Clear() { throw new NotSupportedException(); }
 
-        public bool Contains(Payment item) { return _Payments.Contains(item); }
+        public bool Contains(Payment item) { return Payments.Contains(item); }
 
-        public void CopyTo(Payment[] array, int arrayIndex) { _Payments.CopyTo(array, arrayIndex); }
+        public void CopyTo(Payment[] array, int arrayIndex) { Payments.CopyTo(array, arrayIndex); }
 
         public IEnumerator<Payment> GetEnumerator()
         {
-            return new PaymentEnumerator(_Payments, _Operations, _NextUri, _CancellationToken);
-            //_Payments.GetEnumerator(); 
+            return new PaymentEnumerator(Payments, Operations, InitialUri, NextUri, IsContinous, CancellationToken);
         }
 
-        public int IndexOf(Payment item) { return _Payments.IndexOf(item); }
+        public int IndexOf(Payment item) { return Payments.IndexOf(item); }
 
-        public void Insert(int index, Payment item) { _Payments.Insert(index, item); }
+        public void Insert(int index, Payment item) { Payments.Insert(index, item); }
 
-        public bool Remove(Payment item) { return _Payments.Remove(item); }
+        public bool Remove(Payment item) { return Payments.Remove(item); }
 
-        public void RemoveAt(int index) { _Payments.RemoveAt(index); }
+        public void RemoveAt(int index) { Payments.RemoveAt(index); }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new PaymentEnumerator(_Payments, _Operations, _NextUri, _CancellationToken);
-            //return _Payments.GetEnumerator(); }
+            return new PaymentEnumerator(Payments, Operations, InitialUri, NextUri, IsContinous, CancellationToken);
         }
     }
 }

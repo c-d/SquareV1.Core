@@ -8,9 +8,11 @@ namespace MeyerCorp.Square.V1.Transaction
     {
         public PaymentEnumerator(IList<Payment> payments,
             IPaymentOperations operations,
-            Uri nextUri,
-            CancellationToken cancellationToken = default(CancellationToken))
-            : base(payments, operations, nextUri, cancellationToken)
-        {}
+            string initialUri,
+            string nextUri,
+             bool isContinous = false,
+           CancellationToken cancellationToken = default(CancellationToken))
+            : base(payments, operations, initialUri, nextUri, isContinous, cancellationToken)
+        { }
     }
 }
