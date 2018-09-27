@@ -15,20 +15,8 @@ namespace MeyerCorp.Square.V1.Item
         /// The cancellation token.
         /// </param>
         Task<HttpOperationResponse<IList<Fee>>> GetWithHttpMessagesAsync(string locationId,
-            DateTime? beginTime = null,
-            DateTime? endTime = null,
-            ListOrderType? listOrder = null,
-            short? limit = null,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<Fee>> GetWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='id'>
         /// </param>
@@ -40,7 +28,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, Fee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string id, Fee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='value'>
         /// </param>
@@ -60,6 +48,6 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }
