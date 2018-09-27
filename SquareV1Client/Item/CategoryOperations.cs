@@ -8,8 +8,6 @@ namespace MeyerCorp.Square.V1.Item
 {
     public class CategoryOperations : Operations, ICategoryOperations
     {
-        const string _UriFormat = "{0}/payments";
-
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
         /// </summary>

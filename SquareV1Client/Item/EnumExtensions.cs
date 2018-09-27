@@ -480,5 +480,53 @@ namespace MeyerCorp.Square.V1.Item
                 default: throw new ArgumentOutOfRangeException();
             }
         }
+
+
+        public static string EnumToString(this PageCellType type)
+        {
+            switch (type)
+            {
+                case PageCellType.Item: return "ITEM";
+                case PageCellType.Discount: return "DISCOUNT";
+                case PageCellType.Category: return "CATEGORY";
+                case PageCellType.Placeholder: return "PLACEHOLDER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static PageCellType ToPageCellType(this string value)
+        {
+            switch (value)
+            {
+                case "ITEM": return PageCellType.Item;
+                case "DISCOUNT": return PageCellType.Discount;
+                case "CATEGORY": return PageCellType.Category;
+                case "PLACEHOLDER": return PageCellType.Placeholder;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        public static string EnumToString(this PageCellPlaceholderType type)
+        {
+            switch (type)
+            {
+                case PageCellPlaceholderType.AllItems: return "ALL_ITEMS";
+                case PageCellPlaceholderType.DiscountsCategory: return "DISCOUNTS_CATEGORY";
+                case PageCellPlaceholderType.RewardsFinder: return "REWARDS_FINDER";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static PageCellPlaceholderType ToPageCellPlaceholderType(this string value)
+        {
+            switch (value)
+            {
+                case "ALL_ITEMS": return PageCellPlaceholderType.AllItems;
+                case "DISCOUNTS_CATEGORY": return PageCellPlaceholderType.DiscountsCategory;
+                case "REWARDS_FINDER": return PageCellPlaceholderType.RewardsFinder;
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

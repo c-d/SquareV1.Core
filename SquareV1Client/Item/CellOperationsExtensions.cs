@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1.Item
@@ -9,15 +8,12 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<Cell> Get(this ICellOperations operations, 
-            string locationId, 
-            DateTime? beginTime=null, 
-            DateTime? endTime = null, 
-            ListOrderType? listOrder = null, 
-            short? limit = null, 
-            bool isContinous=false)
+        public static ActiveList<PageCell> Get(this ICellOperations operations,
+            string locationId,
+            string pageId,
+            bool isContinous = false)
         {
-            //return new ActiveList<Cell>
+            //return new ActiveList<PageCell>
             //{
             //    _Cells = Task
             //    .Factory
@@ -27,11 +23,11 @@ namespace MeyerCorp.Square.V1.Item
             //    .GetResult(),
             //};
 
-            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null));
+            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, pageId));
 
             task.Wait();
 
-            return new ActiveList<Cell>
+            return new ActiveList<PageCell>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,
@@ -47,18 +43,15 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ActiveList<Cell>> GetAsync(this ICellOperations operations,
+        public static async Task<ActiveList<PageCell>> GetAsync(this ICellOperations operations,
             string locationId,
-            DateTime? beginTime = null,
-            DateTime? endTime = null,
-            ListOrderType? listOrder = null,
-            short? limit = null,
+            string pageId,
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null, cancellationToken).ConfigureAwait(false))
+            using (var result = await operations.GetWithHttpMessagesAsync(locationId, pageId, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Cell>
+                return new ActiveList<PageCell>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,
@@ -77,9 +70,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Put(this ICellOperations operations, string locationId, string paymentId, Cell value)
+        public static void Put(this ICellOperations operations, string locationId, string pageId, string cellId, PageCell value)
         {
-            Task.Factory.StartNew(s => ((ICellOperations)s).PutAsync(locationId, paymentId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((ICellOperations)s).PutAsync(locationId, pageId, cellId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -92,9 +85,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PutAsync(this ICellOperations operations, string locationId, string paymentId, Cell value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PutAsync(this ICellOperations operations, string locationId, string pageId, string cellId, PageCell value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PutWithHttpMessagesAsync(locationId, pageId, cellId, value, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <param name='operations'>
@@ -102,9 +95,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Post(this ICellOperations operations, string locationId, Cell value)
+        public static void Post(this ICellOperations operations, string locationId, string pageId, PageCell value)
         {
-            Task.Factory.StartNew(s => ((ICellOperations)s).PostAsync(locationId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((ICellOperations)s).PostAsync(locationId, pageId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -115,9 +108,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PostAsync(this ICellOperations operations, string locationId, Cell value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PostAsync(this ICellOperations operations, string locationId, string pageId, PageCell value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PostWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PostWithHttpMessagesAsync(locationId, pageId, value, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <param name='operations'>
@@ -125,9 +118,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='id'>
         /// </param>
-        public static void Delete(this ICellOperations operations, string locationId, string paymentId)
+        public static void Delete(this ICellOperations operations, string locationId, string pageId, short row, short column)
         {
-            Task.Factory.StartNew(s => ((ICellOperations)s).DeleteAsync(locationId, paymentId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((ICellOperations)s).DeleteAsync(locationId, pageId, row, column), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -138,9 +131,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task DeleteAsync(this ICellOperations operations, string locationId, string paymentId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task DeleteAsync(this ICellOperations operations, string locationId, string pageId, short row, short column, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.DeleteWithHttpMessagesAsync(locationId, paymentId, null, cancellationToken).ConfigureAwait(false);
+            await operations.DeleteWithHttpMessagesAsync(locationId, pageId, row, column, null, cancellationToken).ConfigureAwait(false);
         }
     }
 }

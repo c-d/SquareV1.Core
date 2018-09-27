@@ -11,6 +11,7 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         public static ActiveList<ModifierList> Get(this IModifierListOperations operations, 
             string locationId, 
+            string id,
             DateTime? beginTime=null, 
             DateTime? endTime = null, 
             ListOrderType? listOrder = null, 

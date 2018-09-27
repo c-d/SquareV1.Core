@@ -9,13 +9,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<Discount> Get(this IDiscountOperations operations, 
-            string locationId, 
-            DateTime? beginTime=null, 
-            DateTime? endTime = null, 
-            ListOrderType? listOrder = null, 
-            short? limit = null, 
-            bool isContinous=false)
+        public static ActiveList<Discount> Get(this IDiscountOperations operations,
+            string locationId,
+            bool isContinous = false)
         {
             //return new ActiveList<Discount>
             //{
@@ -27,7 +23,7 @@ namespace MeyerCorp.Square.V1.Item
             //    .GetResult(),
             //};
 
-            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null));
+            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, null));
 
             task.Wait();
 
@@ -56,7 +52,7 @@ namespace MeyerCorp.Square.V1.Item
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null, cancellationToken).ConfigureAwait(false))
+            using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
             {
                 return new ActiveList<Discount>
                 {
@@ -77,9 +73,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Put(this IDiscountOperations operations, string locationId, string paymentId, Discount value)
+        public static void Put(this IDiscountOperations operations, string locationId, string id, Discount value)
         {
-            Task.Factory.StartNew(s => ((IDiscountOperations)s).PutAsync(locationId, paymentId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((IDiscountOperations)s).PutAsync(locationId, id, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -92,9 +88,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PutAsync(this IDiscountOperations operations, string locationId, string paymentId, Discount value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PutAsync(this IDiscountOperations operations, string locationId, string id, Discount value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PutWithHttpMessagesAsync(locationId, id, value, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <param name='operations'>
