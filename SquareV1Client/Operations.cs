@@ -170,5 +170,93 @@ namespace MeyerCorp.Square.V1
                 Response = httpResponse
             };
         }
+
+        protected async Task<HttpOperationResponse> PostWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
+
+            // Create HTTP transport objects
+            var httpRequest = new HttpRequestMessage
+            {
+                Method = new HttpMethod("POST"),
+                RequestUri = uri,
+            };
+
+            SetHeaders(httpRequest, customHeaders);
+            var requestcontent = SerializeRequest<T>(value, httpRequest);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            // Send Request
+            HttpResponseMessage httpResponse = null;
+            cancellationToken.ThrowIfCancellationRequested();
+            httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var _statusCode = httpResponse.StatusCode;
+            cancellationToken.ThrowIfCancellationRequested();
+            string _responseContent = null;
+
+            if ((int)_statusCode != 204)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
+                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestcontent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, _responseContent);
+                httpRequest.Dispose();
+                if (httpResponse != null)
+                {
+                    httpResponse.Dispose();
+                }
+                throw ex;
+            }
+
+            return new HttpOperationResponse
+            {
+                Request = httpRequest,
+                Response = httpResponse,
+            };
+        }
+
+        protected async Task<HttpOperationResponse> PutWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
+
+            var httpRequest = new HttpRequestMessage
+            {
+                Method = new HttpMethod("PUT"),
+                RequestUri = uri,
+            };
+
+            SetHeaders(httpRequest, customHeaders);
+            var requestcontent = SerializeRequest(value, httpRequest);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var statusCode = httpResponse.StatusCode;
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            string _responseContent = null;
+
+            if ((int)statusCode != 204)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
+                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestcontent);
+                ex.Response = new HttpResponseMessageWrapper(httpResponse, _responseContent);
+
+                httpRequest.Dispose();
+
+                if (httpResponse != null) httpResponse.Dispose();
+
+                throw ex;
+            }
+
+            return new HttpOperationResponse
+            {
+                Request = httpRequest,
+                Response = httpResponse,
+            };
+        }
     }
 }
