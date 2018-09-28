@@ -30,7 +30,7 @@ namespace MeyerCorp.Square.V1.Item
             }
         }
 
-        public Task<HttpOperationResponse<IList<Inventory>>> GetWithHttpMessagesAsync(string locationId,
+        public Task<HttpOperationResponse<IList<InventoryEntry>>> GetWithHttpMessagesAsync(string locationId,
             short? limit,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
@@ -38,7 +38,7 @@ namespace MeyerCorp.Square.V1.Item
             var uri = GetUri(locationId)
                 .AppendOrderOrLimit(limit, null);
 
-            return GetWithHttpMessagesAsync<IList<Inventory>>(uri, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<IList<InventoryEntry>>(uri, customHeaders, cancellationToken);
         }
     }
 }
