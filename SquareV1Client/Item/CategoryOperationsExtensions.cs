@@ -38,9 +38,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Put(this ICategoryOperations operations, string locationId, string paymentId, Category value)
+        public static void Put(this ICategoryOperations operations, string locationId, string id, Category value)
         {
-            Task.Factory.StartNew(s => ((ICategoryOperations)s).PutAsync(locationId, paymentId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((ICategoryOperations)s).PutAsync(locationId, id, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -53,9 +53,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PutAsync(this ICategoryOperations operations, string locationId, string paymentId, Category value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PutAsync(this ICategoryOperations operations, string locationId, string id, Category value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PutWithHttpMessagesAsync(locationId,id, value, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <param name='operations'>
@@ -86,9 +86,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='id'>
         /// </param>
-        public static void Delete(this ICategoryOperations operations, string locationId, string paymentId)
+        public static void Delete(this ICategoryOperations operations, string locationId, string id)
         {
-            Task.Factory.StartNew(s => ((ICategoryOperations)s).DeleteAsync(locationId, paymentId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((ICategoryOperations)s).DeleteAsync(locationId, id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -99,9 +99,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task DeleteAsync(this ICategoryOperations operations, string locationId, string paymentId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task DeleteAsync(this ICategoryOperations operations, string locationId, string id, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.DeleteWithHttpMessagesAsync(locationId, paymentId, null, cancellationToken).ConfigureAwait(false);
+            await operations.DeleteWithHttpMessagesAsync(locationId, id, null, cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -44,22 +44,30 @@ namespace MeyerCorp.Square.V1.Item
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetWithHttpMessagesAsync(locationId: locationId, id: id, customHeaders: customHeaders, cancellationToken: cancellationToken);
+            var uri = GetUri(locationId).Append(id);
+
+            return GetWithHttpMessagesAsync<Item>(uri, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Item value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotSupportedException();
+            var uri = GetUri(locationId);
+
+            return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, Item value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string id, Item value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotSupportedException();
+            var uri = GetUri(locationId).Append(id);
+
+            return PutWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotSupportedException();
+            var uri = GetUri(locationId).Append(id);
+
+            return DeleteWithHttpMessagesAsync<Item>(uri, customHeaders, cancellationToken);
         }
     }
 }

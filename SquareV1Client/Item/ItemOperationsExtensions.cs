@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,8 +9,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<Item> Get(this IItemOperations operations,
+        public static IList<Item> Get(this IItemOperations operations,
             string locationId,
+            string id,
             bool isContinous = false)
         {
             //return new ActiveList<Item>
@@ -23,7 +24,7 @@ namespace MeyerCorp.Square.V1.Item
             //    .GetResult(),
             //};
 
-            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId, isContinous, null, null));
+            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId));
 
             task.Wait();
 
@@ -43,12 +44,12 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ActiveList<Item>> GetAsync(this IItemOperations operations,
+        public static async Task<IList<Item>> GetAsync(this IItemOperations operations,
             string locationId,
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var result = await operations.GetWithHttpMessagesAsync(locationId, isContinous, null, cancellationToken).ConfigureAwait(false))
+            using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
             {
                 return new ActiveList<Item>
                 {
@@ -86,7 +87,7 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         public static async Task PutAsync(this IItemOperations operations, string locationId, string id, Item value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PutWithHttpMessagesAsync(locationId, id, value, null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <param name='operations'>
