@@ -20,52 +20,35 @@ namespace MeyerCorp.Square.V1.Item
         /// 
         /// </summary>
         /// <param name="values"></param>
-        /// <returns>https://connect.squareup.com/v1/{{location_id}}/payments</returns>
+        /// <returns>https://connect.squareup.com/v1/{location_id}/items/{item_id}/variations</returns>
         protected override Uri GetUri(params string[] values)
         {
             switch (values.Length)
             {
-                case 1: return BaseUri.Append(values[0], "payments");
+                case 1: return BaseUri.Append(values[0], "items", values[1], "variations");
                 default: throw new ArgumentException();
             }
         }
 
-        public Task<HttpOperationResponse<IList<Variation>>> GetWithHttpMessagesAsync(string locationId,
-            DateTime? beginTime,
-            DateTime? endTime,
-            ListOrderType? listOrder,
-            short? limit,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, string itemId, ItemVariation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri(locationId)
-                .AppendDateRange("begin_time", beginTime, "end_time",endTime)
-                .AppendOrderOrLimit(limit, listOrder);
+            var uri = GetUri(locationId, itemId);
 
-            return GetWithHttpMessagesAsync<IList<Variation>>(uri, customHeaders, cancellationToken);
+            return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse<Variation>> GetWithHttpMessagesAsync(string locationId,
-            string paymentId,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string itemId, string id, ItemVariation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetWithHttpMessagesAsync(locationId: locationId, paymentId: paymentId, customHeaders: customHeaders, cancellationToken: cancellationToken);
+            var uri = GetUri(locationId, itemId).Append(id);
+
+            return PutWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Variation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string itemId, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotSupportedException();
-        }
+            var uri = GetUri(locationId, itemId).Append(id);
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, Variation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotSupportedException();
-        }
-
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotSupportedException();
+            return DeleteWithHttpMessagesAsync<ItemVariation>(uri, customHeaders, cancellationToken);
         }
     }
 }
