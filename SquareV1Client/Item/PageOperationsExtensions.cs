@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,10 +11,6 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         public static IList<Page> Get(this IPageOperations operations, 
             string locationId, 
-            DateTime? beginTime=null, 
-            DateTime? endTime = null, 
-            ListOrderType? listOrder = null, 
-            short? limit = null, 
             bool isContinous=false)
         {
             //return new ActiveList<Page>
@@ -50,11 +45,6 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         public static async Task<IList<Page>> GetAsync(this IPageOperations operations,
             string locationId,
-            DateTime? beginTime = null,
-            DateTime? endTime = null,
-            ListOrderType? listOrder = null,
-            short? limit = null,
-            bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null, cancellationToken).ConfigureAwait(false))
@@ -78,9 +68,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Put(this IPageOperations operations, string locationId, string paymentId, Page value)
+        public static void Put(this IPageOperations operations, string locationId, string id, Page value)
         {
-            Task.Factory.StartNew(s => ((IPageOperations)s).PutAsync(locationId, paymentId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((IPageOperations)s).PutAsync(locationId, id, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -93,7 +83,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PutAsync(this IPageOperations operations, string locationId, string paymentId, Page value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PutAsync(this IPageOperations operations, string locationId, string id, Page value, CancellationToken cancellationToken = default(CancellationToken))
         {
             await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false);
         }
@@ -126,9 +116,9 @@ namespace MeyerCorp.Square.V1.Item
         /// </param>
         /// <param name='id'>
         /// </param>
-        public static void Delete(this IPageOperations operations, string locationId, string paymentId)
+        public static void Delete(this IPageOperations operations, string locationId, string id)
         {
-            Task.Factory.StartNew(s => ((IPageOperations)s).DeleteAsync(locationId, paymentId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((IPageOperations)s).DeleteAsync(locationId, id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -139,9 +129,9 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task DeleteAsync(this IPageOperations operations, string locationId, string paymentId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task DeleteAsync(this IPageOperations operations, string locationId, string id, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.DeleteWithHttpMessagesAsync(locationId, paymentId, null, cancellationToken).ConfigureAwait(false);
+            await operations.DeleteWithHttpMessagesAsync(locationId, id, null, cancellationToken).ConfigureAwait(false);
         }
     }
 }
