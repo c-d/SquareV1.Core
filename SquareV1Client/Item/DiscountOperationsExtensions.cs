@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<Discount> Get(this IDiscountOperations operations,
+        public static IList<Discount> Get(this IDiscountOperations operations,
             string locationId,
             bool isContinous = false)
         {
@@ -43,7 +44,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ActiveList<Discount>> GetAsync(this IDiscountOperations operations,
+        public static async Task<IList<Discount>> GetAsync(this IDiscountOperations operations,
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,

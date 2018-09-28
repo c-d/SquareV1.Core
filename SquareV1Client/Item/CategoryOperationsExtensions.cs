@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ActiveList<Category>> GetAsync(this ICategoryOperations operations,
+        public static async Task<IList<Category>> GetAsync(this ICategoryOperations operations,
             string locationId,
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))

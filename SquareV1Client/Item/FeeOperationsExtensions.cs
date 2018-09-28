@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<Fee> Get(this IFeeOperations operations,
+        public static IList<Fee> Get(this IFeeOperations operations,
             string locationId,
             bool isContinous = false)
         {

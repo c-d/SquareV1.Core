@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<Page> Get(this IPageOperations operations, 
+        public static IList<Page> Get(this IPageOperations operations, 
             string locationId, 
             DateTime? beginTime=null, 
             DateTime? endTime = null, 
@@ -47,7 +48,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ActiveList<Page>> GetAsync(this IPageOperations operations,
+        public static async Task<IList<Page>> GetAsync(this IPageOperations operations,
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,
