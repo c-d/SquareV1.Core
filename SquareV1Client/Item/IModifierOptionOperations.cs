@@ -1,5 +1,4 @@
 ﻿using Microsoft.Rest;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,28 +7,6 @@ namespace MeyerCorp.Square.V1.Item
 {
     public interface IModifierOptionOperations : IOperations
     {
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<IList<ModifierOption>>> GetWithHttpMessagesAsync(string locationId,
-            DateTime? beginTime = null,
-            DateTime? endTime = null,
-            ListOrderType? listOrder = null,
-            short? limit = null,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<ModifierOption>> GetWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
         /// <param name='id'>
         /// </param>
         /// <param name='value'>
@@ -40,7 +17,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string modifierListId, string id, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='value'>
         /// </param>
@@ -50,7 +27,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, string modifierListId, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='id'>
         /// </param>
@@ -60,6 +37,6 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string modifierListId, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

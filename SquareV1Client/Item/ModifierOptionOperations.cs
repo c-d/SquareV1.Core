@@ -20,52 +20,34 @@ namespace MeyerCorp.Square.V1.Item
         /// 
         /// </summary>
         /// <param name="values"></param>
-        /// <returns>https://connect.squareup.com/v1/{{location_id}}/payments</returns>
+        /// <returns>https://connect.squareup.com/v1/modifier-lists/{modifier_list_id}/modifier-options</returns>
         protected override Uri GetUri(params string[] values)
         {
             switch (values.Length)
             {
-                case 1: return BaseUri.Append(values[0], "payments");
+                case 1: return BaseUri.Append(values[0], "modifier-lists", values[1], "modifier-options");
                 default: throw new ArgumentException();
             }
         }
-
-        public Task<HttpOperationResponse<IList<ModifierOption>>> GetWithHttpMessagesAsync(string locationId,
-            DateTime? beginTime,
-            DateTime? endTime,
-            ListOrderType? listOrder,
-            short? limit,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, string modifierListId, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri(locationId)
-                .AppendDateRange("begin_time", beginTime, "end_time",endTime)
-                .AppendOrderOrLimit(limit, listOrder);
+            var uri = GetUri(locationId, modifierListId);
 
-            return GetWithHttpMessagesAsync<IList<ModifierOption>>(uri, customHeaders, cancellationToken);
+            return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse<ModifierOption>> GetWithHttpMessagesAsync(string locationId,
-            string paymentId,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string modifierListId, string id, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetWithHttpMessagesAsync(locationId: locationId, paymentId: paymentId, customHeaders: customHeaders, cancellationToken: cancellationToken);
+            var uri = GetUri(locationId, modifierListId).Append(id);
+
+            return PutWithHttpMessagesAsync(uri, value,customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string modifierListId, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotSupportedException();
-        }
+            var uri = GetUri(locationId, modifierListId).Append(id);
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, ModifierOption value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotSupportedException();
-        }
-
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotSupportedException();
+            return DeleteWithHttpMessagesAsync<ModifierOption>(uri, customHeaders, cancellationToken);
         }
     }
 }
