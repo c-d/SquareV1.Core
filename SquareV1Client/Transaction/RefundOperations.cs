@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1.Transaction
 {
-    public class PaymentOperations : Operations, IPaymentOperations
+    public class RefundOperations : Operations, IRefundOperations
     {
-        const string _UriFormat = "{0}/payments";
-
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
         /// </summary>
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public PaymentOperations(Client client) : base(client) { }
+        public RefundOperations(Client client) : base(client) { }
 
         /// <summary>
         /// 
@@ -27,12 +25,12 @@ namespace MeyerCorp.Square.V1.Transaction
         {
             switch (values.Length)
             {
-                case 1: return BaseUri.Append(values[0], "payments");
+                case 1: return BaseUri.Append(values[0], "refunds");
                 default: throw new ArgumentException();
             }
         }
 
-        public Task<HttpOperationResponse<IList<Payment>>> GetWithHttpMessagesAsync(string locationId,
+        public Task<HttpOperationResponse<IList<Refund>>> GetWithHttpMessagesAsync(string locationId,
             DateTime? beginTime,
             DateTime? endTime,
             ListOrderType? listOrder,
@@ -41,33 +39,25 @@ namespace MeyerCorp.Square.V1.Transaction
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId)
-                .AppendDateRange("begin_time", beginTime, "end_time",endTime)
+                .AppendDateRange("begin_time", beginTime, "end_time", endTime)
                 .AppendOrderOrLimit(limit, listOrder);
 
-            return GetWithHttpMessagesAsync<IList<Payment>>(uri, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<IList<Refund>>(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse<Payment>> GetWithHttpMessagesAsync(string locationId,
+        public Task<HttpOperationResponse<Refund>> GetWithHttpMessagesAsync(string locationId,
             string paymentId,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetWithHttpMessagesAsync(locationId: locationId, paymentId: paymentId, customHeaders: customHeaders, cancellationToken: cancellationToken);
+            return GetWithHttpMessagesAsync(locationId, paymentId, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Payment value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Refund value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotSupportedException();
-        }
+            var uri = GetUri(locationId);
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, Payment value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotSupportedException();
-        }
-
-        public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string paymentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            throw new NotSupportedException();
+            return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
     }
 }
