@@ -216,7 +216,12 @@ namespace MeyerCorp.Square.V1
             return await DeserializeResponseAsync<TResponse>(statusCode, httpRequest, httpResponse);
         }
 
-        protected async Task<HttpOperationResponse> PutWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected Task<HttpOperationResponse<T>> PutWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return PutWithHttpMessagesAsync<T, T>(uri, value, customHeaders, cancellationToken);
+        }
+
+        protected async Task<HttpOperationResponse<TResponse>> PutWithHttpMessagesAsync<TRequest, TResponse>(Uri uri, TRequest value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
 
@@ -253,11 +258,7 @@ namespace MeyerCorp.Square.V1
                 throw ex;
             }
 
-            return new HttpOperationResponse
-            {
-                Request = httpRequest,
-                Response = httpResponse,
-            };
+            return await DeserializeResponseAsync<TResponse>(statusCode, httpRequest, httpResponse);
         }
     }
 }
