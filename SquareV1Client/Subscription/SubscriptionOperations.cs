@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MeyerCorp.Square.V1.Webhooks
+namespace MeyerCorp.Square.V1.Subscription
 {
     public class PlanOperations : Operations, IWebhookOperations
     {

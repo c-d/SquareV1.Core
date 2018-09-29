@@ -41,6 +41,31 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<IList<Fee>> GetAsync(this IFeeOperations operations,
+            string locationId,
+            bool isContinous = false,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
+            {
+                return new ActiveList<Fee>
+                {
+                    InitialUri = result.Request.RequestUri.AbsoluteUri,
+                    Collection = result.Body,
+                    NextUri = result.ToNextUri(),
+                    Operations = operations,
+                    IsContinous = isContinous,
+                    CancellationToken = cancellationToken,
+                };
+            }
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
         /// <param name='id'>
         /// </param>
         /// <param name='value'>

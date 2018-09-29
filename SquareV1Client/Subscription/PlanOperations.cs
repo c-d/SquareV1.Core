@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MeyerCorp.Square.V1.Webhooks
+namespace MeyerCorp.Square.V1.Subscription
 {
-    public class PlanOperations : Operations, IWebhookOperations
+    public class PlanOperations : Operations, IPlanOperations
     {
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
@@ -30,23 +30,23 @@ namespace MeyerCorp.Square.V1.Webhooks
             }
         }
 
-        public Task<HttpOperationResponse<IList<WebhookEventType>>> GetWithHttpMessagesAsync(string locationId,
+        public Task<HttpOperationResponse<IList<SubscriptionPlan>>> GetWithHttpMessagesAsync(string locationId,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId);
 
-            return GetWithHttpMessagesAsync<IList<WebhookEventType>>(uri, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<IList<SubscriptionPlan>>(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse<IList<WebhookEventType>>> PutWithHttpMessagesAsync(string locationId,
-            IEnumerable<WebhookEventType> value,
+        public Task<HttpOperationResponse<IList<SubscriptionPlan>>> PutWithHttpMessagesAsync(string locationId,
+            IEnumerable<SubscriptionPlan> value,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId);
 
-            return PutWithHttpMessagesAsync<IEnumerable<WebhookEventType>, IList<WebhookEventType>>(uri, value, customHeaders, cancellationToken);
+            return PutWithHttpMessagesAsync<IEnumerable<SubscriptionPlan>, IList<SubscriptionPlan>>(uri, value, customHeaders, cancellationToken);
         }
     }
 }
