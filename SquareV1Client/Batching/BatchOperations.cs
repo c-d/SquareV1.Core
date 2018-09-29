@@ -30,11 +30,13 @@ namespace MeyerCorp.Square.V1.Batching
             }
         }
 
-        public Task<HttpOperationResponse<BatchResponse>> PostWithHttpMessagesAsync(BatchRequest value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<BatchResponse>> PostWithHttpMessagesAsync(BatchRequest[] value,
+               Dictionary<string, List<string>> customHeaders = null,
+               CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri();
 
-            return PostWithHttpMessagesAsync<BatchResponse>(uri, value, customHeaders, cancellationToken);
+            return PostWithHttpMessagesAsync<BatchRequest[], BatchResponse>(uri, value, customHeaders, cancellationToken);
         }
     }
 }
