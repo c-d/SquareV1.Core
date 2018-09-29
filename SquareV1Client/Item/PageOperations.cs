@@ -39,14 +39,14 @@ namespace MeyerCorp.Square.V1.Item
             return GetWithHttpMessagesAsync<IList<Page>>(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Page value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<Page>> PostWithHttpMessagesAsync(string locationId, Page value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId);
 
             return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string id, Page value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<Page>> PutWithHttpMessagesAsync(string locationId, string id, Page value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId).Append(id);
 

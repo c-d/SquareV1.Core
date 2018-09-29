@@ -30,11 +30,11 @@ namespace MeyerCorp.Square.V1.Item
             }
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string pageId, PageCell value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<PageCell>> PutWithHttpMessagesAsync(string locationId, string pageId, PageCell value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId, pageId);
 
-            return PutWithHttpMessagesAsync<PageCell>(uri, value, customHeaders, cancellationToken);
+            return PutWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string pageId, short row, short column, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))

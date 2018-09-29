@@ -14,28 +14,12 @@ namespace MeyerCorp.Square.V1.Webhooks
             string id,
             bool isContinous = false)
         {
-            //return new ActiveList<Webhook>
-            //{
-            //    _Webhooks = Task
-            //    .Factory
-            //    .StartNew(s => ((IWebhookOperations)s).GetAsync(locationId, beginTime, endTime, listOrder, limit), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
-            //    .Unwrap()
-            //    .GetAwaiter()
-            //    .GetResult(),
-            //};
-
-            var task = Task.Run(() => operations.GetWithHttpMessagesAsync(locationId));
-
-            task.Wait();
-
-            return new ActiveList<Webhook>
-            {
-                InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
-                Collection = task.Result.Body,
-                NextUri = task.Result.ToNextUri(),
-                Operations = operations,
-                IsContinous = isContinous,
-            };
+            return Task
+                .Factory
+                .StartNew(s => ((IWebhookOperations)s).GetAsync(locationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                .Unwrap()
+                .GetAwaiter()
+                .GetResult();
         }
 
         /// <param name='operations'>
@@ -51,15 +35,7 @@ namespace MeyerCorp.Square.V1.Webhooks
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Webhook>
-                {
-                    InitialUri = result.Request.RequestUri.AbsoluteUri,
-                    Collection = result.Body,
-                    NextUri = result.ToNextUri(),
-                    Operations = operations,
-                    IsContinous = isContinous,
-                    CancellationToken = cancellationToken,
-                };
+                return result.Body;
             }
         }
 

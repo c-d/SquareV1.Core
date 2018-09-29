@@ -41,18 +41,18 @@ namespace MeyerCorp.Square.V1.Business
 
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<Employee>> PostWithHttpMessagesAsync(Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri();
 
-            return PostWithHttpMessagesAsync<Employee>(uri, value, customHeaders, cancellationToken);
+            return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string employeeId, Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<Employee>> PutWithHttpMessagesAsync(string employeeId, Employee value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri().Append(employeeId);
 
-            return PutWithHttpMessagesAsync<Employee>(uri, value, customHeaders, cancellationToken);
+            return PutWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string employeeId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))

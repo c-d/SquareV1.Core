@@ -39,18 +39,18 @@ namespace MeyerCorp.Square.V1.Item
             return GetWithHttpMessagesAsync<IList<Discount>>(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Discount value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<Discount>> PostWithHttpMessagesAsync(string locationId, Discount value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId);
 
-            return PostWithHttpMessagesAsync<Discount>(uri, value, customHeaders, cancellationToken);
+            return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string id, Discount value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<Discount>> PutWithHttpMessagesAsync(string locationId, string id, Discount value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId).Append(id);
 
-            return PutWithHttpMessagesAsync<Discount>(uri, value, customHeaders, cancellationToken);
+            return PutWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
         public Task<HttpOperationResponse> DeleteWithHttpMessagesAsync(string locationId, string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))

@@ -53,7 +53,7 @@ namespace MeyerCorp.Square.V1.Transaction
             return GetWithHttpMessagesAsync(locationId, paymentId, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, Refund value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<Refund>> PostWithHttpMessagesAsync(string locationId, Refund value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId);
 

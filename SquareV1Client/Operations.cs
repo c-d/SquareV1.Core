@@ -131,7 +131,7 @@ namespace MeyerCorp.Square.V1
                 throw ex;
             }
 
-            return await DeserializeResponseAsync<TResponse>(statusCode, httpRequest, httpResponse);
+            return await DeserializeResponseAsync<T>(statusCode, httpRequest, httpResponse);
         }
 
         protected async Task<HttpOperationResponse> DeleteWithHttpMessagesAsync<T>(Uri uri, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)

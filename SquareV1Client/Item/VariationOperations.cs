@@ -30,14 +30,14 @@ namespace MeyerCorp.Square.V1.Item
             }
         }
 
-        public Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId, string itemId, ItemVariation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<ItemVariation>> PostWithHttpMessagesAsync(string locationId, string itemId, ItemVariation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId, itemId);
 
             return PostWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId, string itemId, string id, ItemVariation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<HttpOperationResponse<ItemVariation>> PutWithHttpMessagesAsync(string locationId, string itemId, string id, ItemVariation value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId, itemId).Append(id);
 

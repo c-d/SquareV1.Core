@@ -38,7 +38,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> PutWithHttpMessagesAsync(string locationId,
+        Task<HttpOperationResponse<ModifierList>> PutWithHttpMessagesAsync(string locationId,
             string id,
             ModifierList value,
             Dictionary<string, List<string>> customHeaders = null,
@@ -52,7 +52,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> PostWithHttpMessagesAsync(string locationId,
+        Task<HttpOperationResponse<ModifierList>> PostWithHttpMessagesAsync(string locationId,
             ModifierList value,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken));

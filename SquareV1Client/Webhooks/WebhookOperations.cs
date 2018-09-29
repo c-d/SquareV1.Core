@@ -40,13 +40,13 @@ namespace MeyerCorp.Square.V1.Webhooks
         }
 
         public Task<HttpOperationResponse<IList<WebhookEventType>>> PutWithHttpMessagesAsync(string locationId,
-            IList<WebhookEventType> value,
+            IEnumerable<WebhookEventType> value,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var uri = GetUri(locationId);
 
-            return PutWithHttpMessagesAsync(uri, value, customHeaders, cancellationToken);
+            return PutWithHttpMessagesAsync<IEnumerable<WebhookEventType>, IList<WebhookEventType>>(uri, value, customHeaders, cancellationToken);
         }
     }
 }
