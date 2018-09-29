@@ -171,7 +171,7 @@ namespace MeyerCorp.Square.V1
             };
         }
 
-        protected async Task<HttpOperationResponse> PostWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<HttpOperationResponse<T>> PostWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
 
