@@ -1,4 +1,4 @@
-﻿namespace MeyerCorp.Square.V1
+﻿namespace MeyerCorp.Square.V1.Item
 {
     /// <summary>
     /// Indicates whether a fee is calculated based on a payment's subtotal or total.

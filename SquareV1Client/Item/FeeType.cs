@@ -1,4 +1,4 @@
-﻿namespace MeyerCorp.Square.V1
+﻿namespace MeyerCorp.Square.V1.Item
 {
     /// <summary>
     /// Indicates which sales tax classification the fee falls under.

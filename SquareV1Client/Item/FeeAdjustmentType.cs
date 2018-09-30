@@ -1,4 +1,4 @@
-﻿namespace MeyerCorp.Square.V1
+﻿namespace MeyerCorp.Square.V1.Item
 {
     /// <summary>
     /// Indicates the type of adjustment a fee applies to a payment.

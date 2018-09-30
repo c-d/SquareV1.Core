@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MeyerCorp.Square.V1
+namespace MeyerCorp.Square.V1.Item
 {
     /// <summary>
     /// Represents a tax or other fee that can be applied to a payment.
