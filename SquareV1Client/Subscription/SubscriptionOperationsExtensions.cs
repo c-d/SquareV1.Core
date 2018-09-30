@@ -1,22 +1,69 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace MeyerCorp.Square.V1.Subscription
 {
-    public static partial class WebhookOperationsExtensions
+    public static partial class SubscriptionOperationsExtensions
     {
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<WebhookEventType> Get(this IWebhookOperations operations,
-            string locationId,
-            string id,
+        public static ActiveList<Subscription> Get(this ISubscriptionOperations operations, string clientId,
+            string merchantId,
+            short? limit,
             bool isContinous = false)
         {
             return Task
                 .Factory
-                .StartNew(s => ((IWebhookOperations)s).GetAsync(locationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                .StartNew(s => ((ISubscriptionOperations)s).GetAsync(clientId, merchantId, limit),
+                    operations,
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default)
+                    .Unwrap()
+                    .GetAwaiter()
+                    .GetResult();
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<ActiveList<Subscription>> GetAsync(this ISubscriptionOperations operations,
+            string clientId,
+            string merchantId,
+            short? limit,
+            bool isContinous = false,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var result = await operations.GetWithHttpMessagesAsync(clientId, merchantId, limit, null, cancellationToken).ConfigureAwait(false))
+            {
+                return new ActiveList<Subscription>
+                {
+                    InitialUri = result.Request.RequestUri.AbsoluteUri,
+                    Collection = result.Body,
+                    NextUri = result.ToNextUri(),
+                    Operations = operations,
+                    IsContinous = isContinous,
+                    CancellationToken = cancellationToken,
+                };
+            }
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        public static Subscription Get(this ISubscriptionOperations operations, string clientId, string subscriptionId)
+        {
+            return Task
+                .Factory
+                .StartNew(s => ((ISubscriptionOperations)s).GetAsync(clientId, subscriptionId),
+                    operations,
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default)
                 .Unwrap()
                 .GetAwaiter()
                 .GetResult();
@@ -28,51 +75,15 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<WebhookEventType>> GetAsync(this IWebhookOperations operations,
-            string locationId,
-            bool isContinous = false,
+        public static async Task<Subscription> GetAsync(this ISubscriptionOperations operations,
+            string clientId,
+            string subscriptionId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.GetWithHttpMessagesAsync(clientId, subscriptionId, null, cancellationToken).ConfigureAwait(false))
             {
-                return result.Body;
+                return _result.Body;
             }
-        }
-
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='id'>
-        /// </param>
-        /// <param name='value'>
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        public static async Task<IList<WebhookEventType>> PutAsync(this IWebhookOperations operations,
-            string locationId,
-            IEnumerable<WebhookEventType> value,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            using (var result = await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false))
-            {
-                return new List<WebhookEventType>(result.Body);
-            }
-        }
-
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='value'>
-        /// </param>
-        public static IList<WebhookEventType> Put(this IWebhookOperations operations, string locationId, IEnumerable<WebhookEventType> value)
-        {
-            return Task
-                  .Factory
-                  .StartNew(s => ((IWebhookOperations)s).PutAsync(locationId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
-                  .Unwrap()
-                  .GetAwaiter()
-                  .GetResult();
         }
     }
 }

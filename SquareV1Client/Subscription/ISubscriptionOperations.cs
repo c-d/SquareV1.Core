@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1.Subscription
 {
-    public interface IWebhookOperations : IOperations
+    public interface ISubscriptionOperations : IOperations
     {
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -13,21 +13,21 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<WebhookEventType>>> GetWithHttpMessagesAsync(string locationId,
-            Dictionary<string, List<string>> customHeaders = null,
+        Task<HttpOperationResponse<IList<Subscription>>> GetWithHttpMessagesAsync(string clientId,
+            string merchantId = null,
+            short? limit = null,
+         Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken));
 
-        /// <param name='value'>
-        /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<WebhookEventType>>> PutWithHttpMessagesAsync(string locationId,
-            IEnumerable<WebhookEventType> value,
-            Dictionary<string, List<string>> customHeaders = null,
-            CancellationToken cancellationToken = default(CancellationToken));
-   }
+        Task<HttpOperationResponse<Subscription>> GetWithHttpMessagesAsync(string clientId,
+           string subscriptionId,
+           Dictionary<string, List<string>> customHeaders = null,
+           CancellationToken cancellationToken = default(CancellationToken));
+    }
 }

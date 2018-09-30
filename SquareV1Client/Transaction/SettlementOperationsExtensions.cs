@@ -72,6 +72,7 @@ namespace MeyerCorp.Square.V1.Transaction
                 };
             }
         }
+
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>

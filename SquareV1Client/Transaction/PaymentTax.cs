@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MeyerCorp.Square.V1.Item;
+using Newtonsoft.Json;
 using System;
 
 namespace MeyerCorp.Square.V1.Transaction

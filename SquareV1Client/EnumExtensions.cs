@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MeyerCorp.Square.V1.Item;
+using System;
 
 namespace MeyerCorp.Square.V1
 {
@@ -310,102 +311,6 @@ namespace MeyerCorp.Square.V1
                 case "YER": return CurrencyCodeType.YER;
                 case "ZAR": return CurrencyCodeType.ZAR;
                 case "ZMW": return CurrencyCodeType.ZMW;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-
-        public static string EnumToString(this FeeType type)
-        {
-            switch (type)
-            {
-                case FeeType.CanadianGoodsAndServicesTax: return "CA_GST";
-                case FeeType.CaliforniaHarmonizedSalesTax: return "CA_HST";
-                case FeeType.PrinceEdwardIslandProvincialSalesTax: return "CA_PEI_PST";
-                case FeeType.ProvincialSaleTax: return "CA_PST";
-                case FeeType.QuebecSalesTax: return "CA_QST";
-                case FeeType.JapaneseConsumptionTax: return "JP_CONSUMPTION_TAX";
-                case FeeType.UsSalesTax: return "US_SALES_TAX";
-                case FeeType.Other: return "OTHER";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public static FeeType ToFeeType(this string value)
-        {
-            switch (value)
-            {
-                case "CA_GST": return FeeType.CanadianGoodsAndServicesTax;
-                case "CA_HST": return FeeType.CaliforniaHarmonizedSalesTax;
-                case "CA_PEI_PST": return FeeType.PrinceEdwardIslandProvincialSalesTax;
-                case "CA_PST": return FeeType.ProvincialSaleTax;
-                case "CA_QST": return FeeType.QuebecSalesTax;
-                case "JP_CONSUMPTION_TAX": return FeeType.JapaneseConsumptionTax;
-                case "US_SALES_TAX": return FeeType.UsSalesTax;
-                case "OTHER": return FeeType.Other;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-
-        public static string EnumToString(this FeeInclusionType type)
-        {
-            switch (type)
-            {
-                case FeeInclusionType.Additive: return "ADDITIVE";
-                case FeeInclusionType.Inclusive: return "INCLUSIVE";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public static FeeInclusionType ToFeeInclusionType(this string value)
-        {
-            switch (value)
-            {
-                case "ADDITIVE": return FeeInclusionType.Additive;
-                case "INCLUSIVE": return FeeInclusionType.Inclusive;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-
-        public static string EnumToString(this FeeAdjustmentType type)
-        {
-            switch (type)
-            {
-                case FeeAdjustmentType.Tax: return "TAX";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public static FeeAdjustmentType ToFeeAdjustmentType(this string value)
-        {
-            switch (value)
-            {
-                case "TAX": return FeeAdjustmentType.Tax;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-
-        public static string EnumToString(this FeeCalculationPhaseType type)
-        {
-            switch (type)
-            {
-                case FeeCalculationPhaseType.FeeSubTotalPhase: return "FEE_SUBTOTAL_PHASE";
-                case FeeCalculationPhaseType.FeeTotalPhase: return "FEE_TOTAL_PHASE";
-                case FeeCalculationPhaseType.Other: return "OTHER";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public static FeeCalculationPhaseType ToFeeCalculationPhaseType(this string value)
-        {
-            switch (value)
-            {
-                case "FEE_SUBTOTAL_PHASE": return FeeCalculationPhaseType.FeeSubTotalPhase;
-                case "FEE_TOTAL_PHASE": return FeeCalculationPhaseType.FeeTotalPhase;
-                case "OTHER": return FeeCalculationPhaseType.Other;
                 default: throw new ArgumentOutOfRangeException();
             }
         }

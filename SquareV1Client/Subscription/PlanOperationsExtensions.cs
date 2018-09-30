@@ -9,14 +9,57 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<SubscriptionPlan> Get(this IPlanOperations operations,
-            string locationId,
-            string id,
-            bool isContinous = false)
+        public static ActiveList<SubscriptionPlan> Get(this IPlanOperations operations, string clientId)
         {
             return Task
                 .Factory
-                .StartNew(s => ((IPlanOperations)s).GetAsync(locationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                .StartNew(s => ((IPlanOperations)s).GetAsync(clientId),
+                    operations,
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default)
+                    .Unwrap()
+                    .GetAwaiter()
+                    .GetResult();
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<ActiveList<SubscriptionPlan>> GetAsync(this IPlanOperations operations,
+            string clientId,
+            bool isContinous = false,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var result = await operations.GetWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
+            {
+                return new ActiveList<SubscriptionPlan>
+                {
+                    InitialUri = result.Request.RequestUri.AbsoluteUri,
+                    Collection = result.Body,
+                    NextUri = result.ToNextUri(),
+                    Operations = operations,
+                    IsContinous = isContinous,
+                    CancellationToken = cancellationToken,
+                };
+            }
+        }
+
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        public static SubscriptionPlan Get(this IPlanOperations operations, string clientId, string planId)
+        {
+            return Task
+                .Factory
+                .StartNew(s => ((IPlanOperations)s).GetAsync(clientId, planId),
+                    operations,
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default)
                 .Unwrap()
                 .GetAwaiter()
                 .GetResult();
@@ -28,51 +71,15 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<SubscriptionPlan>> GetAsync(this IPlanOperations operations,
-            string locationId,
-            bool isContinous = false,
+        public static async Task<SubscriptionPlan> GetAsync(this IPlanOperations operations,
+            string clientId,
+            string planId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.GetWithHttpMessagesAsync(clientId, planId, null, cancellationToken).ConfigureAwait(false))
             {
-                return result.Body;
+                return _result.Body;
             }
-        }
-
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='id'>
-        /// </param>
-        /// <param name='value'>
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        public static async Task<IList<SubscriptionPlan>> PutAsync(this IPlanOperations operations,
-            string locationId,
-            IEnumerable<SubscriptionPlan> value,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            using (var result = await operations.PutWithHttpMessagesAsync(locationId, value, null, cancellationToken).ConfigureAwait(false))
-            {
-                return new List<SubscriptionPlan>(result.Body);
-            }
-        }
-
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='value'>
-        /// </param>
-        public static IList<SubscriptionPlan> Put(this IPlanOperations operations, string locationId, IEnumerable<SubscriptionPlan> value)
-        {
-            return Task
-                  .Factory
-                  .StartNew(s => ((IPlanOperations)s).PutAsync(locationId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
-                  .Unwrap()
-                  .GetAwaiter()
-                  .GetResult();
         }
     }
 }

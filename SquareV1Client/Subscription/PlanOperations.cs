@@ -25,28 +25,26 @@ namespace MeyerCorp.Square.V1.Subscription
         {
             switch (values.Length)
             {
-                case 1: return BaseUri.Append("webhooks");
+                case 1: return BaseUri.Append("oauth2", "clients", values[0], "plans", values.Length > 1 ? values[1] : null);
                 default: throw new ArgumentException();
             }
         }
 
-        public Task<HttpOperationResponse<IList<SubscriptionPlan>>> GetWithHttpMessagesAsync(string locationId,
+        public Task<HttpOperationResponse<IList<SubscriptionPlan>>> GetWithHttpMessagesAsync(string clientId,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri(locationId);
+            var uri = GetUri(clientId);
 
             return GetWithHttpMessagesAsync<IList<SubscriptionPlan>>(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse<IList<SubscriptionPlan>>> PutWithHttpMessagesAsync(string locationId,
-            IEnumerable<SubscriptionPlan> value,
+        public Task<HttpOperationResponse<SubscriptionPlan>> GetWithHttpMessagesAsync(string clientId,
+            string planId,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri(locationId);
-
-            return PutWithHttpMessagesAsync<IEnumerable<SubscriptionPlan>, IList<SubscriptionPlan>>(uri, value, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<SubscriptionPlan>(GetUri(clientId,planId), customHeaders, cancellationToken);
         }
     }
 }

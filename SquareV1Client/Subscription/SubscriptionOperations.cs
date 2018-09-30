@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1.Subscription
 {
-    public class PlanOperations : Operations, IWebhookOperations
+    public class SubscriptionOperations : Operations, ISubscriptionOperations
     {
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
@@ -14,7 +14,7 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public PlanOperations(Client client) : base(client) { }
+        public SubscriptionOperations(Client client) : base(client) { }
 
         /// <summary>
         /// 
@@ -30,23 +30,23 @@ namespace MeyerCorp.Square.V1.Subscription
             }
         }
 
-        public Task<HttpOperationResponse<IList<WebhookEventType>>> GetWithHttpMessagesAsync(string locationId,
+        public Task<HttpOperationResponse<IList<Subscription>>> GetWithHttpMessagesAsync(string clientId,
+            string merchantId = null,
+            short? limit = null,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri(locationId);
+            var uri = GetUri(clientId).AppendParameters("merchant_id", merchantId, "limit", limit.HasValue ? limit.Value.ToString() : null);
 
-            return GetWithHttpMessagesAsync<IList<WebhookEventType>>(uri, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<IList<Subscription>>(uri, customHeaders, cancellationToken);
         }
 
-        public Task<HttpOperationResponse<IList<WebhookEventType>>> PutWithHttpMessagesAsync(string locationId,
-            IEnumerable<WebhookEventType> value,
+        public Task<HttpOperationResponse<Subscription>> GetWithHttpMessagesAsync(string clientId,
+            string subscriptionId,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var uri = GetUri(locationId);
-
-            return PutWithHttpMessagesAsync<IEnumerable<WebhookEventType>, IList<WebhookEventType>>(uri, value, customHeaders, cancellationToken);
+            return GetWithHttpMessagesAsync<Subscription>(GetUri(clientId, subscriptionId), customHeaders, cancellationToken);
         }
     }
 }
