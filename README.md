@@ -36,7 +36,7 @@ A software development kit in .NET Core for the Square API (V1)
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
+(Check back soon.)
 
 ```
 (Check back soon.)
@@ -44,7 +44,7 @@ Explain what these tests test and why
 
 ### And coding style tests
 
-Explain what these tests test and why
+(Check back soon.)
 
 ```
 (Check back soon.)
@@ -52,7 +52,7 @@ Explain what these tests test and why
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+(Check back soon.)
 
 ## Built With
 
@@ -65,8 +65,6 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 ## Authors
 
 * **Daniel Przybylski** - *Initial work* - [GitHub](https://github.com/Alfetta159)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
