@@ -1,12 +1,13 @@
 ﻿using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1.Webhooks
 {
-    public class PlanOperations : Operations, IWebhookOperations
+    public class WebhookOperations : Operations, IWebhookOperations
     {
         /// <summary>
         /// Initializes a new instance of the OrdersOperations class.
@@ -14,7 +15,7 @@ namespace MeyerCorp.Square.V1.Webhooks
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        public PlanOperations(Client client) : base(client) { }
+        public WebhookOperations(Client client) : base(client) { }
 
         /// <summary>
         /// 
@@ -25,7 +26,7 @@ namespace MeyerCorp.Square.V1.Webhooks
         {
             switch (values.Length)
             {
-                case 1: return BaseUri.Append("webhooks");
+                case 1: return BaseUri.Append(values[0], "webhooks");
                 default: throw new ArgumentException();
             }
         }
@@ -46,7 +47,10 @@ namespace MeyerCorp.Square.V1.Webhooks
         {
             var uri = GetUri(locationId);
 
-            return PutWithHttpMessagesAsync<IEnumerable<WebhookEventType>, IList<WebhookEventType>>(uri, value, customHeaders, cancellationToken);
+            return PutWithHttpMessagesAsync<IEnumerable<string>, IList<WebhookEventType>>(uri,
+                value.Select(v => v.EnumToString()),
+                customHeaders,
+                cancellationToken);
         }
     }
 }

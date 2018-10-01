@@ -10,9 +10,7 @@ namespace MeyerCorp.Square.V1.Webhooks
         /// The operations group for this extension method.
         /// </param>
         public static IList<WebhookEventType> Get(this IWebhookOperations operations,
-            string locationId,
-            string id,
-            bool isContinous = false)
+            string locationId)
         {
             return Task
                 .Factory
@@ -30,7 +28,6 @@ namespace MeyerCorp.Square.V1.Webhooks
         /// </param>
         public static async Task<IList<WebhookEventType>> GetAsync(this IWebhookOperations operations,
             string locationId,
-            bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))

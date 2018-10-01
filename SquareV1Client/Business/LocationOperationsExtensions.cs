@@ -11,7 +11,15 @@ namespace MeyerCorp.Square.V1.Business
         /// </param>
         public static IList<Merchant> Get(this ILocationOperations operations)
         {
-            return Task.Factory.StartNew(s => ((ILocationOperations)s).GetAsync(), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task
+                .Factory
+                .StartNew(s => ((ILocationOperations)s).GetAsync(), 
+                    operations, 
+                    CancellationToken.None, 
+                    TaskCreationOptions.None, 
+                    TaskScheduler.Default).Unwrap()
+                .GetAwaiter()
+                .GetResult();
         }
 
         /// <param name='operations'>

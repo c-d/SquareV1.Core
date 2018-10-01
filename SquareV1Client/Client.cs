@@ -1,5 +1,6 @@
 ﻿using MeyerCorp.Square.V1.Business;
 using MeyerCorp.Square.V1.Transaction;
+using MeyerCorp.Square.V1.Webhooks;
 using Microsoft.Rest;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
@@ -166,6 +167,7 @@ namespace MeyerCorp.Square.V1
             BusinessOperations = new BusinessOperations(this);
             RoleOperations = new RoleOperations(this);
             EmployeeOperations = new EmployeeOperations(this);
+            WebhookOperations = new WebhookOperations(this);
 
             SerializationSettings = new JsonSerializerSettings
             {
@@ -219,5 +221,7 @@ namespace MeyerCorp.Square.V1
         public IRoleOperations RoleOperations { get; private set; }
 
         public IEmployeeOperations EmployeeOperations { get; private set; }
+
+        public IWebhookOperations WebhookOperations { get; private set; }
     }
 }
