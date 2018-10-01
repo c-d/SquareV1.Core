@@ -77,7 +77,7 @@ namespace MeyerCorp.Square.V1
         /// </summary>
         /// <param name="item">Item in question.</param>
         /// <returns>Whether it contains the item or not.</returns>
-        public bool Contains(T item) { return Collection.Contains(item); }
+        public bool Contains(T item) { throw new NotImplementedException(); }
 
         /// <summary>
         /// Copy to another collection.

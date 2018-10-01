@@ -61,16 +61,23 @@ namespace MeyerCorp.Square.V1.Business
         {
             using (var _result = await operations.GetWithHttpMessagesAsync(order, employeeId, beginClockIn, endClockIn, beginClockOut, endClockOut, beginUpdated, endUpdated, isDeleted, limit, isContinous, null, cancellationToken).ConfigureAwait(false))
             {
-                return _result.Body;
+                return new ActiveList<Timecard>
+                {
+                    InitialUri = _result.Request.RequestUri.AbsoluteUri,
+                    Collection = _result.Body,
+                    NextUri = _result.ToNextUri(),
+                    Operations = operations,
+                    IsContinous = isContinous,
+                };
             }
         }
 
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static Timecard Get(this ITimecardOperations operations, string roleId)
+        public static Timecard Get(this ITimecardOperations operations, string id)
         {
-            return Task.Factory.StartNew(s => ((ITimecardOperations)s).GetAsync(roleId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((ITimecardOperations)s).GetAsync(id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -79,9 +86,9 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<Timecard> GetAsync(this ITimecardOperations operations, string roleId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<Timecard> GetAsync(this ITimecardOperations operations, string id, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var _result = await operations.GetWithHttpMessagesAsync(roleId, null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.GetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
             {
                 return _result.Body;
             }
@@ -117,9 +124,9 @@ namespace MeyerCorp.Square.V1.Business
         /// </param>
         /// <param name='value'>
         /// </param>
-        public static void Put(this ITimecardOperations operations, string roleId, Timecard value)
+        public static void Put(this ITimecardOperations operations, string id, Timecard value)
         {
-            Task.Factory.StartNew(s => ((ITimecardOperations)s).PutAsync(roleId, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            Task.Factory.StartNew(s => ((ITimecardOperations)s).PutAsync(id, value), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <param name='operations'>
@@ -132,32 +139,32 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task PutAsync(this ITimecardOperations operations, string roleId, Timecard value, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PutAsync(this ITimecardOperations operations, string id, Timecard value, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await operations.PutWithHttpMessagesAsync(roleId, value, null, cancellationToken).ConfigureAwait(false);
+            await operations.PutWithHttpMessagesAsync(id, value, null, cancellationToken).ConfigureAwait(false);
         }
 
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='id'>
-        ///// </param>
-        //public static void Delete(this ITimecardOperations operations, string roleId)
-        //{
-        //    Task.Factory.StartNew(s => ((ITimecardOperations)s).DeleteAsync(id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        //}
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='id'>
+        /// </param>
+        public static void Delete(this ITimecardOperations operations, string id)
+        {
+            Task.Factory.StartNew(s => ((ITimecardOperations)s).DeleteAsync(id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
 
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='id'>
-        ///// </param>
-        ///// <param name='cancellationToken'>
-        ///// The cancellation token.
-        ///// </param>
-        //public static async Task DeleteAsync(this ITimecardOperations operations, string roleId, CancellationToken cancellationToken = default(CancellationToken))
-        //{
-        //    await operations.DeleteWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false);
-        //}
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='id'>
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task DeleteAsync(this ITimecardOperations operations, string id, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var result = await operations.DeleteWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false);
+        }
     }
 }

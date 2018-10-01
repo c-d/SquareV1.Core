@@ -19,7 +19,7 @@ namespace MeyerCorp.Square.V1
     {
         IEnumerator<T> _Enumerator;
         Uri _InitialUri;
-        Uri _NextUri;
+        string _NextUri;
         IEnumerable<T> _Collection;
 
         readonly bool _IsContinuous;
@@ -38,7 +38,7 @@ namespace MeyerCorp.Square.V1
         {
             _Collection = collection;
             _Operations = operations;
-            _NextUri = new Uri(nextUri);
+            _NextUri = nextUri;
             _InitialUri = new Uri(initialUri);
             _CancellationToken = cancellationToken;
             _IsContinuous = isContinous;
@@ -115,12 +115,12 @@ namespace MeyerCorp.Square.V1
         {
             var result = Task
                 .Factory
-                .StartNew(s => ((IOperations)s).GetWithHttpMessagesAsync<IList<T>>(_NextUri, null, _CancellationToken), _Operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                .StartNew(s => ((IOperations)s).GetWithHttpMessagesAsync<IList<T>>(new Uri(_NextUri), null, _CancellationToken), _Operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
                 .Unwrap()
                 .GetAwaiter()
                 .GetResult();
 
-            _NextUri = new Uri(result.ToNextUri());
+            _NextUri = result.ToNextUri();
             _Collection = result.Body;
             _Enumerator = _Collection.GetEnumerator();
         }

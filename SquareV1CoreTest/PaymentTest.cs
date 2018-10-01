@@ -22,9 +22,9 @@ namespace Meyer.Square.V1.Test
 
                 using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    var payments = await client.PaymentOperations.GetAsync(locationId: location);
+                    var payments = await client.PaymentOperations.GetAsync(limit: 200, locationId: location);
 
-                    foreach(var payment in payments)
+                    foreach (var payment in payments)
                         System.Diagnostics.Debug.WriteLine(payment.Id);
                 }
             }
@@ -44,9 +44,9 @@ namespace Meyer.Square.V1.Test
 
                 using (var client = new Client(new Uri(baseurl), credentials))
                 {
-                    var payments = await client.PaymentOperations.GetAsync(locationId: location, isContinous:true);
+                    var payments = await client.PaymentOperations.GetAsync(locationId: location, isContinous: true, limit: 200);
 
-                    foreach(var payment in payments)
+                    foreach (var payment in payments)
                         System.Diagnostics.Debug.WriteLine(payment.Id);
                 }
             }
@@ -58,7 +58,7 @@ namespace Meyer.Square.V1.Test
         }
 
         [Fact(DisplayName = "Payments: Get All")]
-        public  void GetTest()
+        public void GetTest()
         {
             try
             {
@@ -68,7 +68,7 @@ namespace Meyer.Square.V1.Test
                 {
                     var payments = client.PaymentOperations.Get(locationId: location/*, take: 2*/);
 
-                    foreach(var payment in payments)
+                    foreach (var payment in payments)
                         System.Diagnostics.Debug.WriteLine(payment.Id);
                 }
             }
@@ -93,7 +93,7 @@ namespace Meyer.Square.V1.Test
                         endTime: DateTime.Now,
                         limit: 1);
 
-                   foreach (var payment in payments)
+                    foreach (var payment in payments)
                         System.Diagnostics.Debug.WriteLine(payment.Id);
                 }
             }
@@ -126,5 +126,33 @@ namespace Meyer.Square.V1.Test
                 throw;
             }
         }
-    }
+ 
+        [Fact(DisplayName = "Payments: Get All, Take Limited, Filter by Date, continously(async)")]
+        public async Task GetTestAsyncTakeLimitedFilterbyDate()
+        {
+            try
+            {
+                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
+
+                using (var client = new Client(new Uri(baseurl), credentials))
+                {
+                    var payments = await client.PaymentOperations.GetAsync(locationId: location,
+                        endTime: DateTime.Now,
+                        beginTime: DateTime.Today - TimeSpan.FromDays(1),
+                        limit: 200,
+                        isContinous: true);
+
+                    foreach (var item in payments)
+                        System.Diagnostics.Debug.WriteLine(item.Id);
+
+                    //Assert.Equal(50, payments.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }
+   }
 }
