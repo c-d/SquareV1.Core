@@ -9,7 +9,7 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<SubscriptionPlan> Get(this IPlanOperations operations, string clientId)
+        public static ActiveEnumerable<SubscriptionPlan> Get(this IPlanOperations operations, string clientId)
         {
             return Task
                 .Factory
@@ -29,14 +29,14 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ActiveList<SubscriptionPlan>> GetAsync(this IPlanOperations operations,
+        public static async Task<ActiveEnumerable<SubscriptionPlan>> GetAsync(this IPlanOperations operations,
             string clientId,
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var result = await operations.GetWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<SubscriptionPlan>
+                return new ActiveEnumerable<SubscriptionPlan>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,

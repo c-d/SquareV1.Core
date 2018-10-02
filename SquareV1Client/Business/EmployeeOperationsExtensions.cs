@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Employee> Get(this IEmployeeOperations operations,
+        public static IEnumerable<Employee> Get(this IEmployeeOperations operations,
             DateTime? created,
             DateTime? updated,
             EmployeeStatusType? status,
@@ -30,7 +30,7 @@ namespace MeyerCorp.Square.V1.Business
 
             task.Wait();
 
-            return new ActiveList<Employee>
+            return new ActiveEnumerable<Employee>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,

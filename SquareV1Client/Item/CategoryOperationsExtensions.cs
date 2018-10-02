@@ -13,14 +13,14 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Category>> GetAsync(this ICategoryOperations operations,
+        public static async Task<IEnumerable<Category>> GetAsync(this ICategoryOperations operations,
             string locationId,
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, isContinous, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Category>
+                return new ActiveEnumerable<Category>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,

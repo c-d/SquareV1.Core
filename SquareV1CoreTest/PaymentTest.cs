@@ -2,6 +2,7 @@ using MeyerCorp.Square.V1;
 using MeyerCorp.Square.V1.Transaction;
 using Microsoft.Rest;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -117,7 +118,7 @@ namespace Meyer.Square.V1.Test
                          limit: 50,
                          listOrder: ListOrderType.Descending);
 
-                    Assert.Equal(50, payments.Count);
+                    Assert.Equal(50, payments.Count());
                 }
             }
             catch (Exception ex)

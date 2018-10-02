@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Timecard> Get(this ITimecardOperations operations,
+        public static IEnumerable<Timecard> Get(this ITimecardOperations operations,
             ListOrderType? order = null,
             string employeeId = null,
             DateTime? beginClockIn = null,
@@ -29,7 +29,7 @@ namespace MeyerCorp.Square.V1.Business
 
             task.Wait();
 
-            return new ActiveList<Timecard>
+            return new ActiveEnumerable<Timecard>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,
@@ -45,7 +45,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Timecard>> GetAsync(this ITimecardOperations operations,
+        public static async Task<IEnumerable<Timecard>> GetAsync(this ITimecardOperations operations,
             ListOrderType? order = null,
             string employeeId = null,
             DateTime? beginClockIn = null,
@@ -61,7 +61,7 @@ namespace MeyerCorp.Square.V1.Business
         {
             using (var _result = await operations.GetWithHttpMessagesAsync(order, employeeId, beginClockIn, endClockIn, beginClockOut, endClockOut, beginUpdated, endUpdated, isDeleted, limit, isContinous, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Timecard>
+                return new ActiveEnumerable<Timecard>
                 {
                     InitialUri = _result.Request.RequestUri.AbsoluteUri,
                     Collection = _result.Body,

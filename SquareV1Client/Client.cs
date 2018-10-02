@@ -21,10 +21,7 @@ namespace MeyerCorp.Square.V1
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        protected Client(params DelegatingHandler[] handlers) : base(handlers)
-        {
-            Initialize();
-        }
+        protected Client(params DelegatingHandler[] handlers) : base(handlers) { Initialize(); }
 
         /// <summary>
         /// Initializes a new instance of the Client public class.
@@ -35,10 +32,7 @@ namespace MeyerCorp.Square.V1
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        protected Client(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
-        {
-            Initialize();
-        }
+        protected Client(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers) { Initialize(); }
 
         /// <summary>
         /// Initializes a new instance of the Client public class.
@@ -126,10 +120,8 @@ namespace MeyerCorp.Square.V1
         {
             BaseUri = baseUri ?? throw new ArgumentNullException("baseUri");
             Credentials = credentials ?? throw new ArgumentNullException("credentials");
-            if (Credentials != null)
-            {
-                Credentials.InitializeServiceClient(this);
-            }
+
+            if (Credentials != null) { Credentials.InitializeServiceClient(this); }
         }
 
         /// <summary>
@@ -151,10 +143,7 @@ namespace MeyerCorp.Square.V1
         {
             BaseUri = baseUri ?? throw new ArgumentNullException("baseUri");
             Credentials = credentials ?? throw new ArgumentNullException("credentials");
-            if (Credentials != null)
-            {
-                Credentials.InitializeServiceClient(this);
-            }
+            if (Credentials != null) { Credentials.InitializeServiceClient(this); }
         }
 
         /// <summary>

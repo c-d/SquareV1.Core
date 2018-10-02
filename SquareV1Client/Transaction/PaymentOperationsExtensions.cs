@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Payment> Get(this IPaymentOperations operations, 
+        public static IEnumerable<Payment> Get(this IPaymentOperations operations, 
             string locationId, 
             DateTime? beginTime=null, 
             DateTime? endTime = null, 
@@ -32,7 +32,7 @@ namespace MeyerCorp.Square.V1.Transaction
 
             task.Wait();
 
-            return new ActiveList<Payment>
+            return new ActiveEnumerable<Payment>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,
@@ -48,7 +48,7 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Payment>> GetAsync(this IPaymentOperations operations,
+        public static async Task<IEnumerable<Payment>> GetAsync(this IPaymentOperations operations,
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,
@@ -59,7 +59,7 @@ namespace MeyerCorp.Square.V1.Transaction
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, beginTime, endTime, listOrder, limit, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Payment>
+                return new ActiveEnumerable<Payment>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,

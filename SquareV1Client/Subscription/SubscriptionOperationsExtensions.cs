@@ -8,7 +8,7 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static ActiveList<Subscription> Get(this ISubscriptionOperations operations, string clientId,
+        public static ActiveEnumerable<Subscription> Get(this ISubscriptionOperations operations, string clientId,
             string merchantId,
             short? limit,
             bool isContinous = false)
@@ -31,7 +31,7 @@ namespace MeyerCorp.Square.V1.Subscription
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ActiveList<Subscription>> GetAsync(this ISubscriptionOperations operations,
+        public static async Task<ActiveEnumerable<Subscription>> GetAsync(this ISubscriptionOperations operations,
             string clientId,
             string merchantId,
             short? limit,
@@ -40,7 +40,7 @@ namespace MeyerCorp.Square.V1.Subscription
         {
             using (var result = await operations.GetWithHttpMessagesAsync(clientId, merchantId, limit, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Subscription>
+                return new ActiveEnumerable<Subscription>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,

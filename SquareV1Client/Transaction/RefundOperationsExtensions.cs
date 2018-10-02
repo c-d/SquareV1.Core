@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1.Transaction
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Refund> Get(this IRefundOperations operations,
+        public static IEnumerable<Refund> Get(this IRefundOperations operations,
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,
@@ -32,7 +32,7 @@ namespace MeyerCorp.Square.V1.Transaction
 
             task.Wait();
 
-            return new ActiveList<Refund>
+            return new ActiveEnumerable<Refund>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,

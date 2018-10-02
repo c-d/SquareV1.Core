@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Discount> Get(this IDiscountOperations operations,
+        public static IEnumerable<Discount> Get(this IDiscountOperations operations,
             string locationId,
             bool isContinous = false)
         {
@@ -28,7 +28,7 @@ namespace MeyerCorp.Square.V1.Item
 
             task.Wait();
 
-            return new ActiveList<Discount>
+            return new ActiveEnumerable<Discount>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,
@@ -44,7 +44,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Discount>> GetAsync(this IDiscountOperations operations,
+        public static async Task<IEnumerable<Discount>> GetAsync(this IDiscountOperations operations,
             string locationId,
             DateTime? beginTime = null,
             DateTime? endTime = null,
@@ -55,7 +55,7 @@ namespace MeyerCorp.Square.V1.Item
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Discount>
+                return new ActiveEnumerable<Discount>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,

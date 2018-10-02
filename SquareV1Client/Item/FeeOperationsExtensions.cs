@@ -10,7 +10,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Fee> Get(this IFeeOperations operations,
+        public static IEnumerable<Fee> Get(this IFeeOperations operations,
             string locationId,
             bool isContinous = false)
         {
@@ -28,7 +28,7 @@ namespace MeyerCorp.Square.V1.Item
 
             task.Wait();
 
-            return new ActiveList<Fee>
+            return new ActiveEnumerable<Fee>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,
@@ -44,14 +44,14 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Fee>> GetAsync(this IFeeOperations operations,
+        public static async Task<IEnumerable<Fee>> GetAsync(this IFeeOperations operations,
             string locationId,
             bool isContinous = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<Fee>
+                return new ActiveEnumerable<Fee>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,

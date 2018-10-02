@@ -9,7 +9,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<InventoryEntry> Get(this IInventoryOperations operations, 
+        public static IEnumerable<InventoryEntry> Get(this IInventoryOperations operations, 
             string locationId, 
             short? limit = null, 
             bool isContinous=false)
@@ -28,7 +28,7 @@ namespace MeyerCorp.Square.V1.Item
 
             task.Wait();
 
-            return new ActiveList<InventoryEntry>
+            return new ActiveEnumerable<InventoryEntry>
             {
                 InitialUri = task.Result.Request.RequestUri.AbsoluteUri,
                 Collection = task.Result.Body,
@@ -44,7 +44,7 @@ namespace MeyerCorp.Square.V1.Item
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<InventoryEntry>> GetAsync(this IInventoryOperations operations,
+        public static async Task<IEnumerable<InventoryEntry>> GetAsync(this IInventoryOperations operations,
             string locationId,
             short? limit = null,
             bool isContinous = false,
@@ -52,7 +52,7 @@ namespace MeyerCorp.Square.V1.Item
         {
             using (var result = await operations.GetWithHttpMessagesAsync(locationId, limit, null, cancellationToken).ConfigureAwait(false))
             {
-                return new ActiveList<InventoryEntry>
+                return new ActiveEnumerable<InventoryEntry>
                 {
                     InitialUri = result.Request.RequestUri.AbsoluteUri,
                     Collection = result.Body,
