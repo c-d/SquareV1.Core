@@ -102,7 +102,7 @@ namespace MeyerCorp.Square.V1
                 _Enumerator.Reset();
             else
             {
-                _NextUri = new Uri(_InitialUri.AbsoluteUri);
+                _NextUri = _InitialUri.AbsoluteUri;
 
                 GetNewEnumerator();
             }
