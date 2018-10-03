@@ -18,7 +18,7 @@ namespace MeyerCorp.Square.V1
         /// <summary>
         /// Collection which to base this list upon.
         /// </summary>
-        internal IList<T> Collection { get; set; }
+        internal IEnumerable<T> Collection { get; set; }
 
         /// <summary>
         /// The initial URI used by the Active Enumerator.

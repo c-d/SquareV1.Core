@@ -3,7 +3,6 @@ using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace MeyerCorp.Square.V1
 {
+    /// <summary>
+    /// Operations implementing HTTP Verbs.
+    /// </summary>
     public abstract class Operations : IOperations
     {
         /// <summary>
@@ -19,17 +21,35 @@ namespace MeyerCorp.Square.V1
         /// </summary>
         public Client Client { get; private set; }
 
+        /// <summary>
+        /// Base URI to use for all operations.
+        /// </summary>
         public Uri BaseUri { get; set; }
 
+        /// <summary>
+        /// A method to create a complete URI needed for an operation.
+        /// </summary>
+        /// <param name="values">Any number of segments to append to the base URI.</param>
+        /// <returns>The complete URI.</returns>
+        /// <remarks>This will be used by child classes to add specific route and parameter values.</remarks>
         protected abstract Uri GetUri(params string[] values);
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="client">A reference to the SquareAppriseTransferWebJobClient</param>
         public Operations(Client client)
         {
             Client = client ?? throw new ArgumentNullException("client");
             BaseUri = client.BaseUri;
         }
 
-        protected void SetHeaders(HttpRequestMessage httpRequest, Dictionary<string, List<string>> customHeaders)
+        /// <summary>
+        /// Set any custom headers to the HTTP request.
+        /// </summary>
+        /// <param name="httpRequest">Request on which to set headers.</param>
+        /// <param name="customHeaders">Header collection to set.</param>
+        protected static void SetHeaders(HttpRequestMessage httpRequest, Dictionary<string, List<string>> customHeaders)
         {
             if (customHeaders != null)
             {
@@ -43,6 +63,12 @@ namespace MeyerCorp.Square.V1
             }
         }
 
+        /// <summary>
+        /// Set request credentials.
+        /// </summary>
+        /// <param name="httpRequest">Request on which to set credentials.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task.</returns>
         protected async Task SetCredentialsAsync(HttpRequestMessage httpRequest, CancellationToken cancellationToken)
         {
             if (Client.Credentials != null)
@@ -52,7 +78,14 @@ namespace MeyerCorp.Square.V1
             }
         }
 
-        protected async Task<HttpOperationResponse<T>> DeserializeResponseAsync<T>(HttpStatusCode statusCode, HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)
+        /// <summary>
+        /// Deserialize HTTP response.
+        /// </summary>
+        /// <typeparam name="T">Type which to deserialize response body as.</typeparam>
+        /// <param name="httpRequest">HTTP request.</param>
+        /// <param name="httpResponse">HTTP response.</param>
+        /// <returns>Asynchronous typed operation response.</returns>
+        protected async Task<HttpOperationResponse<T>> DeserializeResponseAsync<T>(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)
         {
             // Create Result
             var result = new HttpOperationResponse<T>
@@ -61,7 +94,7 @@ namespace MeyerCorp.Square.V1
                 Response = httpResponse
             };
 
-            if ((int)statusCode == 200)
+            if (httpResponse.IsSuccessStatusCode)
             {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
@@ -81,29 +114,61 @@ namespace MeyerCorp.Square.V1
             return result;
         }
 
-        protected string SerializeRequest<T>(T value, HttpRequestMessage httpRequest)
+        /// <summary>
+        /// Serialize request.
+        /// </summary>
+        /// <typeparam name="T">Type which to serialize.</typeparam>
+        /// <param name="value">Value which to serialize.</param>
+        /// <param name="httpRequest">Request in which to place the serialized value.</param>
+        /// <returns></returns>
+        protected void SerializeRequest<T>(T value, HttpRequestMessage httpRequest)
         {
-            string requestContent = null;
-
             if (value != null)
             {
-                requestContent = SafeJsonConvert.SerializeObject(value, this.Client.SerializationSettings);
+                var requestContent = SafeJsonConvert.SerializeObject(value, Client.SerializationSettings);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
             }
-
-            return requestContent;
         }
 
+        async static Task<HttpOperationException> HandleUnsuccessfulRequest(HttpRequestMessage request, HttpResponseMessage response)
+        {
+            var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", response.StatusCode));
+
+            string requestContent = null;
+
+            var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            ex.Request = new HttpRequestMessageWrapper(request, requestContent);
+            ex.Response = new HttpResponseMessageWrapper(response, responseContent);
+            request.Dispose();
+
+            if (response != null) response.Dispose();
+
+            return ex;
+        }
+
+        static HttpRequestMessage GetRequest(Uri uri, string verbName)
+        {
+            return new HttpRequestMessage
+            {
+                Method = new HttpMethod(verbName),
+                RequestUri = uri,
+            };
+        }
+
+        /// <summary>
+        /// Run a GET request on the URI and return the request and resonse messages.
+        /// </summary>
+        /// <typeparam name="T">Type which to deserialize the response body to.</typeparam>
+        /// <param name="uri">URI to run the request upon.</param>
+        /// <param name="customHeaders">Any custom headers to use in the request.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns></returns>
         public async Task<HttpOperationResponse<T>> GetWithHttpMessagesAsync<T>(Uri uri,
             Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = new HttpMethod("GET"),
-                RequestUri = uri,
-            };
+            var httpRequest = GetRequest(uri, "GET");
 
             SetHeaders(httpRequest, customHeaders);
             await SetCredentialsAsync(httpRequest, cancellationToken);
@@ -111,27 +176,67 @@ namespace MeyerCorp.Square.V1
             cancellationToken.ThrowIfCancellationRequested();
 
             var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var statusCode = httpResponse.StatusCode;
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            if ((int)statusCode != 200)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
+            if (!httpResponse.IsSuccessStatusCode)
+                throw await HandleUnsuccessfulRequest(httpRequest, httpResponse);
+            else
+                return await DeserializeResponseAsync<T>(httpRequest, httpResponse);
+        }
 
-                string requestContent = null;
+        protected Task<HttpOperationResponse<T>> PostWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return PostWithHttpMessagesAsync<T, T>(uri, value, customHeaders, cancellationToken);
+        }
 
-                var responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestContent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
-                httpRequest.Dispose();
+        protected async Task<HttpOperationResponse<TResponse>> PostWithHttpMessagesAsync<TRequest, TResponse>(Uri uri, TRequest value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
 
-                if (httpResponse != null) httpResponse.Dispose();
+            var httpRequest = GetRequest(uri, "POST");
 
-                throw ex;
-            }
+            SetHeaders(httpRequest, customHeaders);
+            SerializeRequest(value, httpRequest);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
 
-            return await DeserializeResponseAsync<T>(statusCode, httpRequest, httpResponse);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!httpResponse.IsSuccessStatusCode)
+                throw await HandleUnsuccessfulRequest(httpRequest, httpResponse);
+            else
+                return await DeserializeResponseAsync<TResponse>(httpRequest, httpResponse);
+        }
+
+        protected Task<HttpOperationResponse<T>> PutWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return PutWithHttpMessagesAsync<T, T>(uri, value, customHeaders, cancellationToken);
+        }
+
+        protected async Task<HttpOperationResponse<TResponse>> PutWithHttpMessagesAsync<TRequest, TResponse>(Uri uri, TRequest value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
+
+            var httpRequest = GetRequest(uri, "PUT");
+
+            SetHeaders(httpRequest, customHeaders);
+            SerializeRequest(value, httpRequest);
+            await SetCredentialsAsync(httpRequest, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var httpResponse = await Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!httpResponse.IsSuccessStatusCode)
+                throw await HandleUnsuccessfulRequest(httpRequest, httpResponse);
+            else
+                return await DeserializeResponseAsync<TResponse>( httpRequest, httpResponse);
         }
 
         protected async Task<HttpOperationResponse> DeleteWithHttpMessagesAsync<T>(Uri uri, Dictionary<string, List<string>> customHeaders, CancellationToken cancellationToken)
@@ -152,113 +257,14 @@ namespace MeyerCorp.Square.V1
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            if ((int)statusCode != 204)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-                var responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, responseContent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, responseContent);
-                httpRequest.Dispose();
-                if (httpResponse != null) httpResponse.Dispose();
-
-                throw ex;
-            }
-
-            return new HttpOperationResponse
-            {
-                Request = httpRequest,
-                Response = httpResponse
-            };
-        }
-
-        protected Task<HttpOperationResponse<T>> PostWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return PostWithHttpMessagesAsync<T, T>(uri, value, customHeaders, cancellationToken);
-        }
-
-        protected async Task<HttpOperationResponse<TResponse>> PostWithHttpMessagesAsync<TRequest, TResponse>(Uri uri, TRequest value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
-
-            // Create HTTP transport objects
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = new HttpMethod("POST"),
-                RequestUri = uri,
-            };
-
-            SetHeaders(httpRequest, customHeaders);
-            var requestcontent = SerializeRequest<TRequest>(value, httpRequest);
-            await SetCredentialsAsync(httpRequest, cancellationToken);
-
-            // Send Request
-            HttpResponseMessage httpResponse = null;
-            cancellationToken.ThrowIfCancellationRequested();
-            httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var statusCode = httpResponse.StatusCode;
-            cancellationToken.ThrowIfCancellationRequested();
-            string _responseContent = null;
-
-            if ((int)statusCode != 204)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestcontent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, _responseContent);
-                httpRequest.Dispose();
-                if (httpResponse != null)
+            if (!httpResponse.IsSuccessStatusCode)
+                throw await HandleUnsuccessfulRequest(httpRequest, httpResponse);
+            else
+                return new HttpOperationResponse
                 {
-                    httpResponse.Dispose();
-                }
-                throw ex;
-            }
-
-            return await DeserializeResponseAsync<TResponse>(statusCode, httpRequest, httpResponse);
-        }
-
-        protected Task<HttpOperationResponse<T>> PutWithHttpMessagesAsync<T>(Uri uri, T value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return PutWithHttpMessagesAsync<T, T>(uri, value, customHeaders, cancellationToken);
-        }
-
-        protected async Task<HttpOperationResponse<TResponse>> PutWithHttpMessagesAsync<TRequest, TResponse>(Uri uri, TRequest value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (value == null) throw new ValidationException(ValidationRules.CannotBeNull, "value");
-
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = new HttpMethod("PUT"),
-                RequestUri = uri,
-            };
-
-            SetHeaders(httpRequest, customHeaders);
-            var requestcontent = SerializeRequest(value, httpRequest);
-            await SetCredentialsAsync(httpRequest, cancellationToken);
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var statusCode = httpResponse.StatusCode;
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            string _responseContent = null;
-
-            if ((int)statusCode != 204)
-            {
-                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", statusCode));
-                _responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                ex.Request = new HttpRequestMessageWrapper(httpRequest, requestcontent);
-                ex.Response = new HttpResponseMessageWrapper(httpResponse, _responseContent);
-
-                httpRequest.Dispose();
-
-                if (httpResponse != null) httpResponse.Dispose();
-
-                throw ex;
-            }
-
-            return await DeserializeResponseAsync<TResponse>(statusCode, httpRequest, httpResponse);
+                    Request = httpRequest,
+                    Response = httpResponse
+                };
         }
     }
 }

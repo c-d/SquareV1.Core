@@ -9,7 +9,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        public static IList<Role> Get(this IRoleOperations operations)
+        public static IEnumerable<Role> Get(this IRoleOperations operations)
         {
             return Task.Factory.StartNew(s => ((IRoleOperations)s).GetAsync(), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -20,7 +20,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<IList<Role>> GetAsync(this IRoleOperations operations,
+        public static async Task<IEnumerable<Role>> GetAsync(this IRoleOperations operations,
             ListOrderType? listOrder = null,
             short? limit = null,
                  bool isContinous = false,
@@ -103,28 +103,5 @@ namespace MeyerCorp.Square.V1.Business
         {
             await operations.PutWithHttpMessagesAsync(roleId, value, null, cancellationToken).ConfigureAwait(false);
         }
-
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='id'>
-        ///// </param>
-        //public static void Delete(this IRoleOperations operations, string roleId)
-        //{
-        //    Task.Factory.StartNew(s => ((IRoleOperations)s).DeleteAsync(id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        //}
-
-        ///// <param name='operations'>
-        ///// The operations group for this extension method.
-        ///// </param>
-        ///// <param name='id'>
-        ///// </param>
-        ///// <param name='cancellationToken'>
-        ///// The cancellation token.
-        ///// </param>
-        //public static async Task DeleteAsync(this IRoleOperations operations, string roleId, CancellationToken cancellationToken = default(CancellationToken))
-        //{
-        //    await operations.DeleteWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false);
-        //}
     }
 }

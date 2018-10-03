@@ -107,6 +107,12 @@ namespace MeyerCorp.Square.V1
             }
         }
 
+        /// <summary>
+        /// Append any number of segments to the path of the URI.
+        /// </summary>
+        /// <param name="baseUri">Base URI which to attach.</param>
+        /// <param name="routeValues">Any number of route segments to append in order.</param>
+        /// <returns>An absolute URI.</returns>
         public static Uri Append(this Uri baseUri, params string[] routeValues)
         {
             var cleanedvalues = routeValues
@@ -129,6 +135,11 @@ namespace MeyerCorp.Square.V1
             }
         }
 
+        /// <summary>
+        /// Exract the next URI from the response headers.
+        /// </summary>
+        /// <param name="response">The response containing the response headers.</param>
+        /// <returns>A string representing a complete URI.</returns>
         public static string ToNextUri(this HttpOperationResponse response)
         {
             var linkheaders = response.Response.Headers.Where(h => h.Key == "Link");

@@ -17,7 +17,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Timecard>>> GetWithHttpMessagesAsync(ListOrderType? order = null,
+        Task<HttpOperationResponse<IEnumerable<Timecard>>> GetWithHttpMessagesAsync(ListOrderType? order = null,
             string employeeId = null,
             DateTime? beginClockIn = null,
             DateTime? endClockIn = null,
@@ -27,8 +27,8 @@ namespace MeyerCorp.Square.V1.Business
             DateTime? endUpdated = null,
             bool? isDeleted = null,
             short? limit = null,
-            bool isContinous = false, 
-            Dictionary<string, List<string>> customHeaders = null, 
+            bool isContinous = false,
+            Dictionary<string, List<string>> customHeaders = null,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='customHeaders'>
@@ -49,7 +49,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> PutWithHttpMessagesAsync(string roleId, Timecard value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Timecard>> PutWithHttpMessagesAsync(string roleId, Timecard value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='value'>
         /// </param>
@@ -59,7 +59,7 @@ namespace MeyerCorp.Square.V1.Business
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> PostWithHttpMessagesAsync(Timecard value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<Timecard>> PostWithHttpMessagesAsync(Timecard value, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='id'>
         /// </param>
