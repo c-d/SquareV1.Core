@@ -123,5 +123,10 @@ namespace MeyerCorp.Square.V1.Business
         /// </summary>
         [JsonProperty(PropertyName = "market_url")]
         public string MarketUrl { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {Name} ({Id}), {MarketUrl}";
+        }
     }
 }

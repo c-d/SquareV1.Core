@@ -1,7 +1,7 @@
 using MeyerCorp.Square.V1;
 using MeyerCorp.Square.V1.Business;
-using Microsoft.Rest;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -9,95 +9,81 @@ namespace Meyer.Square.V1.Test
 {
     public class BusinessTest : Test
     {
-        // Uncomment following two lines and populate your information from Square.
-        //const string location = "";
-        //const string token = "";
-
-        [Fact(DisplayName = "Business: Get Me async")]
-        public async Task GetTestAsync()
+        [Fact(DisplayName = "Business: Retrieve Business Async GET /v1/me")]
+        public async Task RetrieveBusinessAsync()
         {
-            try
+            using (var client = new Client(new Uri(BaseUrl), Credentials))
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
+                var merchant = await client.BusinessOperations.GetAsync();
 
-                using (var client = new Client(new Uri(baseurl), credentials))
-                {
-                    var merchant = await client.BusinessOperations.GetAsync();
-
-                    System.Diagnostics.Debug.WriteLine(merchant);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                throw;
+                Debug.WriteLine(merchant);
             }
         }
 
-        [Fact(DisplayName = "Business: Get by Location ID async")]
-        public async Task GetSpecificTestAsync()
+        [Fact(DisplayName = "Business: Retrieve Business Sync GET /v1/me")]
+        public void RetrieveBusiness()
         {
-            try
+            using (var client = new Client(new Uri(BaseUrl), Credentials))
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
+                var merchant = client.BusinessOperations.Get();
 
-                using (var client = new Client(new Uri(baseurl), credentials))
-                {
-                    var merchant = await client.BusinessOperations.GetAsync(location);
-
-                    Assert.Equal("C16C5851HEJR5", merchant.Id);
-
-                    System.Diagnostics.Debug.WriteLine(merchant.Id);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                throw;
+                Debug.WriteLine(merchant);
             }
         }
 
-        [Fact(DisplayName = "Business: Get Me")]
-        public void GetTest()
+        [Fact(DisplayName = "Locations: List Locations Async GET /v1/me/locations")]
+        public async Task ListLocationsAsync()
         {
-            try
+            using (var client = new Client(new Uri(BaseUrl), Credentials))
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
+                var locations = await client.LocationOperations.GetAsync();
 
-                using (var client = new Client(new Uri(baseurl), credentials))
-                {
-                    var merchant = client.BusinessOperations.Get();
-
-                    System.Diagnostics.Debug.WriteLine(merchant);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                throw;
+                foreach (var location in locations)
+                    Debug.WriteLine(location);
             }
         }
 
-        [Fact(DisplayName = "Business: Get by Location ID")]
-        public void GetSpecificTest()
+        [Fact(DisplayName = "Locations: List Locations Sync GET /v1/me/locations")]
+        public void ListLocations()
         {
-            try
+            using (var client = new Client(new Uri(BaseUrl), Credentials))
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
+                var locations = client.LocationOperations.Get();
 
-                using (var client = new Client(new Uri(baseurl), credentials))
+                foreach (var location in locations)
+                    Debug.WriteLine(location);
+            }
+        }
+
+        [Fact(DisplayName = "Business: Retrieve Location Async GET /v1/me/locations/{locationId}")]
+        public async Task RetrieveLocationsAsync()
+        {
+            using (var client = new Client(new Uri(BaseUrl), Credentials))
+            {
+                var locations = await client.LocationOperations.GetAsync();
+
+                foreach (var location in locations)
                 {
-                    var merchant = client.BusinessOperations.Get(location);
+                    var merchant = await client.BusinessOperations.GetAsync(location.Id);
 
-                    Assert.Equal("C16C5851HEJR5", merchant.Id);
-
-                    System.Diagnostics.Debug.WriteLine(merchant.Id);
+                    Debug.WriteLine(merchant);
                 }
             }
-            catch (Exception ex)
+        }
+
+        [Fact(DisplayName = "Business: Retrieve Location Sync GET /v1/me/locations/{locationId}")]
+        public void RetrieveLocations()
+        {
+            using (var client = new Client(new Uri(BaseUrl), Credentials))
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                throw;
+                var locations = client.LocationOperations.Get();
+
+                foreach (var location in locations)
+                {
+                    var merchant = client.BusinessOperations.Get(location.Id);
+
+                    Debug.WriteLine(merchant);
+                }
             }
         }
     }

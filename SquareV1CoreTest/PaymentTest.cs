@@ -2,6 +2,7 @@ using MeyerCorp.Square.V1;
 using MeyerCorp.Square.V1.Transaction;
 using Microsoft.Rest;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -19,19 +20,19 @@ namespace Meyer.Square.V1.Test
         {
             try
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
-
-                using (var client = new Client(new Uri(baseurl), credentials))
+                using (var client = new Client(new Uri(BaseUrl), Credentials))
                 {
+                    var location = String.Empty;
+
                     var payments = await client.PaymentOperations.GetAsync(limit: 200, locationId: location);
 
                     foreach (var payment in payments)
-                        System.Diagnostics.Debug.WriteLine(payment.Id);
+                        Debug.WriteLine(payment.Id);
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -41,19 +42,19 @@ namespace Meyer.Square.V1.Test
         {
             try
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
-
-                using (var client = new Client(new Uri(baseurl), credentials))
+                using (var client = new Client(new Uri(BaseUrl), Credentials))
                 {
+                    var location = String.Empty;
+
                     var payments = await client.PaymentOperations.GetAsync(locationId: location, isContinous: true, limit: 200);
 
                     foreach (var payment in payments)
-                        System.Diagnostics.Debug.WriteLine(payment.Id);
+                        Debug.WriteLine(payment.Id);
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -63,19 +64,19 @@ namespace Meyer.Square.V1.Test
         {
             try
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
-
-                using (var client = new Client(new Uri(baseurl), credentials))
+                using (var client = new Client(new Uri(BaseUrl), Credentials))
                 {
+                    var location = String.Empty;
+
                     var payments = client.PaymentOperations.Get(locationId: location/*, take: 2*/);
 
                     foreach (var payment in payments)
-                        System.Diagnostics.Debug.WriteLine(payment.Id);
+                        Debug.WriteLine(payment.Id);
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -85,22 +86,22 @@ namespace Meyer.Square.V1.Test
         {
             try
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
-
-                using (var client = new Client(new Uri(baseurl), credentials))
+                using (var client = new Client(new Uri(BaseUrl), Credentials))
                 {
+                    var location = String.Empty;
+
                     var payments = await client.PaymentOperations.GetAsync(locationId: location,
                         beginTime: DateTime.Now - TimeSpan.FromDays(1),
                         endTime: DateTime.Now,
                         limit: 1);
 
                     foreach (var payment in payments)
-                        System.Diagnostics.Debug.WriteLine(payment.Id);
+                        Debug.WriteLine(payment.Id);
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -110,10 +111,10 @@ namespace Meyer.Square.V1.Test
         {
             try
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
-
-                using (var client = new Client(new Uri(baseurl), credentials))
+                using (var client = new Client(new Uri(BaseUrl), Credentials))
                 {
+                    var location = String.Empty;
+
                     var payments = await client.PaymentOperations.GetAsync(locationId: location,
                          limit: 50,
                          listOrder: ListOrderType.Descending);
@@ -123,7 +124,7 @@ namespace Meyer.Square.V1.Test
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -133,10 +134,10 @@ namespace Meyer.Square.V1.Test
         {
             try
             {
-                var credentials = new TokenCredentials(token) as ServiceClientCredentials;
-
-                using (var client = new Client(new Uri(baseurl), credentials))
+                using (var client = new Client(new Uri(BaseUrl), Credentials))
                 {
+                    var location = String.Empty;
+
                     var payments = await client.PaymentOperations.GetAsync(locationId: location,
                         endTime: DateTime.Now,
                         beginTime: DateTime.Today - TimeSpan.FromDays(1),
@@ -144,14 +145,14 @@ namespace Meyer.Square.V1.Test
                         isContinous: true);
 
                     foreach (var item in payments)
-                        System.Diagnostics.Debug.WriteLine(item.Id);
+                        Debug.WriteLine(item.Id);
 
                     //Assert.Equal(50, payments.Count);
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 throw;
             }
         }

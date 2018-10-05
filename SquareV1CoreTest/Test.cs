@@ -1,9 +1,37 @@
-﻿namespace Meyer.Square.V1.Test
+﻿using Microsoft.Rest;
+
+namespace Meyer.Square.V1.Test
 {
     public partial class Test
     {
-        protected const string baseurl = "https://connect.squareup.com/v1/";
-        //protected const string location = "";
-        //protected const string token = "";
+        // Uncomment following two lines and populate your information from Square.
+
+        //protected const string ApplicationName = "";
+
+        //protected const string ApplicationID = "";
+
+        //protected const string PersonalAccessToken = "";
+
+        //protected const string ApplicationSecret = "";
+
+        protected const string BaseUrl = "https://connect.squareup.com/v1/";
+
+        private ServiceClientCredentials _Credentials;
+
+        protected ServiceClientCredentials Credentials
+        {
+            get
+            {
+                if (_Credentials == null)
+                    _Credentials = new TokenCredentials(PersonalAccessToken) as ServiceClientCredentials;
+
+                return _Credentials;
+            }
+        }
+
+        //protected InitializeLocations()
+        //{
+
+        //}
     }
 }

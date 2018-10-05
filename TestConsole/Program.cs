@@ -13,7 +13,8 @@ namespace TestConsole
 
         static void Main(string[] args)
         {
-            var credentials = new TokenCredentials(token) as ServiceClientCredentials;
+            var credentials = new TokenCredentials(PersonalAccessToken) as ServiceClientCredentials;
+            var location = String.Empty;
 
             using (var client = new Client(new Uri(baseurl), credentials)
             {
