@@ -1,4 +1,7 @@
-﻿using MeyerCorp.Square.V1.Business;
+﻿using MeyerCorp.Square.V1.Batching;
+using MeyerCorp.Square.V1.Business;
+using MeyerCorp.Square.V1.Item;
+using MeyerCorp.Square.V1.Subscription;
 using MeyerCorp.Square.V1.Transaction;
 using MeyerCorp.Square.V1.Webhooks;
 using Microsoft.Rest;
@@ -157,6 +160,23 @@ namespace MeyerCorp.Square.V1
             RoleOperations = new RoleOperations(this);
             EmployeeOperations = new EmployeeOperations(this);
             WebhookOperations = new WebhookOperations(this);
+            ItemOperations = new ItemOperations(this);
+            RefundOperations = new RefundOperations(this);
+            SettlementOperations = new SettlementOperations(this);
+            SubscriptionOperations = new SubscriptionOperations(this);
+            PlanOperations = new PlanOperations(this);
+            CategoryOperations = new CategoryOperations(this);
+            CellOperations = new CellOperations(this);
+            DiscountOperations = new DiscountOperations(this);
+            FeeOperations = new FeeOperations(this);
+            InventoryOperations = new InventoryOperations(this);
+            ModifierListOperations = new ModifierListOperations(this);
+            ModifierOptionOperations = new ModifierOptionOperations(this);
+            PageOperations = new PageOperations(this);
+            VariationOperations = new VariationOperations(this);
+            CashDrawerShiftOperations = new CashDrawerShiftOperations(this);
+            TimecardOperations = new TimecardOperations(this);
+            BatchOperations = new BatchOperations(this);
 
             SerializationSettings = new JsonSerializerSettings
             {
@@ -212,5 +232,39 @@ namespace MeyerCorp.Square.V1
         public IEmployeeOperations EmployeeOperations { get; private set; }
 
         public IWebhookOperations WebhookOperations { get; private set; }
+
+        public IItemOperations ItemOperations { get; private set; }
+
+        public IRefundOperations RefundOperations { get; private set; }
+
+        public ISettlementOperations SettlementOperations { get; private set; }
+
+        public ISubscriptionOperations SubscriptionOperations { get; private set; }
+
+        public IPlanOperations PlanOperations { get; private set; }
+
+        public ICategoryOperations CategoryOperations { get; private set; }
+
+        public ICellOperations CellOperations { get; private set; }
+
+        public IDiscountOperations DiscountOperations { get; private set; }
+
+        public IFeeOperations FeeOperations { get; private set; }
+
+        public IInventoryOperations InventoryOperations { get; private set; }
+
+        public IModifierListOperations ModifierListOperations { get; private set; }
+
+        public IModifierOptionOperations ModifierOptionOperations { get; private set; }
+
+        public IPageOperations PageOperations { get; private set; }
+
+        public IVariationOperations VariationOperations { get; private set; }
+
+        public ICashDrawerShiftOperations CashDrawerShiftOperations { get; private set; }
+
+        public ITimecardOperations TimecardOperations { get; private set; }
+
+        public IBatchOperations BatchOperations { get; private set; }
     }
 }
